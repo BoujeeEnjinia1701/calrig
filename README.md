@@ -6,13 +6,21 @@
 
 A calibration rig for low-cost sensors: a sealed chamber with controlled temperature, humidity and particle levels plus reference instruments, so every lab sensor can be checked against a known value before and after deployment.
 
+![CalRig concept](media/hero.png)
+
+[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Review note](docs/REVIEW.md)
+
 ## Concept rationale
 
-Calibration is what turns a cheap sensor into a measurement; one shared rig raises the credibility of every sensing project in the lab.
+Calibration is what turns a cheap sensor into a measurement. Most of the error in a low-cost particle, humidity or CO2 sensor comes from temperature, humidity and drift, and those can be set and checked in a small sealed box. CalRig does the chamber half of the recognized method (known conditions, reference instruments, a dated record) and carries a field-collocated reference sensor back to the bench for the particle half, so one shared rig raises the credibility of every sensing project in the lab.
+
+It is open and garage-buildable because the people who most need calibration, community networks and labs in places without regulatory monitors, cannot buy a commercial environmental chamber. Sheet acrylic, a Peltier module, two aquarium-class pumps, silica gel, laboratory salts for humidity fixed points and a microcontroller are available almost everywhere, and an open method lets others check the results.
 
 ## Burning platform
 
-Cities and communities increasingly rely on low-cost sensor networks whose accuracy is rarely checked.
+Air pollution is a very large health burden, and much of the world measures it with low-cost sensors or not at all. In 2019, 99 % of the world's population lived where WHO air quality guideline levels were not met, and ambient air pollution caused an estimated 4.2 million premature deaths, about 89 % of them in low- and middle-income countries ([WHO fact sheet](https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health)). In 2020 OpenAQ found evidence that only 49 % of national governments produced any air quality data ([OpenAQ, 2020](https://documents.openaq.org/reports/Open+Air+Quality+Data+Global+State+of+Play+2020.pdf)).
+
+Low-cost sensors fill that gap only if they are corrected. Raw PurpleAir particle sensors overestimated PM2.5 by about 40 % across most of the United States until a humidity-aware correction cut the error from 8 to 3 µg/m³ ([Barkjohn et al., 2021](https://amt.copernicus.org/articles/14/4617/2021/)), and the UK Air Quality Expert Group warns that without ongoing calibration their useful life "will always be limited" ([DEFRA AQEG](https://uk-air.defra.gov.uk/research/aqeg/pollution-sensors/how-could-I-use.php)).
 
 ## Where it could be used
 
@@ -20,42 +28,54 @@ Cities and communities increasingly rely on low-cost sensor networks whose accur
 
 | Industry | Use |
 | --- | --- |
-| _To be developed_ | |
+| Municipal air quality programs | Screen and recheck community PM2.5 sensors before and after each season |
+| Universities and schools | Teaching lab for measurement uncertainty; local characterization of sensors for research networks |
+| Building services and HVAC | Check CO2 and humidity sensors that drive ventilation control |
+| Occupational health | Check the humidity response of wearable particle monitors before field use |
+| Agriculture and cold chain | Check temperature and humidity loggers used in grain stores and cold rooms |
+| Open hardware and citizen science | Publish a calibration record with every open sensor design |
 
 ### By country or region
 
 | Country or region | Why it matters there |
 | --- | --- |
-| _To be developed_ | |
+| United States | The EPA publishes PM2.5 sensor performance targets and enhanced chamber test conditions ([EPA](https://www.epa.gov/air-sensor-toolbox/frequently-asked-questions-reports-air-sensor-performance-testing-protocols)); CalRig lets community groups report against them without a commercial chamber |
+| United Kingdom and European Union | DEFRA's expert group calls for ongoing calibration of sensors ([DEFRA AQEG](https://uk-air.defra.gov.uk/research/aqeg/pollution-sensors/how-could-I-use.php)), and CEN/TS 17660-1 tests sensor systems across temperature and humidity ([CEN/TS 17660-1:2021](https://standards.iteh.ai/catalog/standards/cen/5bdb236e-95a3-4b5b-ba7f-62ab08cd21f8/cen-ts-17660-1-2021)) |
+| Uganda and Kenya | Listed by OpenAQ in 2020 among populous countries with no national government air quality monitoring program ([OpenAQ, 2020](https://documents.openaq.org/reports/Open+Air+Quality+Data+Global+State+of+Play+2020.pdf)); local groups already calibrate low-cost sensor networks ([Uganda study](https://www.sciencedirect.com/science/article/pii/S1309104225001825)) |
+| Nigeria and West Africa | Nigeria, with about 206 million people, was also on OpenAQ's 2020 list of countries without a national monitoring program ([OpenAQ, 2020](https://documents.openaq.org/reports/Open+Air+Quality+Data+Global+State+of+Play+2020.pdf)); low-cost networks there need local checks in heat and high humidity |
+| South and Southeast Asia | WHO reports the greatest burden of ambient air pollution deaths in its South-East Asia and Western Pacific regions ([WHO](https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health)); dense sensor networks in humid climates depend on humidity correction |
 
 ## What sparked the idea
 
-It came out of a September 2026 review of Design Molecule's applied research areas against the open projects already in the lab. Every smart city concept in this batch depends on sensors that must be trusted.
+It came out of a September 2026 review of Design Molecule's applied research areas against the open projects already in the lab. Every smart city concept in this batch depends on sensors that must be trusted. The practical trigger is the humidity bias documented in widely used particle sensors ([Barkjohn et al., 2021](https://amt.copernicus.org/articles/14/4617/2021/)): a network that is not checked in humid air can overstate pollution by tens of percent.
 
 ## Problem
 
-Low-cost sensors drift and disagree, and without calibration their data is not trusted by cities, regulators or researchers.
+Low-cost sensors drift and disagree, and without calibration their data is not trusted by cities, regulators or researchers. Full problem statement: [docs/01-problem.md](docs/01-problem.md).
 
 ## Concept
 
-A calibration rig for low-cost sensors: a sealed chamber with controlled temperature, humidity and particle levels plus reference instruments, so every lab sensor can be checked against a known value before and after deployment.
+A bench-top, 36 L insulated acrylic chamber sets known temperature (10 to 40 °C target), humidity (20 to 85 % RH) and particle levels (clean air, then a controlled smoke decay from about 300 µg/m³) around up to six sensors. Reference sensors, checked against salt humidity fixed points, an ice point and a 30-day field collocation for the particle reference, give the known values. A controller steps through set points and a laptop script writes a calibration record for each sensor, reported against the US EPA PM2.5 sensor targets.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md)
+Estimated performance (TRL 2, to be checked at TRL 3): a four-point sweep plus a particle run takes about 6 h unattended; about 70 W peak from an external 12 V supply; about 610 x 470 x 350 mm and 10 kg. Not met: the $300 budget (about $396 in parts), cooling to 10 °C in a room warmer than 25 °C, and particle traceability without a collocation site. NO2 calibration for AirStreet is not covered in this version.
+
+Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements: [docs/03-requirements.md](docs/03-requirements.md).
 
 ## Key components
 
-- Sealed acrylic chamber with fan
-- Peltier heating and cooling module
-- Humidifier and dryer
-- Reference temperature, humidity and CO2 sensors
-- Aerosol generator port
-- Controller and logging software
+1. Sealed 6 mm acrylic chamber (36 L) with front door and removable insulation jacket
+2. 60 W Peltier heat pump and internal mixing fan
+3. Heated bubbler (wet air) and silica gel dryer (dry air), mixed by two pumps
+4. HEPA scrubber loop and aerosol injection port for zero air and smoke decay
+5. Reference cluster: two Sensirion SHT45, a Sensirion SCD30 (CO2) and a collocated Sensirion SPS30 (PM)
+6. Six-bay sensor tray, controller with independent thermal cut-off, certified external 12 V supply
+7. Saturated salt fixed-point jars for checking the humidity references
 
 The working bill of materials is in [bom/bom.csv](bom/bom.csv).
 
 ## Safety
 
-> Mains wiring must be done or checked by a qualified electrician and follow local electrical code. Handle aerosol test materials in a ventilated space.
+> **Safety:** No mains wiring inside the rig; use only a certified external 12 V supply. The Peltier hot side reaches 60 to 70 °C and is guarded, with an independent thermal cut-off. Test smoke contains fine particles and some carbon monoxide: light it outside the chamber in a ventilated room and clear the chamber through the HEPA loop before opening. Soda lime is corrosive and lithium chloride is harmful if swallowed; wear gloves and eye protection. No toxic calibration gases are used.
 
 ## Repository layout
 
