@@ -2,7 +2,7 @@
 
 ![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
 
-**Area:** Open Engineering · **TRL:** 3 of 9 (analytical proof of concept) · **Prototype budget:** about $300 USD · **Difficulty:** 3 of 5
+**Area:** Open Engineering · **TRL:** 3 of 9 (analytical proof of concept) · **Prototype budget:** about $400 USD · **Difficulty:** 3 of 5
 
 A calibration rig for low-cost sensors: a sealed chamber with controlled temperature, humidity and particle levels plus reference instruments, so every lab sensor can be checked against a known value before and after deployment.
 
@@ -47,7 +47,7 @@ Low-cost sensors fill that gap only if they are corrected. Raw PurpleAir particl
 
 ## What sparked the idea
 
-It came out of a September 2026 review of Design Molecule's applied research areas against the open projects already in the lab. Every smart city concept in this batch depends on sensors that must be trusted. The practical trigger is the humidity bias documented in widely used particle sensors ([Barkjohn et al., 2021](https://amt.copernicus.org/articles/14/4617/2021/)): a network that is not checked in humid air can overstate pollution by tens of percent.
+The idea traces back to the 2020 wildfire season in the western United States. From August to December 2020, the US EPA and the US Forest Service ran the AirNow Sensor Data Pilot, which put readings from a commercial network of PurpleAir sensors on the public Fire and Smoke Map. Before they could do that, EPA researchers had to deal with the fact that the sensors consistently overestimated PM2.5, so they developed a correction equation and quality control checks and validated them for smoke ([EPA, 2021](https://www.epa.gov/sciencematters/research-supports-air-sensor-data-pilot-conducted-2020-wildfire-season)). The lesson is that thousands of low-cost sensors became useful to the public only once someone characterized them against reference instruments in smoke and humid air. CalRig applies the same step at bench scale, so that a small network can check its sensors in known smoke and humidity before its data are published.
 
 ## Problem
 
@@ -57,14 +57,14 @@ Low-cost sensors drift and disagree, and without calibration their data is not t
 
 A bench-top, 36 L insulated acrylic chamber sets known temperature (10 to 40 °C in rooms up to 25 °C), humidity (20 to 85 % RH) and particle levels (clean air, then a controlled smoke decay from about 300 µg/m³) around up to six sensors. Reference sensors, checked against salt humidity fixed points, an ice point and a 30-day field collocation for the particle reference, give the known values. A controller steps through set points and a laptop script writes a calibration record for each sensor, reported against the US EPA PM2.5 sensor targets.
 
-Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.6 h unattended; about 89 W peak from an external 12 V supply; 600 x 500 x 374 mm and about 13.4 kg. Ten of eighteen requirements are met on paper. Not met: the $300 budget (about $404 in parts; a rise to $400 is proposed, awaiting Amish), the 12 kg mass limit, holding 85 % RH at 20 °C in a room warmer than about 19 °C (the Peltier sink condenses water), and particle traceability without a collocation site. NO2 is calibrated by field collocation, not on CalRig.
+Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.5 h unattended; about 90 W peak from an external 12 V supply; 600 x 500 x 374 mm and about 13.6 kg. A larger inner Peltier sink keeps the 85 % RH point at 20 °C dry in rooms up to about 28 °C. Twelve of eighteen requirements are met on paper. Not met: the $400 budget (about $412 in parts) and particle traceability without a collocation site. NO2 is calibrated by field collocation, not on CalRig.
 
 Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements: [docs/03-requirements.md](docs/03-requirements.md).
 
 ## Key components
 
 1. Sealed 6 mm acrylic chamber (36 L) with front door and removable insulation jacket
-2. 60 W Peltier heat pump and internal mixing fan
+2. 60 W Peltier heat pump with an enlarged inner fin block, and an internal mixing fan
 3. Heated bubbler (wet air) and silica gel dryer (dry air), mixed by two pumps
 4. HEPA scrubber loop and aerosol injection port for zero air and smoke decay
 5. Reference cluster: two Sensirion SHT45, a Sensirion SCD30 (CO2) and a collocated Sensirion SPS30 (PM)

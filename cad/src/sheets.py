@@ -1,4 +1,4 @@
-"""CalRig general arrangement sheet CLR-DWG-001, Rev P1 (TRL 3).
+"""CalRig general arrangement sheet CLR-DWG-001, Rev P2 (TRL 3).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/CLR-DWG-001.svg, .pdf and .png from the parametric model in cad/src/model.py
@@ -87,10 +87,11 @@ def main():
     asm = assembly(door_panel=False)
     views = safe_project_views(asm, work)
     bb = asm.bounding_box()
-    s = Sheet(project="CalRig", title="General arrangement", dwg_no="CLR-DWG-001", rev="P1",
+    s = Sheet(project="CalRig", title="General arrangement", dwg_no="CLR-DWG-001", rev="P2",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
               material="Cast acrylic, XPS, plywood; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
-              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC")])
+              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
+                         ("P2", "Larger inner Peltier sink; mass and power notes (DDR-002)", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -139,10 +140,11 @@ def main():
         f"Chamber {ix:.0f} x {iy:.0f} x {iz:.0f} inside ({D['volume_l']:.0f} L), {P['wall']:.0f} acrylic",
         f"XPS jacket {P['ins']:.0f} on all faces but the door; removable door panel",
         f"Six bays {bw:.0f} x {bd:.0f}, {D['head_clear']:.0f} clear above the tray (R10)",
-        f"Peltier opening {P['pelt_open'][0]:.0f} x {P['pelt_open'][1]:.0f} in the +X wall",
+        f"Peltier opening {P['pelt_open'][0]:.0f} x {P['pelt_open'][1]:.0f} in the +X wall; inner sink "
+        f"{P['sink_in'][0]:.0f} x {P['sink_in'][1]:.0f} x {P['sink_in'][2]:.0f}",
         f"Conditioning ports 2 x {P['port_d']:.0f} (+X); aerosol port {P['aero_d']:.0f} (-X)",
         f"Base {P['base'][0]:.0f} x {P['base'][1]:.0f} x {P['base'][2]:.0f}; overall height {D['height']:.0f}",
-        "Mass about 13.4 kg; 12 V, 89 W peak (CLR-CAL-001)",
+        "Mass about 13.6 kg; 12 V, 90 W peak (CLR-CAL-001)",
         "Third-angle; front view from -Y (door side)",
     ], x=276, y=158, width=146)
     out = s.save(ROOT / "cad" / "drawings" / "CLR-DWG-001")

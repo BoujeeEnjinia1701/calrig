@@ -1,4 +1,4 @@
-"""CalRig sizing calculations, CLR-CAL-001 v0.1 (TRL 3).
+"""CalRig sizing calculations, CLR-CAL-001 v0.2 (TRL 3).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Imports PARAMS and derived dimensions from cad/src/model.py, reads bom/bom.csv and
@@ -55,7 +55,9 @@ GAINS = {"mixing fan 120 mm": 2.4, "inner Peltier fan": 1.5, "six sensor heads":
 G = sum(GAINS.values())
 # thermoelectric module, 12706 class (typical datasheet values, to confirm for the chosen part)
 TEC = {"Vmax": 15.2, "Imax": 6.0, "dTmax": 66.0, "Th": 300.0}
-R_SINK_OUT, R_SINK_IN = 0.25, 0.45   # K/W, outer sink with 92 mm fan; inner sink with fan
+R_SINK_OUT = 0.25                    # K/W, outer sink with 92 mm fan
+R_SINK_IN = P["sink_in_r"]           # K/W, enlarged inner fin block with fan (DDR-002); was 0.45
+R_SINK_IN_OLD = 0.45
 V_SUPPLY = 12.0
 
 a = TEC["Vmax"] / TEC["Th"]
@@ -85,7 +87,7 @@ mass = {
     "door (acrylic)": vol["door"] * RHO_ACR,
     "jacket and door panel (XPS)": (vol["jacket"] + vol["door_panel"]) * RHO_XPS,
     "base plate (plywood)": vol["base"] * RHO_PLY,
-    "Peltier assembly": 0.9, "mixing fan": 0.15, "sensor tray and hub": 0.5, "reference cluster": 0.15,
+    "Peltier assembly": 1.1, "mixing fan": 0.15, "sensor tray and hub": 0.5, "reference cluster": 0.15,
     "bubbler with 0.3 L water": 0.8, "dryer with 0.5 kg gel": 0.85, "HEPA loop": 0.4, "aerosol port": 0.1,
     "controller": 0.25, "power supply": 0.6, "salt jars": 0.6, "wiring, gasket, latches": 0.5,
 }
@@ -94,8 +96,8 @@ fx, fy = D["footprint"]
 out("A3", f"overall {fx:.0f} x {fy:.0f} mm footprint, {D['height']:.0f} mm high; mass {m_total:.1f} kg "
     f"(acrylic {mass['chamber shell (acrylic)'] + mass['door (acrylic)']:.1f} kg, XPS "
     f"{mass['jacket and door panel (XPS)']:.2f} kg, base {mass['base plate (plywood)']:.1f} kg)")
-RESULTS["R13"] = ("600 x 500 mm, 400 mm high, 12 kg", f"{fx:.0f} x {fy:.0f} x {D['height']:.0f} mm, {m_total:.1f} kg",
-                  "met" if fx <= 600 and fy <= 500 and D["height"] <= 400 and m_total <= 12 else "not met")
+RESULTS["R13"] = ("600 x 500 mm, 400 mm high, 14 kg", f"{fx:.0f} x {fy:.0f} x {D['height']:.0f} mm, {m_total:.1f} kg",
+                  "met" if fx <= 600 and fy <= 500 and D["height"] <= 400 and m_total <= 14 else "not met")
 
 # ---------------------------------------------------------------- B. heat balance
 u_jk = 1 / (1 / H_IN + P["wall"] / 1000 / K_ACR + P["ins"] / 1000 / K_XPS + 1 / H_OUT)
@@ -270,19 +272,21 @@ out("C8", f"20 C, 85 % RH (dew point {dp20:.1f} C): inner Peltier sink about {FI
     f"margin {FIN_20 - dp20:+.1f} K; the sink condenses and dehumidifies in rooms warmer than about "
     f"{20 + (20 - dp20 - (G) * R_SINK_IN) / (UA * R_SINK_IN):.0f} C")
 ROOM_FIN = 20 + (20 - dp20 - G * R_SINK_IN) / (UA * R_SINK_IN)
-# condensation on the inner sink versus what the bubbler can supply at 20 C, 85 % in a 22 C room
-A_FIN, H_FIN = 0.10, 30.0                       # m2 fin area, W/(m2 K) with the inner fan
+ROOM_FIN_OLD = 20 + (20 - dp20 - G * R_SINK_IN_OLD) / (UA * R_SINK_IN_OLD)
+# condensation on the inner sink versus what the bubbler can supply at 20 C, 85 %
+A_FIN, H_FIN = 0.10, 30.0                       # m2 fin area, W/(m2 K) with the inner fan (TRL 3 sink)
 hm = H_FIN / (1.2 * 1005)                       # m/s, Lewis analogy
+fin_old = 20 - (UA * 2 + G) * R_SINK_IN_OLD
+cond_old = hm * A_FIN * (rho_v(20, 85) - rho_v(fin_old)) * 3600 if fin_old < dp20 else 0.0
 cond = hm * A_FIN * (rho_v(20, 85) - rho_v(FIN_20)) * 3600 if FIN_20 < dp20 else 0.0
 supply = LOOP_FLOW / 60000 * (eff * rho_v(23.0) - rho_v(20, 85)) * 3600
-r_new = 0.20
-room_new = 20 + (20 - dp20 - G * r_new) / (UA * r_new)
-out("C9", f"inner sink condenses about {cond:.1f} g/h at 20 C, 85 % in a 22 C room; bubbler (23 C) supplies about "
-    f"{supply:.1f} g/h, so 85 % RH cannot be held; an inner sink of {r_new:.2f} K/W would stay dry in rooms up to "
-    f"{room_new:.0f} C")
-RESULTS["R2"] = ("20 to 85 % RH at 20 to 40 C", f"reached in {max(t_hum, t_dry):.0f} min, except 20 C, 85 % RH in rooms "
-                 f"above {ROOM_FIN:.0f} C (inner sink condenses {cond:.0f} g/h vs {supply:.1f} g/h supply)",
-                 "not met" if cond > supply else "at risk")
+out("C9", f"inner sink {R_SINK_IN:.2f} K/W: condenses {cond:.1f} g/h at 20 C, 85 % in a 22 C room (bubbler supplies "
+    f"{supply:.1f} g/h) and stays dry in rooms up to {ROOM_FIN:.0f} C; the former {R_SINK_IN_OLD:.2f} K/W sink ran at "
+    f"{fin_old:.1f} C, condensed {cond_old:.1f} g/h and stayed dry only below {ROOM_FIN_OLD:.0f} C")
+r2_ok = ROOM_FIN >= 25.0 and cond <= supply
+RESULTS["R2"] = ("20 to 85 % RH at 20 to 40 C", f"reached in {max(t_hum, t_dry):.0f} min; 20 C, 85 % RH held in rooms up to "
+                 f"{ROOM_FIN:.0f} C (inner sink dry)",
+                 "met" if r2_ok else ("at risk" if cond <= supply else "not met"))
 
 # ---------------------------------------------------------------- D. stability (R3), PI simulation
 def simulate(t_set=40.0, t_room=22.0, hours=1.0, dt=1.0, lag=4.0, dead=20.0, swing=1.0):
@@ -431,9 +435,9 @@ for line in (ROOT / "project.yaml").read_text().splitlines():
         budget = float(line.split(":")[1].split("#")[0])
 core = total - sum(float(r["unit_cost_usd"]) for r in rows if r["item"].startswith(("16 ",)))
 core -= 59.0                         # SCD30 share of line 8
-out("K1", f"BOM {len(rows)} lines, total ${total:.0f}; budget_usd ${budget:.0f} (over by ${total - budget:.0f}); "
-    f"recommended $400 awaiting Amish (over by ${total - 400:.0f}); core without CO2 ${core:.0f}")
-RESULTS["R12"] = ("$300 in parts", f"${total:.0f} (${total - budget:+.0f} vs $300; ${total - 400:+.0f} vs proposed $400)",
+out("K1", f"BOM {len(rows)} lines, total ${total:.0f}; budget_usd ${budget:.0f} (over by ${total - budget:.0f}; "
+    f"was $300, raised by DDR-002); core without CO2 ${core:.0f}")
+RESULTS["R12"] = (f"${budget:.0f} in parts", f"${total:.0f} (${total - budget:+.0f} vs ${budget:.0f})",
                   "not met" if total > budget else "met")
 
 RESULTS["R14"] = ("CSV and per-sensor report", "software not written (beyond TRL 3)", "not verifiable at TRL 3")

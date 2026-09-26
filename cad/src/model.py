@@ -28,7 +28,10 @@ PARAMS = {
     "door_t": 6.0, "latch": (30.0, 12.0, 40.0),
     # 5 Peltier assembly on the +X wall: opening, inner sink, outer sink, outer fan
     "pelt_open": (90.0, 100.0), "pelt_z": 200.0,  # opening (y, z) and its center height above the chamber floor
-    "sink_in": (30.0, 80.0, 90.0), "sink_out": (40.0, 110.0, 110.0), "fan_out": (25.0, 92.0, 92.0),
+    # inner sink enlarged to about 0.20 K/W (CLR-DDR-002, decided by Amish 2026-09-25) so the
+    # 20 C, 85 % RH point stays above the dew point in rooms up to about 28 C
+    "sink_in": (45.0, 120.0, 110.0), "sink_in_r": 0.20,
+    "sink_out": (40.0, 110.0, 110.0), "fan_out": (25.0, 92.0, 92.0),
     # 6 internal mixing fan, 120 mm class (CLR-CAL-001 section E)
     "mix_fan": 120.0, "mix_fan_t": 25.0,
     # 7 sensor tray: plate height above the chamber floor, bay size (largest head, R10), grid

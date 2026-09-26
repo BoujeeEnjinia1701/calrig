@@ -32,6 +32,8 @@ Requirements not met or at risk: R1 (cooling in warm rooms), R5 (temperature ref
 
 ### Proposed, awaiting Amish
 
+*Update 2026-09-25: items 1 to 6 are Decided by Amish, 2026-09-25: go with recommendation (CLR-DDR-002). Item 7 remains Proposed, awaiting Amish.*
+
 1. **Budget.** Parts are about $396 against `budget_usd: 300`. Options: (a) raise to $400; (b) a core version without CO2 (drop the SCD30 and soda lime, about $329); (c) keep $300 by also dropping the second SHT45 and the insulation jacket, which weakens R4 and R1. Recommendation: (a). `project.yaml` is unchanged.
 2. **Reference strategy.** Transfer references (SHT45, SCD30, collocated SPS30) checked against salt fixed points, an ice point and field collocation, rather than certified instruments. Recommendation: adopt, and state the uncertainty chain in every report.
 3. **Cooling limit (R1).** Options: accept 10 °C only in rooms at 25 °C or below; add a second Peltier module (about $30, supply to 20 A); add an ice-water exchanger for cold runs. Recommendation: accept the limit for the first build.
@@ -83,9 +85,13 @@ Design changes made by the calculations: jacket on all faces but the door (condu
 
 ### Decisions recorded (CLR-DDR-001)
 
+*Update 2026-09-25: A1 to A6 are now Decided by Amish, 2026-09-25: go with recommendation (CLR-DDR-002).*
+
 Each adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for his review: A1 budget rise to $400 (recorded only; `budget_usd` stays $300), A2 transfer references, A3 accept the cooling limit (R1 redefined), A4 incense smoke decay, A5 NO2 by field collocation only, A6 insulated door panel.
 
 ### Still awaiting Amish
+
+*Update 2026-09-25: items 3, 4 and 5 are Decided by Amish, 2026-09-25: go with recommendation (CLR-DDR-002). Items 1 (budget figure above $400) and 2 (O1) have no recommendation and remain Proposed, awaiting Amish.*
 
 1. **Budget figure.** $300 in `project.yaml`; $400 proposed; design now $404. Options: accept $404 or about $410; drop CO2 for a core version at about $337; or find $4 of savings.
 2. **Collocation partner (O1)** for the transfer SPS30. No recommendation.
@@ -116,3 +122,45 @@ Each adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open
 ### Recommended next step
 
 Review CLR-DDR-001 and the five items above. TRL 4 is on hold by Amish's instruction; nothing further should be done until he lifts it. For the record, TRL 4 would need a built chamber, a lab test report (TST, `environment: lab`) with logged temperature, humidity, uniformity and decay runs, salt and ice-point reference checks, and build log entries.
+
+## Session 2026-09-25: recommendations accepted
+
+Amish wrote on 2026-09-25: "i accept all your recommendations, go with them across all repos." Every item with a recommendation is now **Decided by Amish, 2026-09-25: go with recommendation**, recorded in `docs/decisions/0002-recommendations-accepted.md` (CLR-DDR-002 v0.1). CLR-DDR-001 is bumped to v0.2 with A1 to A6 marked decided.
+
+### Decisions applied and what changed
+
+| Item | Decision | Before | After |
+| --- | --- | --- | --- |
+| Budget (A1) | Raise `budget_usd` to $400 | $300 | $400 in `project.yaml`; design $412, R12 still not met |
+| Reference strategy (A2), cooling limit (A3), test aerosol (A4), door panel (A6) | As recommended | Adopted for TRL 3, open for review | Decided; wording only |
+| Gas scope (A5) | NO2 by field collocation only; align AirStreet | Adopted, open for review | Decided; AirStreet wording is a cross-repo action |
+| Inner Peltier sink (R2) | Larger inner fin block, about 0.20 K/W | 30 x 80 x 90 mm, 0.45 K/W; sink 16.2 °C at 20 °C, 85 % RH; dry below a 19 °C room; R2 not met | 45 x 120 x 110 mm, 0.20 K/W; sink 18.3 °C (0.9 K above dew point); dry up to a 28 °C room; R2 met |
+| Mass (R13) | Relax to 14 kg | 12 kg limit, 13.4 kg, not met | 14 kg limit, 13.6 kg, met |
+| Reference temperature (R5) | Certified probe if the budget allows | No probe | Budget does not allow ($412 against $400); no probe added; R5 at risk |
+
+Knock-on numbers from CLR-CAL-001 v0.2: BOM line 5 $30 to $38, total $404 to $412; lowest chamber temperature 8.9 to 6.7 °C (25 °C room) and 13.3 to 11.1 °C (30 °C room); cooling to 10 °C 3.7 to 2.4 h; sweep plus particle run 5.6 to 5.5 h; peak power 89 to 90 W (7.5 A); core version without CO2 $337 to $345.
+
+Files changed: `project.yaml` (budget, DDR-002 in evidence), `README.md` (budget, concept paragraph, key components, "What sparked the idea" rewritten), CLR-PRB-001 v0.4, CLR-PRC-001 v0.4, CLR-REQ-001 v0.4, CLR-CAL-001 v0.2 and `sizing.py`, CLR-DDR-001 v0.2, new CLR-DDR-002 v0.1, `cad/src/model.py` (STEP and STL re-exported), `cad/src/sheets.py` (CLR-DWG-001 Rev P2), `cad/src/concept_media.py` (key figures; all media regenerated and checked by eye), `bom/bom.csv`, `bom/bom-notes.md`. All PDFs, drawings and media re-rendered with the Design Molecule footer.
+
+### Requirement status (CLR-CAL-001 v0.2)
+
+Met 12, at risk 3, not met 2, not verifiable at TRL 3 1.
+
+- **Not met:** R8 (no collocation site; O1 open), R12 ($412 against $400).
+- **At risk:** R4 (±0.42 °C between bays at 10 °C), R5 (0.24 °C if the SHT45 tolerance is 0.2 °C; probe deferred), R6 (2.0 % RH, no margin).
+- **Not verifiable at TRL 3:** R14 (software).
+- **Met:** R1, R2 (now), R3, R7, R9, R10, R11, R13 (now), R15, R16, R17, R18.
+
+### Still awaiting Amish
+
+1. **Collocation partner (O1)** for the transfer SPS30. No recommendation.
+2. **Budget figure above $400 (O2).** Design is $412. Accept about $412, drop CO2 for a core version at about $345, or find $12 of savings. No recommendation.
+
+### Cross-repo actions
+
+- **AirStreet:** align the pitch line "calibrated on CalRig" with NO2 by field collocation only (decision A5). Not edited from this repo.
+- Note, no decision: HeatMap Node's 150 mm globe and SlopeWatch's capsule exceed the R10 bay size; they fit the chamber if they take two bays.
+
+### TRL
+
+`trl: 3`, `trl_target: 3`. TRL 4 remains on hold by Amish's instruction: no build, test, purchasing, PCB or firmware work was done. The certified probe (D9) would be a purchase and is not bought.
