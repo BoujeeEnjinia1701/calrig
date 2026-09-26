@@ -3,7 +3,7 @@ doc_id: CLR-PRB-001
 title: CalRig problem statement
 project: CalRig
 doc_type: Problem statement
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-09-25'
 author: Amish Chadha
@@ -13,10 +13,14 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Initial scaffold
-- version: "0.2"
+- version: "0.3"
   date: '2026-09-25'
   author: Amish Chadha
   change: Populate to TRL 2 (problem, users, context, constraints, out of scope, prior work with sources)
+- version: "0.3"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: Budget and gas scope lines updated for CLR-DDR-001 (A1, A5)
 ---
 
 # CalRig problem statement
@@ -54,7 +58,7 @@ A small group therefore either trusts factory calibration, which the studies abo
 
 ## Constraints
 
-- Garage-buildable prototype, about $300 USD in parts (see REQ-001 R12; the current estimate is above this).
+- Garage-buildable prototype, $300 USD in parts (`budget_usd`; a rise to $400 is proposed, awaiting Amish). CLR-CAL-001 prices the design at about $404 (REQ-001 R12, not met).
 - Built from sheet acrylic, off-the-shelf thermoelectric, pump and sensor modules, and a small microcontroller; no machining beyond cutting and drilling.
 - Uses only low-hazard test atmospheres: water vapor, room air, combustion smoke in small amounts, exhaled CO2. No toxic calibration gases in the first version.
 - Open data: every run writes plain CSV and a readable report; software under MIT.
@@ -63,7 +67,7 @@ A small group therefore either trusts factory calibration, which the studies abo
 ## Out of scope
 
 - Regulatory certification or equivalence testing of sensors.
-- Toxic reference gases (NO2, O3, CO, SO2) and gas dilution systems; a later add-on may be proposed (see CLR-PRC-001 open questions).
+- Toxic reference gases (NO2, O3, CO, SO2) and gas dilution systems. NO2 sensors are calibrated by field collocation only (CLR-DDR-001 A5, adopted for TRL 3 work, open for Amish's review).
 - Noise, light, wind and water quality sensors.
 - Particle size-resolved reference measurement; CalRig checks mass concentration against a collocated transfer sensor only.
 - Field collocation hardware; CalRig relies on existing regulatory or research sites for that step.

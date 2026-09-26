@@ -55,3 +55,64 @@ Requirements not met or at risk: R1 (cooling in warm rooms), R5 (temperature ref
 ### Recommended next step
 
 Review this note and the media. If approved, run `/advance-trl3` to write the calculation note (heat balance with a real Peltier curve, moisture and condensation check, reference uncertainty budget, decay model with wall deposition), build the parametric model with STEP export and the drawing sheet, and complete the priced BOM.
+
+## Session 2026-09-25: TRL 3
+
+Amish's instruction for this batch (2026-09-25): "you know the drill, nothing gets past TRL 3". He did not review this repo's TRL 2 items one by one, so the recommendations were adopted for TRL 3 work, open for his review, and nothing here is recorded as decided by him.
+
+### What was done
+
+- `docs/decisions/0001-trl2-review-decisions.md` (CLR-DDR-001 v0.1): items A1 to A6 adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for his review; O1 (collocation partner) stays "Proposed, awaiting Amish".
+- `docs/04-calcs/01-sizing.md` (CLR-CAL-001 v0.1) and `docs/04-calcs/sizing.py`: geometry and mass, heat balance with a thermoelectric module model, moisture, condensation and conditioners, PI stability simulation, bay uniformity, reference uncertainty budgets, particle clean-down and decay, CO2, throughput, power and cost, with a results table for R1 to R18. The script imports the model's PARAMS and part solids and reads the BOM and `project.yaml`.
+- `cad/src/model.py`: parametric build123d model (massing plus: chamber, full jacket and door panel, Peltier opening and sinks, six bays at the R10 head size, ports, conditioning column, base parts). Exports `cad/step/` and `cad/stl/` `calrig-assembly`, `chamber` and `conditioning`.
+- `cad/src/sheets.py` and `cad/drawings/CLR-DWG-001.svg`, `.pdf`, `.png`: general arrangement, Rev P1, "CONCEPT, NOT FOR FABRICATION" and "PRELIMINARY, NOT FOR FABRICATION". The concept blueprint stays CLR-DWG-010.
+- `bom/bom.csv` (every line priced with a supplier type; total $404) and `bom/bom-notes.md`.
+- `cad/src/concept_media.py` now builds from `model.py`; all media refreshed (`hero`, `cutaway`, `exploded`, `flow`, `concept-blueprint`, `model.glb`, `viewer.html`) and checked by eye; temporary `_views` folders deleted.
+- CLR-PRB-001, CLR-PRC-001 and CLR-REQ-001 bumped to v0.3 (R1 redefined per A3; statuses and numbers from CLR-CAL-001; design choices shown as adopted for TRL 3, open for review). `README.md` TRL badge, links and performance paragraph updated; the required sections are unchanged. `project.yaml`: `trl: 3`, `trl_target: 3`, evidence listed. Pitch, problem and `budget_usd` unchanged.
+
+### Requirement status (CLR-CAL-001, Table 4)
+
+Met 10, at risk 3, not met 4, not verifiable at TRL 3 1.
+
+- **Not met:** R2 (85 % RH at 20 °C cannot be held in rooms above about 19 °C: the inner Peltier sink runs 1.2 K below the dew point and condenses about 8 g/h against 0.7 g/h from the bubbler); R8 (no collocation site yet); R12 ($404 against $300, and $4 over the proposed $400); R13 (mass 13.4 kg against 12 kg; 600 x 500 x 374 mm now fits).
+- **At risk:** R4 (±0.18 °C at the EPA points with the 120 mm fan, ±0.42 °C at 10 °C); R5 (0.14 °C with the typical SHT45 tolerance, 0.24 °C if it is 0.2 °C); R6 (2.0 % RH, no margin).
+- **Not verifiable at TRL 3:** R14 (software).
+- **Met:** R1 (8.9 °C in a 25 °C room, 13.3 °C in a 30 °C room), R3 (idealized model), R7 (28 min decay), R9, R10, R11 (5.6 h), R15 (89 W, 7.4 A), R16, R17, R18.
+
+Design changes made by the calculations: jacket on all faces but the door (conductance 0.82 W/K); 120 mm mixing fan; bubbler foam sleeve, 0.3 L fill and a trace-heated outlet line; base trimmed to 600 x 500 mm with the chamber moved so the aerosol valve stays on it. TRL 2 numbers corrected: gains 6.7 W (was 4 W), peak power 89 W (was 70 W), bus 7.4 A (was 6 A), mass 13.4 kg (was 10 kg), sweep 5.6 h (was 6 h), cost $404 (was $396).
+
+### Decisions recorded (CLR-DDR-001)
+
+Each adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for his review: A1 budget rise to $400 (recorded only; `budget_usd` stays $300), A2 transfer references, A3 accept the cooling limit (R1 redefined), A4 incense smoke decay, A5 NO2 by field collocation only, A6 insulated door panel.
+
+### Still awaiting Amish
+
+1. **Budget figure.** $300 in `project.yaml`; $400 proposed; design now $404. Options: accept $404 or about $410; drop CO2 for a core version at about $337; or find $4 of savings.
+2. **Collocation partner (O1)** for the transfer SPS30. No recommendation.
+3. **Inner Peltier sink (R2).** Proposed: a larger inner fin block, about 0.20 K/W, so the 20 °C, 85 % RH point runs in rooms up to about 28 °C. Alternative: run that point only in a room below 19 °C. Recommendation: the larger sink, about $5 to $10 more.
+4. **Mass (R13).** Options: carry the supply and salt jars separately (about 12.2 kg), use 5 mm acrylic, or relax R13 to 14 kg. Recommendation: relax to 14 kg; it is a bench rig.
+5. **Reference temperature (R5).** Options: accept the risk, or add a certified thermistor probe or a second fixed point. Recommendation: a certified probe, if the budget allows.
+
+### Cross-repo notes
+
+- CalRig depends on no shared component. Siblings that use it: AirStreet (PM, T and RH; NO2 by field collocation, which matches A5; its pitch line still says "calibrated on CalRig" and is AirStreet's to change), DustBadge (low-level smoke checks only, consistent), HeatMap Node, SlopeWatch, TwinKit, FieldNode users.
+- Possible conflict, not edited: HeatMap Node's 150 mm black globe and SlopeWatch's 34 x 130 mm capsule exceed the 90 x 70 x 50 mm bay size in R10. Both fit the chamber (244 mm clear above the tray) if they take two bays; R10 could add a "large item" case.
+- H2Guard suggested a hydrogen span check on CalRig. That is outside A5 and is not adopted.
+
+### Safety concerns
+
+- Peltier outer sink up to about 50 °C and inner sink about 46 °C when heating; cut-offs at 70 °C hot side and 50 °C air stay required. Keep the sinks clear of the acrylic.
+- Condensate on the inner sink at cold and humid points: a drip tray and drain are needed, and electronics stay below and outside the chamber.
+- The new trace heater and bubbler pad each need a thermistor and must be switched off by the same cut-off.
+- Smoke (fine particles and some CO), soda lime and lithium chloride precautions as at TRL 2.
+
+### Gaps and notes
+
+- The EPA PM2.5 target values are still cited through the EPA sensor loan program QAPP. WebFetch confirmed the EPA/600/R-20/280 record page but not the values in the PDF; the flag stays. WebSearch was not available. The SHT45 product page confirms ±0.1 °C and 1 % RH typical; the maximum tolerance and hysteresis used in CLR-CAL-001 are stated assumptions.
+- No TRL 4 material exists in the repo (`firmware/` and `electronics/` are empty; `build-log/README.md` is the stock header only).
+- The kit's cutaway cuts at the mean Y of the parts, which keeps the tray, mast, fan and Peltier in the section; the sensors under test fall mostly in the removed half. Left as is.
+- `cad/drawings/.gitkeep` was removed now that the folder holds the drawing.
+
+### Recommended next step
+
+Review CLR-DDR-001 and the five items above. TRL 4 is on hold by Amish's instruction; nothing further should be done until he lifts it. For the record, TRL 4 would need a built chamber, a lab test report (TST, `environment: lab`) with logged temperature, humidity, uniformity and decay runs, salt and ice-point reference checks, and build log entries.

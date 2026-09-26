@@ -1,14 +1,14 @@
 # CalRig
 
-![TRL 2](https://img.shields.io/badge/TRL-2%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
+![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
 
-**Area:** Open Engineering · **TRL:** 2 of 9 (concept formulated) · **Prototype budget:** about $300 USD · **Difficulty:** 3 of 5
+**Area:** Open Engineering · **TRL:** 3 of 9 (analytical proof of concept) · **Prototype budget:** about $300 USD · **Difficulty:** 3 of 5
 
 A calibration rig for low-cost sensors: a sealed chamber with controlled temperature, humidity and particle levels plus reference instruments, so every lab sensor can be checked against a known value before and after deployment.
 
 ![CalRig concept](media/hero.png)
 
-[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Review note](docs/REVIEW.md)
+[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement CLR-DWG-001 (PDF)](cad/drawings/CLR-DWG-001.pdf) · [Calculations CLR-CAL-001](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 
@@ -55,9 +55,9 @@ Low-cost sensors drift and disagree, and without calibration their data is not t
 
 ## Concept
 
-A bench-top, 36 L insulated acrylic chamber sets known temperature (10 to 40 °C target), humidity (20 to 85 % RH) and particle levels (clean air, then a controlled smoke decay from about 300 µg/m³) around up to six sensors. Reference sensors, checked against salt humidity fixed points, an ice point and a 30-day field collocation for the particle reference, give the known values. A controller steps through set points and a laptop script writes a calibration record for each sensor, reported against the US EPA PM2.5 sensor targets.
+A bench-top, 36 L insulated acrylic chamber sets known temperature (10 to 40 °C in rooms up to 25 °C), humidity (20 to 85 % RH) and particle levels (clean air, then a controlled smoke decay from about 300 µg/m³) around up to six sensors. Reference sensors, checked against salt humidity fixed points, an ice point and a 30-day field collocation for the particle reference, give the known values. A controller steps through set points and a laptop script writes a calibration record for each sensor, reported against the US EPA PM2.5 sensor targets.
 
-Estimated performance (TRL 2, to be checked at TRL 3): a four-point sweep plus a particle run takes about 6 h unattended; about 70 W peak from an external 12 V supply; about 610 x 470 x 350 mm and 10 kg. Not met: the $300 budget (about $396 in parts), cooling to 10 °C in a room warmer than 25 °C, and particle traceability without a collocation site. NO2 calibration for AirStreet is not covered in this version.
+Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.6 h unattended; about 89 W peak from an external 12 V supply; 600 x 500 x 374 mm and about 13.4 kg. Ten of eighteen requirements are met on paper. Not met: the $300 budget (about $404 in parts; a rise to $400 is proposed, awaiting Amish), the 12 kg mass limit, holding 85 % RH at 20 °C in a room warmer than about 19 °C (the Peltier sink condenses water), and particle traceability without a collocation site. NO2 is calibrated by field collocation, not on CalRig.
 
 Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements: [docs/03-requirements.md](docs/03-requirements.md).
 

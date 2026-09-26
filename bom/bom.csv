@@ -1,19 +1,19 @@
 item,qty,spec,supplier,unit_cost_usd,make_buy,notes
-1 Chamber shell,1,"6 mm cast acrylic, five-sided box 412 x 312 x 312 mm outside (400 x 300 x 300 mm inside, 36 L), solvent-welded, Peltier opening, two conditioning ports, aerosol port",Plastics supplier or maker space laser cutter,45.00,make,Indicative price for sheet and cutting
+1 Chamber shell,1,"6 mm cast acrylic, five-sided box 412 x 312 x 312 mm outside (400 x 300 x 300 mm inside, 36 L), solvent-welded, 90 x 100 mm Peltier opening, two 12 mm conditioning ports, 20 mm aerosol port",Plastics supplier or maker space laser cutter,45.00,make,Indicative price for about 0.7 m2 of 6 mm cast sheet and cutting; per CLR-DWG-001
 2 Front door,1,"6 mm clear acrylic 412 x 312 mm, silicone D-section gasket, two draw latches, cable gland for sensor leads",Plastics supplier and hardware store,15.00,make,Indicative price
-3 Insulation jacket,1,"25 mm XPS foam panels for top, back and left side, plus a removable door panel for hot and humid set points",Building supplier,12.00,make,Indicative price
-4 Base plate,1,"12 mm plywood or HDPE, 610 x 470 mm, rubber feet",Hardware store,10.00,make,Indicative price; may be trimmed to 600 mm at TRL 3 (R13)
+3 Insulation jacket,1,"25 mm XPS foam on bottom, top, back, left and right (Peltier and port cut-outs), plus a removable 25 mm door panel",Building supplier,16.00,make,Indicative price; one 1.2 x 1.2 m sheet; all faces jacketed after CLR-CAL-001 section B
+4 Base plate,1,"12 mm plywood or HDPE, 600 x 500 mm, rubber feet",Hardware store,10.00,make,Indicative price; trimmed to 600 x 500 mm to meet R13
 5 Peltier heat pump,1,"12 V air-to-air thermoelectric assembly, about 60 W input, finned sinks and fans on both sides",Electronics distributor,30.00,buy,Indicative price; a second module is an option if R1 cooling is required in warm rooms
-6 Internal mixing fan,1,"80 mm 12 V fan, PWM speed control, guarded",Electronics distributor,5.00,buy,Indicative price
+6 Internal mixing fan,1,"120 mm 12 V fan, about 85 m3/h free air, PWM speed control, guarded",Electronics distributor,6.00,buy,Indicative price; 120 mm replaces 80 mm for bay uniformity (CLR-CAL-001 section E)
 7 Sensor tray,1,"Perforated aluminium or acrylic tray with six bays, cable rail, USB and I2C hub",Maker space and electronics distributor,12.00,make,Indicative price
 8 Reference cluster,1,"2 x Sensirion SHT45 breakout (about $12.50 each), Sensirion SCD30 CO2 (about $59), Sensirion SPS30 PM transfer sensor (about $48), printed mast",Electronics distributor,132.00,buy,Indicative price; SPS30 must be collocated at a monitor before use (R8)
-9 Humidifier bubbler,1,"500 mL glass jar, air stone, 10 W 12 V heater pad with thermistor, 12 V diaphragm air pump about 3 L/min, distilled water",Aquarium and electronics supplier,12.00,buy,Indicative price
+9 Humidifier bubbler,1,"500 mL glass jar filled to 300 mL, air stone, 10 W 12 V heater pad with thermistor, 10 mm foam sleeve, 12 V diaphragm air pump about 3 L/min, 200 mm outlet line with a 3 W resistance-wire trace under foam, distilled water",Aquarium and electronics supplier,15.00,buy,Indicative price; sleeve and trace heat added after CLR-CAL-001 section C
 10 Dryer column,1,"50 mm acrylic tube about 230 mm long, 500 g indicating silica gel, 12 V diaphragm air pump",Laboratory and electronics supplier,16.00,buy,Indicative price
 11 HEPA scrubber loop,1,"H13 class filter cartridge, 60 mm blower, variable speed, silicone tubing",HVAC and electronics supplier,15.00,buy,Indicative price
 12 Aerosol injection port,1,"Female Luer bulkhead port, small ball valve, 60 mL syringe, metal incense cup",Laboratory supplier,6.00,buy,Indicative price
 13 Controller and power board,1,"ESP32 class board, 15 A H-bridge for the Peltier, MOSFETs for fans, pumps and heater, microSD, independent bimetal thermal cut-offs (50 C air, 70 C hot side), 10 A blade fuse",Electronics distributor,25.00,buy,Indicative price
-14 Power supply,1,"Certified external 12 V 10 A (120 W) supply with regional mains lead",Electronics distributor,20.00,buy,Indicative price; no mains wiring inside the rig
+14 Power supply,1,Certified external 12 V 10 A (120 W) supply with regional mains lead,Electronics distributor,20.00,buy,Indicative price; no mains wiring inside the rig
 15 Salt fixed-point jars,1,"Four sealed jars with LiCl, MgCl2, NaCl and KCl saturated slurries (analytical grade), sensor lid adapters",Laboratory supplier,18.00,buy,Indicative price; fixed points per Greenspan (1977)
-16 Soda lime cartridge,1,"Small inline cartridge with about 100 g indicating soda lime for CO2 zero",Laboratory supplier,8.00,buy,Indicative price; not modelled; optional with CO2 checks
+16 Soda lime cartridge,1,Small inline cartridge with about 100 g indicating soda lime for CO2 zero,Laboratory supplier,8.00,buy,Indicative price; not modelled; optional with CO2 checks
 17 Wiring and consumables,1,"Wire, connectors, silicone tubing, sealant, fasteners, labels, heat-shrink",Hardware store,15.00,buy,Indicative price; not modelled
 18 Control and fitting software,1,"Controller sketch and laptop fitting script writing CSV and per-sensor reports, MIT license",Design Molecule,0.00,make,Not modelled; written at TRL 3 or later
