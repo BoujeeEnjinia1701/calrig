@@ -2,7 +2,7 @@
 
 ![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
 
-**Area:** Open Engineering · **TRL:** 3 of 9 (analytical proof of concept) · **Prototype budget:** about $400 USD · **Difficulty:** 3 of 5
+**Area:** Open Engineering · **TRL:** 3 of 9 (analytical proof of concept) · **Prototype budget:** $412 USD · **Difficulty:** 3 of 5
 
 A calibration rig for low-cost sensors: a sealed chamber with controlled temperature, humidity and particle levels plus reference instruments, so every lab sensor can be checked against a known value before and after deployment.
 
@@ -57,7 +57,7 @@ Low-cost sensors drift and disagree, and without calibration their data is not t
 
 A bench-top, 36 L insulated acrylic chamber sets known temperature (10 to 40 °C in rooms up to 25 °C), humidity (20 to 85 % RH) and particle levels (clean air, then a controlled smoke decay from about 300 µg/m³) around up to six sensors. Reference sensors, checked against salt humidity fixed points, an ice point and a 30-day field collocation for the particle reference, give the known values. A controller steps through set points and a laptop script writes a calibration record for each sensor, reported against the US EPA PM2.5 sensor targets.
 
-Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.5 h unattended; about 90 W peak from an external 12 V supply; 600 x 500 x 374 mm and about 13.6 kg. A larger inner Peltier sink keeps the 85 % RH point at 20 °C dry in rooms up to about 28 °C. Twelve of eighteen requirements are met on paper. Not met: the $400 budget (about $412 in parts) and particle traceability without a collocation site. NO2 is calibrated by field collocation, not on CalRig.
+Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.5 h unattended; about 90 W peak from an external 12 V supply; 600 x 500 x 374 mm and about 13.6 kg. A larger inner Peltier sink keeps the 85 % RH point at 20 °C dry in rooms up to about 28 °C. Thirteen of eighteen requirements are met on paper, including the $412 budget (about $412 in parts). Not met: particle traceability without a collocation site. NO2 is calibrated by field collocation, not on CalRig.
 
 Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements: [docs/03-requirements.md](docs/03-requirements.md).
 
@@ -94,6 +94,12 @@ The working bill of materials is in [bom/bom.csv](bom/bom.csv).
 ## Documentation
 
 Controlled documents follow the portfolio [documentation standard](.kit/STANDARDS.md). Each carries a document ID (CLR-PRC-001 for the precis), a version and a revision history. Branded PDFs are built with `python .kit/render.py` and attached to GitHub Releases when a document is tagged, for example `CLR-PRC-001/v1.0`.
+
+## Credits
+
+Designed by Amish Chadha. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for roles. To cite this design, use [CITATION.cff](CITATION.cff) (GitHub shows it as "Cite this repository").
+
+AI assistance (Claude) was used to accelerate concept renders, prototype documentation and first-pass sizing calculations. Design direction and all decisions are Amish Chadha's, recorded in this repository's decision records (`docs/decisions/`).
 
 ## Licenses
 

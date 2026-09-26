@@ -3,9 +3,9 @@ doc_id: CLR-DDR-002
 title: CalRig recommendations accepted
 project: CalRig
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-09-25'
+date: '2026-09-26'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,12 +13,16 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Record the recommendations accepted by Amish on 2026-09-25, what changed in the repo, and the items still open
+- version: "0.2"
+  date: '2026-09-26'
+  author: Amish Chadha
+  change: "Budget set to $412 to cover the priced BOM: decided by Amish, 2026-09-26 (O2 closed)"
 ---
 
 # 0002: Recommendations accepted
 
 - **Date:** 2026-09-25
-- **Status:** accepted. Every item below marked "Decided by Amish, 2026-09-25: go with recommendation" is accepted; items without a recommendation remain open.
+- **Status:** accepted. Every item below marked "Decided by Amish, 2026-09-25: go with recommendation" is accepted; items without a recommendation remain open, except O2 (budget), decided by Amish on 2026-09-26.
 
 ## Context
 
@@ -49,11 +53,18 @@ The options for each item are those listed in `docs/REVIEW.md` (sessions 2026-09
 | # | Item | Status |
 | --- | --- | --- |
 | O1 | Collocation partner for the transfer SPS30. No recommendation was made. | Proposed, awaiting Amish |
-| O2 | Budget figure above $400. The design is $412; options are to accept about $412, drop CO2 for a core version at about $345, or find $12 of savings. No recommendation was made. | Proposed, awaiting Amish |
+| O2 | Budget figure above $400. The design is $412; options are to accept about $412, drop CO2 for a core version at about $345, or find $12 of savings. No recommendation was made. | Decided by Amish, 2026-09-26: budget set to $412 (see below) |
+
+### Budget approved, 2026-09-26
+
+On 2026-09-26 Amish wrote: "i approve all the budget items."
+
+- Budget set to $412 to cover the priced BOM: decided by Amish, 2026-09-26. This closes O2. `project.yaml` `budget_usd` 400 to 412; CLR-REQ-001 R12 target $412, status Not met to Met; CLR-CAL-001 v0.3 (`sizing.py` rerun); CLR-PRB-001, CLR-PRC-001, README, `bom/bom-notes.md` and the blueprint key figures updated. The BOM and geometry are unchanged. D9 (certified probe if the budget allows) is unchanged: the new budget has no headroom for it.
 
 ## Consequences
 
 - Requirement status (CLR-CAL-001 v0.2): met 12 (was 10), at risk 3, not met 2 (was 4), not verifiable at TRL 3 1. Not met: R8 (collocation site, O1) and R12 ($412 against $400, O2).
+- After the 2026-09-26 budget approval (CLR-CAL-001 v0.3): met 13, at risk 3, not met 1 (R8), not verifiable at TRL 3 1.
 - Documents bumped: CLR-PRB-001 v0.4, CLR-PRC-001 v0.4, CLR-REQ-001 v0.4, CLR-CAL-001 v0.2, CLR-DDR-001 v0.2; drawing CLR-DWG-001 Rev P2.
 - Cross-repo action: AirStreet to align its "calibrated on CalRig" pitch line with NO2 by field collocation (D5). Not edited here.
 - TRL 4 work (a built chamber, lab tests, buying parts, firmware beyond a sketch) remains on hold.

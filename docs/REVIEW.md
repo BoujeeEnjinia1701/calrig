@@ -93,7 +93,7 @@ Each adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open
 
 *Update 2026-09-25: items 3, 4 and 5 are Decided by Amish, 2026-09-25: go with recommendation (CLR-DDR-002). Items 1 (budget figure above $400) and 2 (O1) have no recommendation and remain Proposed, awaiting Amish.*
 
-1. **Budget figure.** $300 in `project.yaml`; $400 proposed; design now $404. Options: accept $404 or about $410; drop CO2 for a core version at about $337; or find $4 of savings.
+1. **Budget figure.** $300 in `project.yaml`; $400 proposed; design now $404. Options: accept $404 or about $410; drop CO2 for a core version at about $337; or find $4 of savings. **Decided by Amish, 2026-09-26: budget set to $412** (CLR-DDR-002).
 2. **Collocation partner (O1)** for the transfer SPS30. No recommendation.
 3. **Inner Peltier sink (R2).** Proposed: a larger inner fin block, about 0.20 K/W, so the 20 °C, 85 % RH point runs in rooms up to about 28 °C. Alternative: run that point only in a room below 19 °C. Recommendation: the larger sink, about $5 to $10 more.
 4. **Mass (R13).** Options: carry the supply and salt jars separately (about 12.2 kg), use 5 mm acrylic, or relax R13 to 14 kg. Recommendation: relax to 14 kg; it is a bench rig.
@@ -154,7 +154,7 @@ Met 12, at risk 3, not met 2, not verifiable at TRL 3 1.
 ### Still awaiting Amish
 
 1. **Collocation partner (O1)** for the transfer SPS30. No recommendation.
-2. **Budget figure above $400 (O2).** Design is $412. Accept about $412, drop CO2 for a core version at about $345, or find $12 of savings. No recommendation.
+2. **Budget figure above $400 (O2).** Design is $412. Accept about $412, drop CO2 for a core version at about $345, or find $12 of savings. No recommendation. **Decided by Amish, 2026-09-26: budget set to $412** (CLR-DDR-002).
 
 ### Cross-repo actions
 
@@ -164,3 +164,13 @@ Met 12, at risk 3, not met 2, not verifiable at TRL 3 1.
 ### TRL
 
 `trl: 3`, `trl_target: 3`. TRL 4 remains on hold by Amish's instruction: no build, test, purchasing, PCB or firmware work was done. The certified probe (D9) would be a purchase and is not bought.
+
+## Session 2026-09-26: budget approved
+
+Amish wrote on 2026-09-26: "i approve all the budget items." Budget set to $412 to cover the priced BOM: decided by Amish, 2026-09-26. This closes O2.
+
+- `project.yaml` `budget_usd` $400 to **$412**. The priced BOM is unchanged at $412 (18 lines).
+- R12 (cost): target $400 to $412; status **Not met to Met**. Requirement status is now met 13, at risk 3, not met 1 (R8, collocation site), not verifiable at TRL 3 1 (R14).
+- The certified temperature probe (D9, "if the budget allows") is still not added: the new budget has no headroom for it, so R5 stays at risk.
+- Files changed: `project.yaml`, `README.md`, CLR-PRB-001 v0.5, CLR-PRC-001 v0.5, CLR-REQ-001 v0.5, CLR-CAL-001 v0.3 (`sizing.py` rerun), CLR-DDR-002 v0.2, `bom/bom-notes.md`, `cad/src/concept_media.py` (blueprint key figure); media and PDFs regenerated, temporary `media/_views*` folders deleted.
+- Still awaiting Amish: O1 (collocation partner). `trl: 3` and `trl_target: 3` are unchanged; TRL 4 remains on hold.

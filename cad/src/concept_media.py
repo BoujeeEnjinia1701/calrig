@@ -50,7 +50,7 @@ render_all(
                  "PM2.5 decay 300 to 5 µg/m³ in about 28 min",
                  "References: 2 x SHT45, SCD30, collocated SPS30",
                  f"{fx:.0f} x {fy:.0f} x {D['height']:.0f} mm, 12 V, 90 W peak, 13.6 kg",
-                 "About $412 in parts; budget $400 (CLR-CAL-001)"],
+                 "About $412 in parts; budget $412 (CLR-CAL-001)"],
     scale_figure=False, context=context, cut_exclude=("Front door with gasket and latches",),
     flow={"title": "calibration run, setpoint to record (times from CLR-CAL-001, estimates)", "unit": "",
           "stages": [("Setpoint sweep", "4 points, cold to hot"), ("Chamber, 36 L", "22 to 31 min (est.)"),

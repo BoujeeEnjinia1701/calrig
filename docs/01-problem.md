@@ -3,9 +3,9 @@ doc_id: CLR-PRB-001
 title: CalRig problem statement
 project: CalRig
 doc_type: Problem statement
-version: "0.4"
+version: "0.5"
 status: Draft
-date: '2026-09-25'
+date: '2026-09-26'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -25,6 +25,10 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.5"
+  date: '2026-09-26'
+  author: Amish Chadha
+  change: Budget approved by Amish; constraint now $412
 ---
 
 # CalRig problem statement
@@ -62,7 +66,7 @@ A small group therefore either trusts factory calibration, which the studies abo
 
 ## Constraints
 
-- Garage-buildable prototype, $400 USD in parts (`budget_usd`, raised from $300; decided by Amish on 2026-09-25, CLR-DDR-002). CLR-CAL-001 v0.2 prices the design at about $412 (REQ-001 R12, not met).
+- Garage-buildable prototype, $412 USD in parts (`budget_usd`, raised from $300 to $400 by Amish on 2026-09-25 and to $412 on 2026-09-26, CLR-DDR-002). CLR-CAL-001 v0.3 prices the design at about $412 (REQ-001 R12, met).
 - Built from sheet acrylic, off-the-shelf thermoelectric, pump and sensor modules, and a small microcontroller; no machining beyond cutting and drilling.
 - Uses only low-hazard test atmospheres: water vapor, room air, combustion smoke in small amounts, exhaled CO2. No toxic calibration gases in the first version.
 - Open data: every run writes plain CSV and a readable report; software under MIT.

@@ -3,9 +3,9 @@ doc_id: CLR-PRC-001
 title: CalRig design precis
 project: CalRig
 doc_type: Design precis
-version: "0.4"
+version: "0.5"
 status: Draft
-date: '2026-09-25'
+date: '2026-09-26'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -25,13 +25,17 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002). Larger inner Peltier sink, budget $400, mass limit 14 kg; numbers from CLR-CAL-001 v0.2
+- version: "0.5"
+  date: '2026-09-26'
+  author: Amish Chadha
+  change: Budget approved by Amish; $412 budget covers the priced BOM
 ---
 
 # CalRig design precis
 
 ## Summary
 
-CalRig is a 36 L insulated acrylic chamber on a bench-top base. A Peltier heat pump sets the temperature, a heated bubbler and a silica gel dryer set the humidity, a HEPA loop gives clean air and a controlled smoke decay for particle tests, and a reference cluster (two Sensirion SHT45 temperature and humidity sensors, a Sensirion SCD30 CO2 sensor and a collocated Sensirion SPS30 particle sensor) sits among six sensors under test. A small controller steps through set points and logs everything; a laptop script fits a correction for each sensor and writes a dated record. The calculations in CLR-CAL-001 v0.2 show that it meets twelve of the eighteen requirements in CLR-REQ-001. It misses the $400 budget by about $12 (about $412 in parts), and it still depends on a collocation site for its particle reference.
+CalRig is a 36 L insulated acrylic chamber on a bench-top base. A Peltier heat pump sets the temperature, a heated bubbler and a silica gel dryer set the humidity, a HEPA loop gives clean air and a controlled smoke decay for particle tests, and a reference cluster (two Sensirion SHT45 temperature and humidity sensors, a Sensirion SCD30 CO2 sensor and a collocated Sensirion SPS30 particle sensor) sits among six sensors under test. A small controller steps through set points and logs everything; a laptop script fits a correction for each sensor and writes a dated record. The calculations in CLR-CAL-001 v0.2 show that it meets thirteen of the eighteen requirements in CLR-REQ-001, including the $412 budget (about $412 in parts). It still depends on a collocation site for its particle reference.
 
 ![Figure 1. CalRig massing model on a lab bench with a 1.75 m person for scale.](../media/hero.png)
 
@@ -123,7 +127,7 @@ These were decided by Amish on 2026-09-25 (go with recommendation; CLR-DDR-001 a
 - **Insulated door panel** for hot, humid and cold points (CLR-DDR-001 A6).
 - **Larger inner Peltier sink** (about 0.20 K/W) so the 20 °C, 85 % RH point holds in normal rooms (CLR-DDR-002).
 - **Mass limit of 14 kg.** CalRig is a bench rig, so the 12 kg limit was relaxed rather than thinning the acrylic (CLR-DDR-002).
-- **Certified temperature probe if the budget allows.** It does not yet ($412 against $400), so R5 stays at risk (CLR-DDR-002).
+- **Certified temperature probe if the budget allows.** It does not yet (the $412 budget covers the priced BOM with no headroom), so R5 stays at risk (CLR-DDR-002).
 - **External 12 V supply.** Keeps mains voltage out of a box that holds water.
 - **Temperature and humidity first, CO2 optional, no toxic gases.** NO2 sensors, including AirStreet's, are calibrated by field collocation only (CLR-DDR-001 A5).
 
@@ -142,7 +146,7 @@ These were decided by Amish on 2026-09-25 (go with recommendation; CLR-DDR-001 a
 
 ## Open questions
 
-- [ ] Budget: $412 in parts against `budget_usd` of $400. Accept about $412, drop CO2 for a core version at about $345, or find $12 of savings (proposed, awaiting Amish).
+- [x] Budget: $412 in parts. Budget set to $412 to cover the priced BOM: decided by Amish, 2026-09-26 (CLR-DDR-002).
 - [ ] Particle reference: which collocation site (regulatory monitor, university, AQ-SPEC style program) will host the transfer SPS30, and how often it returns there (awaiting Amish).
 - [ ] Inner fin block: confirm a part that reaches about 0.20 K/W with the inner fan.
 - [ ] Report format: what a city or funder would accept as evidence.

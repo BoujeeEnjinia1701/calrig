@@ -435,8 +435,9 @@ for line in (ROOT / "project.yaml").read_text().splitlines():
         budget = float(line.split(":")[1].split("#")[0])
 core = total - sum(float(r["unit_cost_usd"]) for r in rows if r["item"].startswith(("16 ",)))
 core -= 59.0                         # SCD30 share of line 8
-out("K1", f"BOM {len(rows)} lines, total ${total:.0f}; budget_usd ${budget:.0f} (over by ${total - budget:.0f}; "
-    f"was $300, raised by DDR-002); core without CO2 ${core:.0f}")
+out("K1", f"BOM {len(rows)} lines, total ${total:.0f}; budget_usd ${budget:.0f} "
+    f"({'over' if total > budget else 'within'} by ${abs(total - budget):.0f}; set to $412 by Amish on 2026-09-26, DDR-002; "
+    f"was $400, and $300 before that); core without CO2 ${core:.0f}")
 RESULTS["R12"] = (f"${budget:.0f} in parts", f"${total:.0f} (${total - budget:+.0f} vs ${budget:.0f})",
                   "not met" if total > budget else "met")
 
