@@ -174,3 +174,36 @@ Amish wrote on 2026-09-26: "i approve all the budget items." Budget set to $412 
 - The certified temperature probe (D9, "if the budget allows") is still not added: the new budget has no headroom for it, so R5 stays at risk.
 - Files changed: `project.yaml`, `README.md`, CLR-PRB-001 v0.5, CLR-PRC-001 v0.5, CLR-REQ-001 v0.5, CLR-CAL-001 v0.3 (`sizing.py` rerun), CLR-DDR-002 v0.2, `bom/bom-notes.md`, `cad/src/concept_media.py` (blueprint key figure); media and PDFs regenerated, temporary `media/_views*` folders deleted.
 - Still awaiting Amish: O1 (collocation partner). `trl: 3` and `trl_target: 3` are unchanged; TRL 4 remains on hold.
+
+## Session 2026-09-26: product appearance model and photoreal renders
+
+Amish chose CalRig for the first batch of product renders on 2026-09-26. This session adds an appearance model for photoreal product shots. It does not change the design, `cad/src/model.py`, the BOM or any controlled document.
+
+### What was added
+
+- `cad/src/product_model.py`: `product_parts()` (99 parts: 65 shell, 31 internal, 2 accessory, 1 context), `TITLE` and `RENDER_VIEWS` (hero, exploded and a detail view without the bench). Every main dimension, position and interface is taken from `PARAMS`, `derived()` and `build_parts()` in `model.py`; the clear chamber shell is the `model.py` solid itself.
+- Finished-product detail: the insulation jacket as five filleted panels with seams where they meet (bottom, top, back, left, right, as in `model.py`), a teal name plate and a lit status light on the top band; the clear door with a printed dark border, silicone gasket line, two draw latches with levers and rivets and the sensor lead gland; inside, the perforated six-bay tray with its cable rail and hub connectors, six example sensor heads in three styles with serial labels and lit status lights, the reference cluster on its printed mast with a teal vented front plate, the guarded 120 mm mixing fan and the finned inner Peltier block; outside, the finned outer sink and guarded 92 mm fan, the foam-sleeved bubbler with glass jar and knurled lid, the dryer column with indicating silica gel, the aerosol port with ball valve, lever and Luer port, the HEPA housing, controller, power supply and DC lead, four salt jars with coloured lids and labels, base plate screws and the removable door panel with a pull handle (accessory group, exploded view only).
+- Context: a compact lab bench top (800 x 600 mm) under the 600 x 500 mm base plate.
+- `README.md`: hero image now points to `media/render-hero.png`, and the links line starts with the exploded render. The render files are produced later by the orchestrator.
+
+### Differences from model.py (appearance only)
+
+Each item is **Proposed, awaiting Amish**.
+
+1. **Faced, rounded jacket.** The XPS jacket is drawn with a smooth light-grey facing, 12 mm vertical and 10 mm top corner radii and visible panel seams; `model.py` has bare, square XPS panels. Recommendation: keep this look for renders only and decide on a facing (for example thin PVC sheet) at TRL 4, when its cost can be checked against the $412 budget.
+2. **Base plate in dark HDPE** with 22 mm corner radii and four screw heads. The BOM allows plywood or HDPE. Recommendation: HDPE, since the rig holds water.
+3. **Front status light and name plate** on the top band of the jacket, driven by the controller (BOM 13). Not in `model.py` or the BOM. Recommendation: adopt; a single LED and a label add little cost and show run state without opening the rig.
+4. **Door details.** Printed border (22 mm), gasket line and a lead gland at the lower right of the door. BOM line 2 lists the gasket and gland but `model.py` gives no gland position. Recommendation: adopt the border (it hides the shell edges and wiring) and confirm the gland position at TRL 4.
+5. **Door panel pull handle.** Not in `model.py` or the BOM. Recommendation: adopt; the panel is removed for every warm, dry point.
+6. **Bubbler and dryer.** The foam sleeve stops 16 mm below the jar top so the glass and a knurled lid show; the overall height is unchanged. The wet and dry lines are drawn as round tubes (12 mm sleeved and 9 mm silicone) on the `model.py` routes instead of square bars. Recommendation: accept as drawn.
+7. **Fan guards** on the outer 92 mm fan and the mixing fan, as the precis and BOM line 6 require; `model.py` shows plain boxes. Recommendation: accept.
+8. **Example sensor heads** in three housing styles, each inside the `model.py` bay envelope, with lit status lights. They are example payload, not BOM items. Recommendation: accept.
+9. **Aerosol valve lever** stands about 19 mm above the `model.py` valve envelope. Recommendation: accept; it is within the overall footprint.
+
+### Checks
+
+All parts are valid solids and tessellate; `python .kit/product_export.py` and `python .kit/render.py --check` pass. Matplotlib previews of the three views were checked by eye (clear parts left out of the previews).
+
+### TRL
+
+This is an appearance model only: no tolerances, no fabrication detail. `trl: 3` and `trl_target: 3` are unchanged, and TRL 4 remains on hold. Still awaiting Amish: O1 (collocation partner) and items 1 to 9 above.

@@ -6,9 +6,9 @@
 
 A calibration rig for low-cost sensors: a sealed chamber with controlled temperature, humidity and particle levels plus reference instruments, so every lab sensor can be checked against a known value before and after deployment.
 
-![CalRig concept](media/hero.png)
+![CalRig: benchtop calibration chamber for low-cost air sensors, product render](media/render-hero.png)
 
-[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement CLR-DWG-001 (PDF)](cad/drawings/CLR-DWG-001.pdf) · [Calculations CLR-CAL-001](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
+[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement CLR-DWG-001 (PDF)](cad/drawings/CLR-DWG-001.pdf) · [Calculations CLR-CAL-001](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 
