@@ -87,11 +87,12 @@ def main():
     asm = assembly(door_panel=False)
     views = safe_project_views(asm, work)
     bb = asm.bounding_box()
-    s = Sheet(project="CalRig", title="General arrangement", dwg_no="CLR-DWG-001", rev="P2",
+    s = Sheet(project="CalRig", title="General arrangement", dwg_no="CLR-DWG-001", rev="P3",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
               material="Cast acrylic, XPS, plywood; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
               revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
-                         ("P2", "Larger inner Peltier sink; mass and power notes (DDR-002)", DATE, "AC")])
+                         ("P2", "Larger inner Peltier sink; mass and power notes (DDR-002)", DATE, "AC"),
+                         ("P3", "Layout and labels tidied", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -106,10 +107,7 @@ def main():
     yi = Z(D["cz1"] + P["ins"]) - 5
     L += [ext(X(ci0), Z(D["cz1"]), X(ci0), yi - 1), ext(X(ci1), Z(D["cz1"]), X(ci1), yi - 1)]
     L += dim_h(X(ci0), X(ci1), yi, f"{ix:.0f} inside")
-    xl = X(bb.min.X) - 5
-    L += dim_v(xl, Z(D["height"]), Z(0), f"{D['height']:.0f} overall")
-    L += [ext(X(D["cx0"] - P["ins"]), Z(D["height"]), xl - 1, Z(D["height"]))]
-    xr = X(bb.max.X) + 5
+    xr = X(bb.max.X) + 12
     L += dim_v(xr, Z(D["cz1"] - P["wall"]), Z(D["floor"]), f"{iz:.0f} inside", side=1)
     L += [ext(X(D["cx1"]), Z(D["cz1"] - P["wall"]), xr + 1, Z(D["cz1"] - P["wall"])),
           ext(X(D["cx1"]), Z(D["floor"]), xr + 1, Z(D["floor"]))]
@@ -118,11 +116,6 @@ def main():
     x, y, w, h = c["top"]
     Yt = lambda my: y + h - (my - bb.min.Y) * k
     Xt = lambda mx: x + (mx - bb.min.X) * k
-    xd = Xt(bb.min.X) - 5
-    L += dim_v(xd, Yt(D["overall"]["y1"]), Yt(D["overall"]["y0"]), f"{D['footprint'][1]:.0f} overall")
-    ya = Yt(bb.max.Y) - 5
-    L += [ext(Xt(bb.min.X), Yt(bb.max.Y), Xt(bb.min.X), ya - 1), ext(Xt(bb.max.X), Yt(bb.max.Y), Xt(bb.max.X), ya - 1)]
-    L += dim_h(Xt(bb.min.X), Xt(bb.max.X), ya, f"{D['footprint'][0]:.0f} overall")
 
     # right view (from +X)
     x, y, w, h = c["right"]
