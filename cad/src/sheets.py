@@ -1,4 +1,4 @@
-"""CalRig general arrangement sheet CLR-DWG-001, Rev P2 (TRL 3).
+"""CalRig general arrangement sheet CLR-DWG-001, Rev P4 (TRL 3, constructable design, CLR-DDR-003).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/CLR-DWG-001.svg, .pdf and .png from the parametric model in cad/src/model.py
@@ -14,7 +14,8 @@ sys.path[:0] = [str(ROOT / ".kit"), str(ROOT / "cad" / "src")]
 from drawing import Sheet, _viewbox, _t, M, TB_Y, INK, MUTED  # noqa: E402
 from model import PARAMS as P, assembly, derived  # noqa: E402
 
-DATE = "2026-09-25"
+DATE = "2026-10-01"
+DATE0 = "2026-09-25"
 
 
 def safe_project_views(part, workdir, line_weight=0.35):
@@ -87,12 +88,13 @@ def main():
     asm = assembly(door_panel=False)
     views = safe_project_views(asm, work)
     bb = asm.bounding_box()
-    s = Sheet(project="CalRig", title="General arrangement", dwg_no="CLR-DWG-001", rev="P3",
+    s = Sheet(project="CalRig", title="General arrangement", dwg_no="CLR-DWG-001", rev="P4",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
               material="Cast acrylic, XPS, plywood; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
-              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
-                         ("P2", "Larger inner Peltier sink; mass and power notes (DDR-002)", DATE, "AC"),
-                         ("P3", "Layout and labels tidied", DATE, "AC")])
+              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE0, "AC"),
+                         ("P2", "Larger inner Peltier sink; mass and power notes (DDR-002)", DATE0, "AC"),
+                         ("P3", "Layout and labels tidied", DATE0, "AC"),
+                         ("P4", "Constructable design: frame, door, fittings, drain (DDR-003)", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -135,9 +137,10 @@ def main():
         f"Six bays {bw:.0f} x {bd:.0f}, {D['head_clear']:.0f} clear above the tray (R10)",
         f"Peltier opening {P['pelt_open'][0]:.0f} x {P['pelt_open'][1]:.0f} in the +X wall; inner sink "
         f"{P['sink_in'][0]:.0f} x {P['sink_in'][1]:.0f} x {P['sink_in'][2]:.0f}",
-        f"Conditioning ports 2 x {P['port_d']:.0f} (+X); aerosol port {P['aero_d']:.0f} (-X)",
-        f"Base {P['base'][0]:.0f} x {P['base'][1]:.0f} x {P['base'][2]:.0f}; overall height {D['height']:.0f}",
-        "Mass about 13.6 kg; 12 V, 90 W peak (CLR-CAL-001)",
+        f"Door {D['door_size'][0]:.0f} x {D['door_size'][1]:.0f} on a welded front frame, gasket, four latches",
+        f"Bulkheads: 3 x {P['port_d']:.0f} (+X), 2 x {P['port_d']:.0f} to HEPA, drain 6; aerosol {P['aero_stub']:.0f} (-X)",
+        f"Base {P['base'][0]:.0f} x {P['base'][1]:.0f} x {P['base'][2]:.0f} plywood; overall height {D['height']:.0f}",
+        "Mass about 13.8 kg; 12 V, 90 W peak (CLR-CAL-001)",
         "Third-angle; front view from -Y (door side)",
     ], x=276, y=158, width=146)
     out = s.save(ROOT / "cad" / "drawings" / "CLR-DWG-001")

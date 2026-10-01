@@ -213,3 +213,55 @@ This is an appearance model only: no tolerances, no fabrication detail. `trl: 3`
 - Kit 1.5.0 synced: STANDARDS v1.5 (sections 12 to 15: product renders, storefront images and image quality, public release, authorship and signing), `.kit/cards.py`, `.kit/image_qc.py`, `.kit/release_gate.py`, issue templates, and the `/render-product` and `/release` commands. `CLAUDE.md` now matches `.kit/CLAUDE.md`.
 - Every `media/render-*.png` recaptioned from its original render with the new layout: the title, concept label and repository sit in a band above the render and the view note in a band below it, each line wrapped to the image width, so no text overlaps other text or the render or runs off the image. `media/card.png` and `media/social-preview.png` regenerated with the same rules.
 - `python .kit/image_qc.py` and `python .kit/release_gate.py` pass. trl stays 3.
+
+## Session 2026-10-01: design for construction and illustrated build plan (BLD-001)
+
+Amish approved the build plan format on 2026-09-30 and asked for it across all repos, with outstanding decisions kept out of the build plan and in a separate design decisions register. Kit 1.7.0 was installed (`.kit/`, `.claude/commands/`, `CLAUDE.md`). Instruction followed: "If you are realising that the design cannot be built as per concept - fix the design assumptions to match and be physically feasible as you draw the illustrations."
+
+### What was done
+
+- `cad/src/model.py`: rebuilt as separate components (`build_components()`), with the BOM groups kept for the calculation note, drawing and media (`build_parts()`), and 79 build123d constructability checks (`python cad/src/model.py --check`): all pass. STEP and STL re-exported.
+- `docs/decisions/0003-design-for-construction.md` (CLR-DDR-003 v0.1, Draft): every change, made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review.
+- `cad/src/build_plan_media.py`: overview, eleven making sketches (CLR-DWG-101 to 111), nine joint close-ups, thirteen step pictures, and four diagrams (wall hole positions, base layout, air loops, block-level wiring), in `docs/05-build-plan/` and `cad/drawings/`.
+- `docs/05-build-plan.md` (CLR-BLD-001 v0.1) and `docs/06-design-decisions.md` (CLR-DEC-001 v0.1).
+- `bom/bom.csv` (lines 1, 2, 3, 4, 5, 10, 13 and 15 revised; new line 19) and `bom/bom-notes.md`; CLR-CAL-001 v0.4 (`sizing.py` re-run), CLR-REQ-001 v0.6, CLR-PRC-001 v0.6; CLR-DWG-001 Rev P4; concept media regenerated (`hero`, `cutaway`, `exploded` with line 19, `flow`, `concept-blueprint`, `model.glb`, `viewer.html`).
+- `project.yaml`: `design_state: constructable`; build plan, register, DDR-003 and overview picture added to `trl_evidence`. `budget_usd` unchanged at $412. README: build plan link, "Building the prototype" section, performance paragraph updated.
+
+### Design changes made for construction (CLR-DDR-003)
+
+1. **Door (P1):** a 450 x 350 mm acrylic front frame welded to the shell gives the gasket a 25 mm face; the door is 430 x 330 mm; four draw latches (was two) on frame tabs hook keepers on the door.
+2. **Door panel (P2):** 406 x 330 mm on the door between the latches, on four hook-and-loop pads (was a loose full-front panel).
+3. **Heat pump (P3):** both sink bases clamp the right wall with four M4 screws through rigid sleeves in the jacket.
+4. **Mixing fan (P4):** on four welded 15 mm spacers on the back wall (was floating).
+5. **Sensor tray (P5):** 10 mm legs (were 5 mm posts); 87-hole perforation defined.
+6. **Reference mast (P6):** printed 20 mm mast standing on the floor, screwed to the tray rail (was floating behind the tray).
+7. **Conditioning loop (P7):** three 12 mm bulkheads in the right wall, including a new suction port; two pumps on the base; dryer line now reaches the column; printed dryer socket; bubbler 10 mm further back.
+8. **HEPA loop (P8):** two 12 mm bulkheads in the back wall into the HEPA unit (it had no connection).
+9. **Leads (P9):** two M20 multi-hole cable glands in the back wall instead of one gland in the door; the hub moves to the controller.
+10. **Drip tray and drain (P10):** welded tray under the inner sink, 6 mm drain bulkhead, line to a 250 mL bottle (in the precis but not in the model).
+11. **Aerosol port (P11):** 16 mm bulkhead sealing in a 16 mm hole (was a stub floating in a 20 mm hole).
+12. **Salt jars (P12):** printed rack.
+13. **Knock-on:** base 9 mm sealed birch plywood (was 12 mm plywood or HDPE) to stay within 14 kg; overall height 371 mm; cut-offs hold in a relay on the Peltier and heater supply.
+
+### Key results
+
+- Mass 13.83 kg against 14 kg (R13 met, 0.17 kg margin). Cost $439 on 19 lines against $412: **R12 not met**. Heat capacity 8.7 kJ/K; 10 °C reached in 2.5 h; every other result unchanged.
+- Requirement status (CLR-CAL-001 v0.4): met 12, at risk 3 (R4, R5, R6), not met 2 (R8, R12), not verifiable at TRL 3 1 (R14).
+
+### Proposed, awaiting Amish
+
+All in the design decisions register (CLR-DEC-001): review of CLR-DDR-003 (recommend accept); budget rise to $439 (recommended); mass margin (accept, weigh at TRL 4); base material (sealed plywood); plus the items carried over: collocation partner (O1), appearance model items, report format, large sensor heads in R10.
+
+### Stale images (made on Amish's Mac, not regenerated here)
+
+`media/render-*.png`, `media/card.png`, `media/social-preview.png` and `cad/src/product_model.py` still show the concept door, two latches, the full-front door panel, the 12 mm base and no bulkheads, glands or drain. They need updating on Amish's Mac.
+
+### Safety concerns
+
+- The new drain and drip tray keep condensate inside the right wall away from the electronics; the electronics stand behind the chamber.
+- Cut-offs now drive a relay so a small bimetal switch is not asked to break the Peltier current; to be checked in section 5 of the build plan.
+- Solvent cement and laser-cut acrylic fumes added to the safety stops.
+
+### Recommended next step
+
+Amish reviews CLR-DDR-003 and the register, in particular the budget. TRL 4 (building and testing to CLR-BLD-001) stays on hold.

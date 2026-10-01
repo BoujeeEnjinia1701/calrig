@@ -1,4 +1,4 @@
-"""CalRig sizing calculations, CLR-CAL-001 v0.2 (TRL 3).
+"""CalRig sizing calculations, CLR-CAL-001 v0.4 (TRL 3).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Imports PARAMS and derived dimensions from cad/src/model.py, reads bom/bom.csv and
@@ -79,22 +79,28 @@ RESULTS["R10"] = ("6 heads, 90 x 70 x 50 mm, sealed gland",
                   "met" if P["bays"][0] * P["bays"][1] >= 6 and D["head_clear"] >= 50 else "not met")
 
 sys.path.insert(0, str(ROOT / ".kit"))
-from model import build_parts  # noqa: E402
+from model import build_parts, build_components  # noqa: E402
 parts = build_parts()
 vol = {k: s.volume / 1e9 for k, s in parts.items()}      # m3
+COMP = build_components()
+cvol = {k: c.shape.volume / 1e9 for k, c in COMP.items()}   # m3, one component each
+# acrylic: shell with its welded front frame, drip tray and fan spacers (CLR-DDR-003); door alone
+acr_shell = cvol["shell"] + cvol["frame"] + cvol["drip"] + cvol["spacers"]
 mass = {
-    "chamber shell (acrylic)": vol["shell"] * RHO_ACR,
-    "door (acrylic)": vol["door"] * RHO_ACR,
+    "chamber shell, frame, drip tray (acrylic)": acr_shell * RHO_ACR,
+    "door (acrylic)": cvol["door"] * RHO_ACR,
     "jacket and door panel (XPS)": (vol["jacket"] + vol["door_panel"]) * RHO_XPS,
     "base plate (plywood)": vol["base"] * RHO_PLY,
     "Peltier assembly": 1.1, "mixing fan": 0.15, "sensor tray and hub": 0.5, "reference cluster": 0.15,
     "bubbler with 0.3 L water": 0.8, "dryer with 0.5 kg gel": 0.85, "HEPA loop": 0.4, "aerosol port": 0.1,
-    "controller": 0.25, "power supply": 0.6, "salt jars": 0.6, "wiring, gasket, latches": 0.5,
+    "controller": 0.25, "power supply": 0.6, "salt jars": 0.6, "wiring, gasket, four latches": 0.55,
+    # added for construction (CLR-DDR-003): bulkheads, glands, drain line and empty bottle; printed parts
+    "bulkheads, glands, drain line and bottle": 0.2, "printed dryer socket and jar rack": 0.1,
 }
 m_total = sum(mass.values())
 fx, fy = D["footprint"]
-out("A3", f"overall {fx:.0f} x {fy:.0f} mm footprint, {D['height']:.0f} mm high; mass {m_total:.1f} kg "
-    f"(acrylic {mass['chamber shell (acrylic)'] + mass['door (acrylic)']:.1f} kg, XPS "
+out("A3", f"overall {fx:.0f} x {fy:.0f} mm footprint, {D['height']:.0f} mm high; mass {m_total:.2f} kg "
+    f"(acrylic {mass['chamber shell, frame, drip tray (acrylic)'] + mass['door (acrylic)']:.1f} kg, XPS "
     f"{mass['jacket and door panel (XPS)']:.2f} kg, base {mass['base plate (plywood)']:.1f} kg)")
 RESULTS["R13"] = ("600 x 500 mm, 400 mm high, 14 kg", f"{fx:.0f} x {fy:.0f} x {D['height']:.0f} mm, {m_total:.1f} kg",
                   "met" if fx <= 600 and fy <= 500 and D["height"] <= 400 and m_total <= 14 else "not met")
@@ -193,7 +199,7 @@ RESULTS["R1"] = ("10 to 40 C in a room at 15 to 25 C; lowest point stated for ro
                  "met" if r1_ok else "not met")
 
 # transient: lumped heat capacity
-C_TH = (vol["shell"] + vol["door"]) * RHO_ACR * CP_ACR + D["volume_l"] / 1000 * 1.2 * 1005 + 0.5 * 900 + 0.9 * 1000
+C_TH = (cvol["shell"] + cvol["drip"] + cvol["door"]) * RHO_ACR * CP_ACR + D["volume_l"] / 1000 * 1.2 * 1005 + 0.5 * 900 + 0.9 * 1000
 out("B7", f"lumped heat capacity {C_TH / 1000:.1f} kJ/K (acrylic shell and door, air, tray, heads); "
     f"passive time constant {C_TH / UA / 3600:.1f} h")
 

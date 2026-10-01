@@ -8,7 +8,7 @@ A calibration rig for low-cost sensors: a sealed chamber with controlled tempera
 
 ![CalRig: benchtop calibration chamber for low-cost air sensors, product render](media/render-hero.png)
 
-[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement CLR-DWG-001 (PDF)](cad/drawings/CLR-DWG-001.pdf) · [Calculations CLR-CAL-001](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
+[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement CLR-DWG-001 (PDF)](cad/drawings/CLR-DWG-001.pdf) · [Calculations CLR-CAL-001](docs/04-calcs/01-sizing.md) · [Prototype build plan](docs/05-build-plan.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 
@@ -57,7 +57,7 @@ Low-cost sensors drift and disagree, and without calibration their data is not t
 
 A bench-top, 36 L insulated acrylic chamber sets known temperature (10 to 40 °C in rooms up to 25 °C), humidity (20 to 85 % RH) and particle levels (clean air, then a controlled smoke decay from about 300 µg/m³) around up to six sensors. Reference sensors, checked against salt humidity fixed points, an ice point and a 30-day field collocation for the particle reference, give the known values. A controller steps through set points and a laptop script writes a calibration record for each sensor, reported against the US EPA PM2.5 sensor targets.
 
-Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.5 h unattended; about 90 W peak from an external 12 V supply; 600 x 500 x 374 mm and about 13.6 kg. A larger inner Peltier sink keeps the 85 % RH point at 20 °C dry in rooms up to about 28 °C. Thirteen of eighteen requirements are met on paper, including the $412 budget (about $412 in parts). Not met: particle traceability without a collocation site. NO2 is calibrated by field collocation, not on CalRig.
+Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.5 h unattended; about 90 W peak from an external 12 V supply; 600 x 500 x 371 mm and about 13.8 kg. A larger inner Peltier sink keeps the 85 % RH point at 20 °C dry in rooms up to about 28 °C. Twelve of eighteen requirements are met on paper. Not met: particle traceability without a collocation site, and cost: the parts that make the design buildable bring it to about $439 against the $412 budget (a rise is proposed, awaiting Amish). NO2 is calibrated by field collocation, not on CalRig.
 
 Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements: [docs/03-requirements.md](docs/03-requirements.md).
 
@@ -72,6 +72,12 @@ Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements: [doc
 7. Saturated salt fixed-point jars for checking the humidity references
 
 The working bill of materials is in [bom/bom.csv](bom/bom.csv).
+
+## Building the prototype
+
+![CalRig prototype: every component pulled apart and numbered in build order](docs/05-build-plan/overview.png)
+
+The [prototype build plan](docs/05-build-plan.md) (CLR-BLD-001) shows, in pictures, how to make each of the 24 components and put them together in thirteen steps; nothing has been built yet. The made parts are a laser-cut acrylic chamber with a welded front frame, drip tray and fan spacers, a perforated sensor tray, a clear door, five foam jacket panels and a foam door panel, a sealed plywood base and three printed holders; everything else is bought and fitted. Writing the plan made the design buildable: the door now seals on a welded frame with four latches, the heat pump clamps the wall, the air loops, HEPA unit and leads pass through bulkhead fittings and glands, and a drip tray drains to a bottle (CLR-DDR-003, open for Amish's review). Every picture is drawn from the model, and the model checks that each part touches what it should and clears what it should not.
 
 ## Safety
 

@@ -3,9 +3,9 @@ doc_id: CLR-CAL-001
 title: CalRig sizing calculations
 project: CalRig
 doc_type: Calculation
-version: "0.3"
+version: "0.4"
 status: Draft
-date: '2026-09-26'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -21,19 +21,23 @@ revisions:
   date: '2026-09-26'
   author: Amish Chadha
   change: Budget approved by Amish; budget $412 covers the priced BOM, so R12 is met (CLR-DDR-002 v0.2)
+- version: "0.4"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Re-run for the constructable design (CLR-DDR-003); 9 mm base, mass 13.8 kg, heat capacity 8.7 kJ/K, BOM $439 on 19 lines, so R12 is not met pending a budget decision
 ---
 
 # CalRig sizing calculations
 
-On paper, CalRig meets thirteen of its eighteen requirements, has three at risk, misses one and has one that cannot be checked at TRL 3. The miss is R8 (particle traceability needs a collocation site that is still to be named). R12 is met: parts cost about $412, equal to the $412 budget approved by Amish on 2026-09-26 (CLR-DDR-002). The three at risk are R4 (bay uniformity at cold set points), R5 (reference temperature uncertainty, which depends on an uncertified sensor tolerance) and R6 (reference humidity uncertainty, 2.0 % RH against a 2 % RH target). R1 is met against the relaxed target of DDR-001: 6.7 °C is reachable in a 25 °C room and 11.1 °C in a 30 °C room. R2 is now met because the inner Peltier sink was enlarged under DDR-002 (0.45 to 0.20 K/W), which keeps it above the dew point at 20 °C and 85 % RH in rooms up to about 28 °C. R13 is met against the relaxed 14 kg limit of DDR-002 (13.6 kg).
+On paper, CalRig meets twelve of its eighteen requirements, has three at risk, misses two and has one that cannot be checked at TRL 3. The misses are R8 (particle traceability needs a collocation site that is still to be named) and R12: making the design buildable (CLR-DDR-003) added a front frame, bulkhead fittings, cable glands, a drain and printed holders, so parts now cost about $439 against the $412 budget approved by Amish on 2026-09-26 (CLR-DDR-002). A budget rise is proposed, awaiting Amish. The three at risk are R4 (bay uniformity at cold set points), R5 (reference temperature uncertainty, which depends on an uncertified sensor tolerance) and R6 (reference humidity uncertainty, 2.0 % RH against a 2 % RH target). R1 is met against the relaxed target of DDR-001: 6.7 °C is reachable in a 25 °C room and 11.1 °C in a 30 °C room. R2 is now met because the inner Peltier sink was enlarged under DDR-002 (0.45 to 0.20 K/W), which keeps it above the dew point at 20 °C and 85 % RH in rooms up to about 28 °C. R13 is met against the relaxed 14 kg limit of DDR-002 (13.8 kg, with a 9 mm base).
 
-The calculations in v0.1 changed four parts of the TRL 2 concept: the jacket now covers the bottom and the right-hand wall as well; the mixing fan grows from 80 mm to 120 mm; the bubbler jar gets a foam sleeve, a smaller fill and a trace-heated outlet line; and the base plate is trimmed to 600 x 500 mm with the chamber moved so the aerosol valve stays on it. Version 0.2 adds the larger inner fin block (about 45 x 120 x 110 mm) decided by Amish on 2026-09-25. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [B4], is the line of that script's output that carries it.
+The calculations in v0.1 changed four parts of the TRL 2 concept: the jacket now covers the bottom and the right-hand wall as well; the mixing fan grows from 80 mm to 120 mm; the bubbler jar gets a foam sleeve, a smaller fill and a trace-heated outlet line; and the base plate is trimmed to 600 x 500 mm with the chamber moved so the aerosol valve stays on it. Version 0.2 adds the larger inner fin block (about 45 x 120 x 110 mm) decided by Amish on 2026-09-25. Version 0.4 re-runs every result for the constructable design of CLR-DDR-003; only the mass, heat capacity, ramp times and cost move. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [B4], is the line of that script's output that carries it.
 
 > **Safety:** These are first-principles estimates for a paper proof of concept. They do not replace checks of the thermal cut-offs, the fuse rating or the smoke clearance on a built rig. See CLR-PRC-001, Safety.
 
 ## Scope and method
 
-The note checks every requirement in CLR-REQ-001 v0.4 against the design in CLR-PRC-001 v0.4 and the parametric model `cad/src/model.py`. The script imports the model's `PARAMS`, derived dimensions and part solids, so the chamber size, jacket, bay layout, footprint and mass are those of the STEP files and drawing CLR-DWG-001. It also reads `bom/bom.csv` and `budget_usd` in `project.yaml`. Run it from the repo root with `python docs/04-calcs/sizing.py`.
+The note checks every requirement in CLR-REQ-001 v0.6 against the design in CLR-PRC-001 v0.6 and the parametric model `cad/src/model.py`. The script imports the model's `PARAMS`, derived dimensions and part solids, so the chamber size, jacket, bay layout, footprint and mass are those of the STEP files and drawing CLR-DWG-001. It also reads `bom/bom.csv` and `budget_usd` in `project.yaml`. Run it from the repo root with `python docs/04-calcs/sizing.py`.
 
 The design case is the reference room of CLR-REQ-001 (22 °C, 50 % RH) with the R1 room range of 15 to 30 °C, the four US EPA enhanced set points (20 °C and 40 °C at 40 % and 85 % RH), six sensor heads at the largest size in R10 and the insulated door panel fitted.
 
@@ -59,7 +63,7 @@ The design case is the reference room of CLR-REQ-001 (22 °C, 50 % RH) with the 
 
 The chamber is 400 x 300 x 300 mm inside (36.0 L) in a 412 x 312 x 312 mm acrylic shell [A1]. The tray is 318 x 176 mm with six 90 x 70 mm bays and 244 mm of clear height above it, so six heads at the R10 maximum of 90 x 70 x 50 mm fit, with the reference cluster behind and above them [A2]. R10 is met.
 
-With the chamber moved toward +X and the base trimmed, the whole rig, including the aerosol valve, the Peltier fan, the conditioning column and the salt jars, fits 600 x 500 mm and is 374 mm high [A3]. Adding the bottom jacket panel raised the chamber by 25 mm, which is still within the 400 mm limit. The mass is about 13.6 kg: 4.9 kg of acrylic, 2.0 kg of plywood base, 0.7 kg of XPS and about 6.0 kg of bought-in parts, including 0.2 kg for the larger inner fin block. R13 was relaxed from 12 kg to 14 kg under DDR-002 because CalRig is a bench rig, so R13 is **met** with 0.4 kg of margin.
+With the chamber moved toward +X and the base trimmed, the whole rig, including the aerosol valve, the Peltier fan, the conditioning column and the salt jars, fits 600 x 500 mm and is 371 mm high [A3]. Adding the bottom jacket panel raised the chamber by 25 mm, which is still within the 400 mm limit. The mass is about 13.8 kg: 5.3 kg of acrylic (shell, front frame, drip tray and door), 1.5 kg of 9 mm plywood base, 0.7 kg of XPS and about 6.4 kg of bought-in and printed parts, including 0.2 kg for the larger inner fin block and 0.3 kg for the fittings, drain and printed holders added under CLR-DDR-003. R13 was relaxed from 12 kg to 14 kg under DDR-002 because CalRig is a bench rig, so R13 is **met**, with 0.17 kg of margin; the base went from 12 to 9 mm plywood to keep that margin.
 
 ## B. Heat balance and temperature range (R1, R16)
 
@@ -78,7 +82,7 @@ The Peltier module is modeled with its Seebeck, Joule and conduction terms, both
 
 Holding 10 °C in a 25 °C room takes 19.1 W of cooling at 3.20 A, 7.8 V and 25 W, with the inner sink near 6.2 °C [B5]. Heating is easy: 40 °C in a 15 °C room needs 13.9 W at about 8 W electrical, against a heating capacity of about 80 W at 12 V [B6]. The revised R1 (10 to 40 °C in rooms of 15 to 25 °C, with the lowest point stated for warmer rooms) is therefore **met**, with a 3.3 K margin at 25 °C (1.1 K with the stock inner sink). In a 30 °C room the lowest set point is about 11 °C.
 
-The lumped heat capacity is about 8.6 kJ/K, mostly the acrylic, and the passive time constant is 2.9 h [B7]. At full drive the chamber goes from 20 to 40 °C in about 31 min, but from 40 to 20 °C in about 77 min, and reaching 10 °C in a 25 °C room takes about 2.4 h because the margin is small [B8]. Sweeps should run from cold to hot, and 10 °C points are a separate, slower run.
+The lumped heat capacity is about 8.7 kJ/K, mostly the acrylic, and the passive time constant is 2.9 h [B7]. At full drive the chamber goes from 20 to 40 °C in about 31 min, but from 40 to 20 °C in about 78 min, and reaching 10 °C in a 25 °C room takes about 2.5 h because the margin is small [B8]. Sweeps should run from cold to hot, and 10 °C points are a separate, slower run.
 
 The outer sink stays at or below 50 °C in normal use, 20 K under the 70 °C hot-side cut-off; the inner sink reaches about 43 °C when heating to 40 °C in a 15 °C room, and the 50 °C air cut-off is 10 K above the top set point [J2]. R16 is met.
 
@@ -113,7 +117,7 @@ The bay-to-bay temperature span is estimated as half the chamber load divided by
 | Gradient from the reference mast to a bay (0.05 °C, rectangular) | 0.029 |
 | **Expanded, k = 2** | **0.14** |
 
-With the typical 0.1 °C tolerance the expanded uncertainty is 0.14 °C, inside the 0.2 °C target; if the tolerance is 0.2 °C, as a maximum specification would allow, it is 0.24 °C [F1]. R5 is **at risk** until a second fixed point or a certified probe pins down the slope. Under DDR-002 a certified probe is to be added if the budget allows; the $412 budget covers the priced BOM with no headroom, so the probe is not in the BOM.
+With the typical 0.1 °C tolerance the expanded uncertainty is 0.14 °C, inside the 0.2 °C target; if the tolerance is 0.2 °C, as a maximum specification would allow, it is 0.24 °C [F1]. R5 is **at risk** until a second fixed point or a certified probe pins down the slope. Under DDR-002 a certified probe is to be added if the budget allows; the BOM is already above the $412 budget, so the probe is not in the BOM.
 
 For humidity, the components are the salt fixed point itself (0.14 % RH), a 0.2 K gradient in the jar at 85 % RH (0.59), hysteresis (0.46), interpolation between fixed points (0.29) and use away from 25 °C (0.58) [F2]. The expanded uncertainty is 2.0 % RH [F3], at the 2 % RH target with no margin. R6 is **at risk**. The jar gradient and temperature terms dominate, so thermally lagged jars and fixed points taken at the chamber temperature would help most.
 
@@ -135,7 +139,7 @@ The peak load is about 90 W: the Peltier at 59 W, bubbler heater 10 W, line trac
 
 ## K. Cost (R12)
 
-The BOM totals $412 on 18 lines, within `budget_usd` of $412 (budget approved by Amish on 2026-09-26 to cover the priced BOM, DDR-002; it was $400, and $300 before 2026-09-25) [K1]. The increase from $396 at TRL 2 comes from the extra jacket panels, the 120 mm fan, the bubbler sleeve and trace heat ($404 in v0.1) and about $8 for the larger inner fin block. A core version without CO2 (no SCD30 and no soda lime) would cost about $345. R12 is **met**.
+The BOM totals $439 on 19 lines, $27 over `budget_usd` of $412 (budget approved by Amish on 2026-09-26 to cover the then priced BOM, DDR-002; it was $400, and $300 before 2026-09-25) [K1]. The increase from $396 at TRL 2 comes from the extra jacket panels, the 120 mm fan, the bubbler sleeve and trace heat ($404 in v0.1), about $8 for the larger inner fin block, and $27 for the parts that make the design buildable (CLR-DDR-003): the front frame, drip tray and spacers ($6), two more latches and a larger door ($2), hook-and-loop pads ($1), clamp screws and sleeves ($2), the dryer socket and jar rack ($2) and new line 19, bulkhead fittings, cable glands and the drain ($14). A core version without CO2 (no SCD30 and no soda lime) would cost about $372. R12 is **not met**; raising the budget to $439 is proposed, awaiting Amish (CLR-DEC-001).
 
 ## L. Results against every requirement
 
@@ -154,15 +158,15 @@ The BOM totals $412 on 18 lines, within `budget_usd` of $412 (budget approved by
 | R9 | Zero below 50 ppm; span 400 to 2,000 ppm | 8 ppm floor; about 1,100 ppm added per liter of breath, to about 1,500 ppm from room air [H1] | Met |
 | R10 | Six heads 90 x 70 x 50 mm | Six bays, 244 mm clear [A2] | Met |
 | R11 | Sweep plus particle run in 8 h | 5.5 h [I2] | Met |
-| R12 | $412 in parts | $412 [K1] | Met |
-| R13 | 600 x 500 mm, 400 mm high, 14 kg | 600 x 500 x 374 mm, 13.6 kg [A3] | Met |
+| R12 | $412 in parts | $439 [K1] | Not met (budget rise proposed) |
+| R13 | 600 x 500 mm, 400 mm high, 14 kg | 600 x 500 x 371 mm, 13.8 kg [A3] | Met |
 | R14 | CSV and per-sensor report | Software not written (beyond TRL 3) | Not verifiable at TRL 3 |
 | R15 | No mains; fused 12 V; 100 W peak | 90 W, 7.5 A [J1] | Met |
 | R16 | Cut-offs at 50 °C air and 70 °C hot side | Outer sink 50 °C at most in use [J2] | Met |
 | R17 | No toxic gases; smoke cleared through HEPA | By design; 5 min clean-down [G1] | Met |
 | R18 | Saw or laser cutter, drill, soldering iron | By design; no machined parts in the model | Met |
 
-Counts: met 13, at risk 3, not met 1, not verifiable at TRL 3 1 [L1].
+Counts: met 12, at risk 3, not met 2, not verifiable at TRL 3 1 [L1].
 
 ## Checks against the TRL 2 figures
 
@@ -176,7 +180,7 @@ Counts: met 13, at risk 3, not met 1, not verifiable at TRL 3 1 [L1].
 | Settling about 45 min per point; sweep plus particle run about 6 h | 22 to 31 min to settle plus 15 min equilibration; 5.5 h | Corrected |
 | Decay 300 to 5 µg/m³ about 30 min | 28 min | Confirmed |
 | Peak power about 70 W; bus about 6 A | 90 W; 7.5 A | Corrected (heaters added) |
-| Size about 610 x 470 x 350 mm; mass about 10 kg | 600 x 500 x 374 mm; 13.6 kg | Corrected |
-| Parts about $396 | $412 (with the larger inner sink) | Corrected |
+| Size about 610 x 470 x 350 mm; mass about 10 kg | 600 x 500 x 371 mm; 13.8 kg | Corrected |
+| Parts about $396 | $439 (larger inner sink; parts for construction) | Corrected |
 | Door with panel just above dew point at 40 °C, 85 % RH | 1.2 K margin at 22 °C, 0.5 K at 15 °C | Confirmed |
 | Humidity range met by estimate | Not met at 20 °C, 85 % RH above a 19 °C room with the stock sink; met up to 28 °C with the larger sink (DDR-002) | New finding, resolved |

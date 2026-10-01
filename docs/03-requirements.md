@@ -3,9 +3,9 @@ doc_id: CLR-REQ-001
 title: CalRig requirements
 project: CalRig
 doc_type: Requirements
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-09-26'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,11 +29,15 @@ revisions:
   date: '2026-09-26'
   author: Amish Chadha
   change: Budget approved by Amish; R12 target $412, status Not met to Met
+- version: "0.6"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Statuses from CLR-CAL-001 v0.4 for the constructable design (CLR-DDR-003); R12 Met to Not met ($439), budget rise proposed; R13 figures updated
 ---
 
 # CalRig requirements
 
-These requirements have been checked by calculation in CLR-CAL-001 v0.2. Targets are not yet validated with users. R1 was redefined under CLR-DDR-001 (item A3); R12 and R13 were restated under CLR-DDR-002. All three changes were decided by Amish on 2026-09-25 (go with recommendation). Test conditions follow the enhanced lab conditions in the US EPA sensor testing reports (20 °C and 40 °C; 40 % and 85 % RH) so that CalRig results can be read against a known method ([EPA FAQ](https://www.epa.gov/air-sensor-toolbox/frequently-asked-questions-reports-air-sensor-performance-testing-protocols)).
+These requirements have been checked by calculation in CLR-CAL-001 v0.4. Targets are not yet validated with users. R1 was redefined under CLR-DDR-001 (item A3); R12 and R13 were restated under CLR-DDR-002. All three changes were decided by Amish on 2026-09-25 (go with recommendation). Test conditions follow the enhanced lab conditions in the US EPA sensor testing reports (20 °C and 40 °C; 40 % and 85 % RH) so that CalRig results can be read against a known method ([EPA FAQ](https://www.epa.gov/air-sensor-toolbox/frequently-asked-questions-reports-air-sensor-performance-testing-protocols)).
 
 The **reference room** is an indoor lab at 22 °C and 50 % RH unless a requirement states otherwise.
 
@@ -52,8 +56,8 @@ Table 1. Requirements with targets and status from CLR-CAL-001 (Table 4 there gi
 | R9 | CO2 check | Zero check below 50 ppm with soda lime; span 400 to 2000 ppm against a reference of ±(30 ppm + 3 %) | Calculation and datasheet ([Sensirion SCD30](https://sensirion.com/products/catalog/SCD30)); later run | Met: 8 ppm floor; about 1,100 ppm added per liter of breath |
 | R10 | Capacity | Six sensor heads per run, each up to 90 x 70 x 50 mm, with power and I2C, UART or USB leads through a sealed gland | Model check | Met: six bays, 244 mm clear above the tray |
 | R11 | Throughput | Four-point temperature and humidity sweep plus one particle decay run in 8 h or less, unattended | Timing estimate; later log | Met: about 5.5 h |
-| R12 | Cost | $412 or less in parts (`budget_usd`, raised from $300 to $400 on 2026-09-25 and to $412 on 2026-09-26 under CLR-DDR-002) | Priced BOM (`bom/bom.csv`) | Met: $412 |
-| R13 | Size and mass | Fits a 600 x 500 mm bench area, 400 mm high or less; 14 kg or less (relaxed from 12 kg under CLR-DDR-002) | Model; mass estimate | Met: 600 x 500 x 374 mm; about 13.6 kg |
+| R12 | Cost | $412 or less in parts (`budget_usd`, raised from $300 to $400 on 2026-09-25 and to $412 on 2026-09-26 under CLR-DDR-002) | Priced BOM (`bom/bom.csv`) | **Not met:** $439 after the parts added to make the design buildable (CLR-DDR-003); a budget rise to $439 is proposed, awaiting Amish |
+| R13 | Size and mass | Fits a 600 x 500 mm bench area, 400 mm high or less; 14 kg or less (relaxed from 12 kg under CLR-DDR-002) | Model; mass estimate | Met: 600 x 500 x 371 mm; about 13.8 kg |
 | R14 | Records | Every run writes CSV (time, set points, references, each sensor) and a per-sensor report with fitted slope, offset and humidity term, EPA metrics and the reference check dates | Software review | Not verifiable at TRL 3 (software not written) |
 | R15 | Electrical safety | No mains wiring in the rig; certified external 12 V supply; fused 12 V bus; peak draw 100 W or less | Design review; power budget | Met: about 90 W, 7.5 A peak |
 | R16 | Thermal safety | Independent hardware cut-off opens the heater circuit at 50 °C air temperature or 70 °C Peltier hot side | Design review; heat balance | Met: outer sink 50 °C at most in normal use |
@@ -63,8 +67,9 @@ Table 1. Requirements with targets and status from CLR-CAL-001 (Table 4 there gi
 ## Requirements not met or at risk
 
 - **R8**, particle traceability. The chamber cannot make a mass reference; it transfers one from a collocation site that is still to be chosen (awaiting Amish).
-- **R4**, **R5** and **R6** are at risk (uniformity at cold points, sensor tolerance and humidity budget without margin). A certified temperature probe for R5 is decided if the budget allows; the $412 budget covers the priced BOM with no headroom, so it does not yet.
-- R2 and R13 moved to met in v0.4 (larger inner sink; mass limit relaxed to 14 kg). R12 moved to met in v0.5: budget approved by Amish on 2026-09-26 at $412, which covers the priced BOM.
+- **R4**, **R5** and **R6** are at risk (uniformity at cold points, sensor tolerance and humidity budget without margin). A certified temperature probe for R5 is decided if the budget allows; the BOM is already above the $412 budget, so it does not yet.
+- R2 and R13 moved to met in v0.4 (larger inner sink; mass limit relaxed to 14 kg). R12 moved to met in v0.5: budget approved by Amish on 2026-09-26 at $412, which covered the priced BOM then.
+- **R12**, cost, moved back to not met in v0.6: the front frame, bulkhead fittings, cable glands, drain and printed holders that make the design buildable (CLR-DDR-003) bring the parts to $439. Raising the budget to $439 is proposed, awaiting Amish (CLR-DEC-001). R13 stays met at about 13.8 kg with a 9 mm base.
 
 ## Assumptions
 
