@@ -2,7 +2,7 @@
 
 ![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827) [![DOI](https://zenodo.org/badge/1388475483.svg)](https://zenodo.org/badge/latestdoi/1388475483) [![REUSE compliant](https://github.com/BoujeeEnjinia1701/calrig/actions/workflows/reuse.yml/badge.svg)](https://github.com/BoujeeEnjinia1701/calrig/actions/workflows/reuse.yml) [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/BoujeeEnjinia1701/calrig/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/BoujeeEnjinia1701/calrig)
 
-**Area:** Open Engineering · **TRL:** 3 of 9 (analytical proof of concept) · **Prototype budget:** $412 USD · **Difficulty:** 3 of 5
+**Area:** Open Engineering · **TRL:** 3 of 9 (analytical proof of concept) · **Value-engineering target:** $412 USD (a hypothetical control target, not a limit) · **Difficulty:** 3 of 5
 
 A calibration rig for low-cost sensors: a sealed chamber with controlled temperature, humidity and particle levels plus reference instruments, so every lab sensor can be checked against a known value before and after deployment.
 
@@ -57,7 +57,7 @@ Low-cost sensors drift and disagree, and without calibration their data is not t
 
 A bench-top, 36 L insulated acrylic chamber sets known temperature (10 to 40 °C in rooms up to 25 °C), humidity (20 to 85 % RH) and particle levels (clean air, then a controlled smoke decay from about 300 µg/m³) around up to six sensors. Reference sensors, checked against salt humidity fixed points, an ice point and a 30-day field collocation for the particle reference, give the known values. A controller steps through set points and a laptop script writes a calibration record for each sensor, reported against the US EPA PM2.5 sensor targets.
 
-Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.5 h unattended; about 90 W peak from an external 12 V supply; 600 x 500 x 371 mm and about 13.8 kg. A larger inner Peltier sink keeps the 85 % RH point at 20 °C dry in rooms up to about 28 °C. Twelve of eighteen requirements are met on paper. Not met: particle traceability without a collocation site, and cost: the parts that make the design buildable bring it to about $439 against the $412 budget (a rise is proposed, awaiting Amish). NO2 is calibrated by field collocation, not on CalRig.
+Calculated performance (TRL 3, [CLR-CAL-001](docs/04-calcs/01-sizing.md)): a four-point sweep plus a particle run takes about 5.5 h unattended; about 90 W peak from an external 12 V supply; 600 x 500 x 371 mm and about 13.8 kg. A larger inner Peltier sink keeps the 85 % RH point at 20 °C dry in rooms up to about 28 °C. Twelve of eighteen requirements are met on paper. Not met: particle traceability without a collocation site. Cost is over the value-engineering target: the estimated cost of the constructable design is about $439 against the $412 target ($27 over). NO2 is calibrated by field collocation, not on CalRig.
 
 Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements: [docs/03-requirements.md](docs/03-requirements.md).
 

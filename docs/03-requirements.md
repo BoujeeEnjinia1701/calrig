@@ -3,7 +3,7 @@ doc_id: CLR-REQ-001
 title: CalRig requirements
 project: CalRig
 doc_type: Requirements
-version: "0.6"
+version: "0.7"
 status: Draft
 date: '2026-10-01'
 author: Amish Chadha
@@ -33,6 +33,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Statuses from CLR-CAL-001 v0.4 for the constructable design (CLR-DDR-003); R12 Met to Not met ($439), budget rise proposed; R13 figures updated
+- version: "0.7"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Budget treated as a value-engineering target; cost wording only, no number changed
 ---
 
 # CalRig requirements
@@ -56,7 +60,7 @@ Table 1. Requirements with targets and status from CLR-CAL-001 (Table 4 there gi
 | R9 | CO2 check | Zero check below 50 ppm with soda lime; span 400 to 2000 ppm against a reference of ±(30 ppm + 3 %) | Calculation and datasheet ([Sensirion SCD30](https://sensirion.com/products/catalog/SCD30)); later run | Met: 8 ppm floor; about 1,100 ppm added per liter of breath |
 | R10 | Capacity | Six sensor heads per run, each up to 90 x 70 x 50 mm, with power and I2C, UART or USB leads through a sealed gland | Model check | Met: six bays, 244 mm clear above the tray |
 | R11 | Throughput | Four-point temperature and humidity sweep plus one particle decay run in 8 h or less, unattended | Timing estimate; later log | Met: about 5.5 h |
-| R12 | Cost | $412 or less in parts (`budget_usd`, raised from $300 to $400 on 2026-09-25 and to $412 on 2026-09-26 under CLR-DDR-002) | Priced BOM (`bom/bom.csv`) | **Not met:** $439 after the parts added to make the design buildable (CLR-DDR-003); a budget rise to $439 is proposed, awaiting Amish |
+| R12 | Cost | Within the $412 value-engineering target for parts (`budget_usd`, a hypothetical control target; raised from $300 to $400 on 2026-09-25 and to $412 on 2026-09-26 under CLR-DDR-002) | Priced BOM (`bom/bom.csv`) | **Over the value-engineering target by $27:** $439 estimated after the parts added to make the design buildable (CLR-DDR-003) |
 | R13 | Size and mass | Fits a 600 x 500 mm bench area, 400 mm high or less; 14 kg or less (relaxed from 12 kg under CLR-DDR-002) | Model; mass estimate | Met: 600 x 500 x 371 mm; about 13.8 kg |
 | R14 | Records | Every run writes CSV (time, set points, references, each sensor) and a per-sensor report with fitted slope, offset and humidity term, EPA metrics and the reference check dates | Software review | Not verifiable at TRL 3 (software not written) |
 | R15 | Electrical safety | No mains wiring in the rig; certified external 12 V supply; fused 12 V bus; peak draw 100 W or less | Design review; power budget | Met: about 90 W, 7.5 A peak |
@@ -67,9 +71,9 @@ Table 1. Requirements with targets and status from CLR-CAL-001 (Table 4 there gi
 ## Requirements not met or at risk
 
 - **R8**, particle traceability. The chamber cannot make a mass reference; it transfers one from a collocation site that is still to be chosen (awaiting Amish).
-- **R4**, **R5** and **R6** are at risk (uniformity at cold points, sensor tolerance and humidity budget without margin). A certified temperature probe for R5 is decided if the budget allows; the BOM is already above the $412 budget, so it does not yet.
-- R2 and R13 moved to met in v0.4 (larger inner sink; mass limit relaxed to 14 kg). R12 moved to met in v0.5: budget approved by Amish on 2026-09-26 at $412, which covered the priced BOM then.
-- **R12**, cost, moved back to not met in v0.6: the front frame, bulkhead fittings, cable glands, drain and printed holders that make the design buildable (CLR-DDR-003) bring the parts to $439. Raising the budget to $439 is proposed, awaiting Amish (CLR-DEC-001). R13 stays met at about 13.8 kg with a 9 mm base.
+- **R4**, **R5** and **R6** are at risk (uniformity at cold points, sensor tolerance and humidity budget without margin). A certified temperature probe for R5 is decided if the cost target allows; the estimated cost is already above the $412 value-engineering target, so it does not yet.
+- R2 and R13 moved to met in v0.4 (larger inner sink; mass limit relaxed to 14 kg). R12 moved to within the value-engineering target in v0.5: the target was set by Amish on 2026-09-26 at $412, which covered the priced BOM then.
+- **R12**, cost, moved in v0.6 to over the value-engineering target by $27: the front frame, bulkhead fittings, cable glands, drain and printed holders that make the design buildable (CLR-DDR-003) bring the estimated cost to $439 against the $412 target. The target is a hypothetical control target, not a limit; savings worth trying are in the value engineering section of CLR-DEC-001. R13 stays met at about 13.8 kg with a 9 mm base.
 
 ## Assumptions
 

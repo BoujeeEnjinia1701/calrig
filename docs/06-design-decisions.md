@@ -3,7 +3,7 @@ doc_id: CLR-DEC-001
 title: CalRig design decisions register
 project: CalRig
 doc_type: Design decisions register
-version: "0.1"
+version: "0.2"
 status: Draft
 date: '2026-10-01'
 author: Amish Chadha
@@ -13,6 +13,10 @@ revisions:
     date: '2026-10-01'
     author: Amish Chadha
     change: Register opened with the build plan; open items gathered from the review note, the decision records and the build work
+  - version: "0.2"
+    date: '2026-10-01'
+    author: Amish Chadha
+    change: Budget treated as a value-engineering target
 ---
 
 # CalRig design decisions register
@@ -24,13 +28,12 @@ Every design decision still to be made, and every decision made, in one place. E
 | # | Decision needed | Options | Recommendation | Affects in the build | Source |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Review the design-for-construction changes P1 to P12 (front frame and four latches, door panel fixing, heat pump clamping, fan spacers, tray legs, mast, air-loop bulkheads and pumps, HEPA bulkheads, back-wall glands, drip tray and drain, aerosol bulkhead, jar rack) and the 9 mm base, made under Amish's 2026-09-30 instruction to make the design physically buildable | Accept; or change any item | Accept | The whole build plan | CLR-DDR-003, Tables 1 and 2 |
-| 2 | Budget: the parts that make the design buildable bring the BOM to $439, $27 over `budget_usd` of $412 (R12 not met) | (a) raise the budget to $439; (b) a core version without carbon dioxide (about $372), which changes what the rig does; (c) find $27 of savings | (a) | Bill of materials; none of the build steps | CLR-DDR-003, A1 |
-| 3 | Mass margin: 13.8 kg against the 14 kg of R13, a 0.17 kg margin on estimated masses | (a) accept and weigh the prototype at TRL 4; (b) save more mass now, for example a 5 mm acrylic top | (a) | Section 5 mass check | CLR-DDR-003, A2 |
-| 4 | Base plate material: the appearance model shows dark HDPE, which at 12 mm would take the rig to about 15.8 kg | (a) sealed 9 mm birch plywood, as modelled; (b) HDPE with R13 relaxed again; (c) 6 mm HDPE on more feet | (a); HDPE for renders only if preferred | Base plate (section 3.1) | CLR-DDR-003, A3; REVIEW 2026-09-26, item 2 |
-| 5 | Collocation partner for the transfer SPS30 particle sensor (R8 not met until one is named) | A regulatory monitoring station, a university site or an AQ-SPEC style program | None yet | Not part of the build; needed before the SPS30 is used as the reference | CLR-DDR-001, O1 |
-| 6 | Appearance model items 1 and 3 to 9: faced, rounded jacket; front status light and name plate; printed door border; door panel pull handle; bubbler and dryer details; fan guards; example sensor heads; aerosol valve lever | Adopt for renders, adopt in the design, or drop, item by item | As recorded in the review note (mostly adopt for renders; decide on facing and status light at TRL 4) | Renders only, except the status light (controller wiring) and the pull handle (door panel) | REVIEW 2026-09-26, items 1 and 3 to 9 |
-| 7 | Report format that a city or funder would accept as calibration evidence | Open | None yet | Not part of the build; affects the fitting software (R14) | CLR-PRC-001, open questions |
-| 8 | Larger sensor heads (HeatMap Node's 150 mm globe, SlopeWatch's capsule) that exceed the 90 x 70 x 50 mm bay size of R10 | Add a "large item" case to R10 that takes two bays; or leave them to other rigs | None yet | Sensor tray bay layout (section 3.9) | REVIEW 2026-09-25, cross-repo notes |
+| 2 | Mass margin: 13.8 kg against the 14 kg of R13, a 0.17 kg margin on estimated masses | (a) accept and weigh the prototype at TRL 4; (b) save more mass now, for example a 5 mm acrylic top | (a) | Section 5 mass check | CLR-DDR-003, A2 |
+| 3 | Base plate material: the appearance model shows dark HDPE, which at 12 mm would take the rig to about 15.8 kg | (a) sealed 9 mm birch plywood, as modelled; (b) HDPE with R13 relaxed again; (c) 6 mm HDPE on more feet | (a); HDPE for renders only if preferred | Base plate (section 3.1) | CLR-DDR-003, A3; REVIEW 2026-09-26, item 2 |
+| 4 | Collocation partner for the transfer SPS30 particle sensor (R8 not met until one is named) | A regulatory monitoring station, a university site or an AQ-SPEC style program | None yet | Not part of the build; needed before the SPS30 is used as the reference | CLR-DDR-001, O1 |
+| 5 | Appearance model items 1 and 3 to 9: faced, rounded jacket; front status light and name plate; printed door border; door panel pull handle; bubbler and dryer details; fan guards; example sensor heads; aerosol valve lever | Adopt for renders, adopt in the design, or drop, item by item | As recorded in the review note (mostly adopt for renders; decide on facing and status light at TRL 4) | Renders only, except the status light (controller wiring) and the pull handle (door panel) | REVIEW 2026-09-26, items 1 and 3 to 9 |
+| 6 | Report format that a city or funder would accept as calibration evidence | Open | None yet | Not part of the build; affects the fitting software (R14) | CLR-PRC-001, open questions |
+| 7 | Larger sensor heads (HeatMap Node's 150 mm globe, SlopeWatch's capsule) that exceed the 90 x 70 x 50 mm bay size of R10 | Add a "large item" case to R10 that takes two bays; or leave them to other rigs | None yet | Sensor tray bay layout (section 3.9) | REVIEW 2026-09-25, cross-repo notes |
 
 ## To confirm when parts are bought
 
@@ -43,6 +46,18 @@ Every design decision still to be made, and every decision made, in one place. E
 | 5 | The HEPA unit's ports are 12 mm and 80 mm apart at 117 mm above the bench, or can be drilled to that | The back-wall fittings run straight into them | CLR-DDR-003, P8 |
 | 6 | The SHT45 tolerance the supplier states (0.1 or 0.2 °C) | R5 is at risk if it is 0.2 °C | CLR-CAL-001, [F1] |
 | 7 | The bimetal switches and relay: opening temperatures of 50 and 70 °C and a relay rated 10 A at 12 V direct current | R16 rests on them | CLR-DDR-003, Table 2 |
+
+## Value engineering
+
+Value-engineering target: USD 412 (a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 439 (USD 27 over the target).
+
+Main cost drivers (CLR-CAL-001, K): the reference cluster (line 8, $132), the chamber shell (line 1, $51), the Peltier heat pump (line 5, $40) and the parts added for construction ($27, of which new line 19, bulkhead fittings, cable glands and drain, is $14). The CO2 path (SCD30 in the reference cluster and soda lime, line 16, $8) is the largest block that is not core to the temperature, humidity and particle functions.
+
+Savings worth trying:
+
+- A core version without CO2 (no SCD30, no soda lime), about USD 372; this changes what the rig does and would be proposed, not made (CLR-DDR-003, A1).
+- Re-pricing the fittings, glands and drain (line 19) and the front frame, drip tray and spacers ($6) at purchase.
+- Looking for savings in the reference cluster and shell; no single line obviously offers $27.
 
 ## Decisions made
 

@@ -3,7 +3,7 @@ doc_id: CLR-PRC-001
 title: CalRig design precis
 project: CalRig
 doc_type: Design precis
-version: "0.6"
+version: "0.7"
 status: Draft
 date: '2026-10-01'
 author: Amish Chadha
@@ -33,13 +33,17 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: "Constructable design (CLR-DDR-003): front frame, four latches, back-wall glands and bulkheads, drain, 9 mm base; numbers from CLR-CAL-001 v0.4"
+- version: "0.7"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Budget treated as a value-engineering target; cost wording only, no number changed
 ---
 
 # CalRig design precis
 
 ## Summary
 
-CalRig is a 36 L insulated acrylic chamber on a bench-top base. A Peltier heat pump sets the temperature, a heated bubbler and a silica gel dryer set the humidity, a HEPA loop gives clean air and a controlled smoke decay for particle tests, and a reference cluster (two Sensirion SHT45 temperature and humidity sensors, a Sensirion SCD30 CO2 sensor and a collocated Sensirion SPS30 particle sensor) sits among six sensors under test. A small controller steps through set points and logs everything; a laptop script fits a correction for each sensor and writes a dated record. The calculations in CLR-CAL-001 v0.4 show that it meets twelve of the eighteen requirements in CLR-REQ-001. Making the design buildable (CLR-DDR-003, open for Amish's review) added a front frame, bulkhead fittings, cable glands, a drain and printed holders, so the parts now cost about $439 against the $412 budget; a budget rise is proposed, awaiting Amish. How to build the prototype is in the build plan, CLR-BLD-001. It still depends on a collocation site for its particle reference.
+CalRig is a 36 L insulated acrylic chamber on a bench-top base. A Peltier heat pump sets the temperature, a heated bubbler and a silica gel dryer set the humidity, a HEPA loop gives clean air and a controlled smoke decay for particle tests, and a reference cluster (two Sensirion SHT45 temperature and humidity sensors, a Sensirion SCD30 CO2 sensor and a collocated Sensirion SPS30 particle sensor) sits among six sensors under test. A small controller steps through set points and logs everything; a laptop script fits a correction for each sensor and writes a dated record. The calculations in CLR-CAL-001 v0.4 show that it meets twelve of the eighteen requirements in CLR-REQ-001. Making the design buildable (CLR-DDR-003, open for Amish's review) added a front frame, bulkhead fittings, cable glands, a drain and printed holders, so the estimated cost of the constructable design is about $439 against the $412 value-engineering target ($27 over; see the value engineering section of CLR-DEC-001). How to build the prototype is in the build plan, CLR-BLD-001. It still depends on a collocation site for its particle reference.
 
 ![Figure 1. CalRig massing model on a lab bench with a 1.75 m person for scale.](../media/hero.png)
 
@@ -124,14 +128,14 @@ The revised R1 (10 °C in rooms of 15 to 25 °C) is met, with a 3.3 K margin at 
 
 These were decided by Amish on 2026-09-25 (go with recommendation; CLR-DDR-001 and CLR-DDR-002).
 
-- **Transfer references instead of certified instruments.** Certified reference instruments cost thousands of dollars. CalRig uses good digital sensors, checked against physical fixed points (salts, ice) and field collocation. This keeps the rig near its budget and makes the uncertainty chain explicit.
+- **Transfer references instead of certified instruments.** Certified reference instruments cost thousands of dollars. CalRig uses good digital sensors, checked against physical fixed points (salts, ice) and field collocation. This keeps the rig near its value-engineering target and makes the uncertainty chain explicit.
 - **Heated bubbler, not an ultrasonic mister.** Ultrasonic misters make mineral particles that would corrupt particle tests.
 - **Smoke decay, not a nebulizer.** A decay curve covers the whole range in one run with no dilution hardware. Every report states the aerosol type (CLR-DDR-001 A4).
 - **Accept the cooling limit.** One Peltier module; 10 °C only in rooms at 25 °C or below, and the lowest point stated in each record for warmer rooms (CLR-DDR-001 A3).
 - **Insulated door panel** for hot, humid and cold points (CLR-DDR-001 A6).
 - **Larger inner Peltier sink** (about 0.20 K/W) so the 20 °C, 85 % RH point holds in normal rooms (CLR-DDR-002).
 - **Mass limit of 14 kg.** CalRig is a bench rig, so the 12 kg limit was relaxed rather than thinning the acrylic (CLR-DDR-002).
-- **Certified temperature probe if the budget allows.** It does not yet (the BOM is already above the $412 budget), so R5 stays at risk (CLR-DDR-002).
+- **Certified temperature probe if the cost target allows.** It does not yet (the BOM is already above the $412 value-engineering target), so R5 stays at risk (CLR-DDR-002).
 - **External 12 V supply.** Keeps mains voltage out of a box that holds water.
 - **Temperature and humidity first, CO2 optional, no toxic gases.** NO2 sensors, including AirStreet's, are calibrated by field collocation only (CLR-DDR-001 A5).
 
@@ -150,8 +154,7 @@ These were decided by Amish on 2026-09-25 (go with recommendation; CLR-DDR-001 a
 
 ## Open questions
 
-- [x] Budget: $412 in parts. Budget set to $412 to cover the priced BOM: decided by Amish, 2026-09-26 (CLR-DDR-002).
-- [ ] Budget after the construction changes: $439 in parts against $412 (proposed, awaiting Amish; see the design decisions register, CLR-DEC-001).
+- [x] Value-engineering target: $412 in parts, a hypothetical control target set by Amish on 2026-09-26 (CLR-DDR-002). Estimated cost of the constructable design: $439 ($27 over the target); savings worth trying are in the value engineering section of CLR-DEC-001.
 - [ ] Particle reference: which collocation site (regulatory monitor, university, AQ-SPEC style program) will host the transfer SPS30, and how often it returns there (awaiting Amish).
 - [ ] Inner fin block: confirm a part that reaches about 0.20 K/W with the inner fan.
 - [ ] Report format: what a city or funder would accept as evidence.

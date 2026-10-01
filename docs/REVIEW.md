@@ -245,12 +245,12 @@ Amish approved the build plan format on 2026-09-30 and asked for it across all r
 
 ### Key results
 
-- Mass 13.83 kg against 14 kg (R13 met, 0.17 kg margin). Cost $439 on 19 lines against $412: **R12 not met**. Heat capacity 8.7 kJ/K; 10 °C reached in 2.5 h; every other result unchanged.
-- Requirement status (CLR-CAL-001 v0.4): met 12, at risk 3 (R4, R5, R6), not met 2 (R8, R12), not verifiable at TRL 3 1 (R14).
+- Mass 13.83 kg against 14 kg (R13 met, 0.17 kg margin). Value-engineering target $412 (a hypothetical control target, not a limit); estimated cost of the constructable design $439 on 19 lines ($27 over the target): **R12 over the value-engineering target**. Heat capacity 8.7 kJ/K; 10 °C reached in 2.5 h; every other result unchanged.
+- Requirement status (CLR-CAL-001 v0.4): met 12, at risk 3 (R4, R5, R6), not met 1 (R8), over the value-engineering target 1 (R12), not verifiable at TRL 3 1 (R14).
 
 ### Proposed, awaiting Amish
 
-All in the design decisions register (CLR-DEC-001): review of CLR-DDR-003 (recommend accept); budget rise to $439 (recommended); mass margin (accept, weigh at TRL 4); base material (sealed plywood); plus the items carried over: collocation partner (O1), appearance model items, report format, large sensor heads in R10.
+All in the design decisions register (CLR-DEC-001): review of CLR-DDR-003 (recommend accept); mass margin (accept, weigh at TRL 4); base material (sealed plywood); plus the items carried over (savings worth trying against the value-engineering target are in the register's value engineering section): collocation partner (O1), appearance model items, report format, large sensor heads in R10.
 
 ### Stale images (made on Amish's Mac, not regenerated here)
 
@@ -264,4 +264,4 @@ All in the design decisions register (CLR-DEC-001): review of CLR-DDR-003 (recom
 
 ### Recommended next step
 
-Amish reviews CLR-DDR-003 and the register, in particular the budget. TRL 4 (building and testing to CLR-BLD-001) stays on hold.
+Amish reviews CLR-DDR-003 and the register, and the value engineering section. TRL 4 (building and testing to CLR-BLD-001) stays on hold.

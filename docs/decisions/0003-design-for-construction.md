@@ -3,7 +3,7 @@ doc_id: CLR-DDR-003
 title: CalRig design for construction
 project: CalRig
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
 date: '2026-10-01'
 author: Amish Chadha
@@ -13,6 +13,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Changes that make the concept physically buildable, with the reason for each; made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review
+- version: "0.2"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Budget treated as a value-engineering target; cost wording only, no number changed
 ---
 
 # 0003: Design for construction
@@ -55,7 +59,7 @@ For each problem the simplest change that a maker with a laser cutter, a saw, a 
 | --- | --- | --- |
 | Base plate | 9 mm sealed birch plywood instead of 12 mm (plywood or HDPE), six rubber feet. Overall height 371 mm (was 374 mm). | The added acrylic, fittings and holders added about 0.7 kg; the thinner base saves 0.5 kg, so the rig is 13.83 kg against R13's 14 kg [A3]. The chamber and jacket stiffen the base where it carries load. |
 | Mass | 13.8 kg (was 13.6 kg), R13 still met with 0.17 kg margin. | CLR-CAL-001 v0.4 [A3]. |
-| Cost | $439 on 19 lines (was $412 on 18): lines 1, 2, 3, 5, 10 and 15 repriced and line 19 (bulkhead fittings, cable glands and drain, $14) added. R12 is now not met; see A1. | Parts added for construction. `budget_usd` is unchanged at $412. |
+| Cost | $439 on 19 lines (was $412 on 18): lines 1, 2, 3, 5, 10 and 15 repriced and line 19 (bulkhead fittings, cable glands and drain, $14) added. R12 is now over the value-engineering target by $27; see A1. | Parts added for construction. `budget_usd` is unchanged at $412. |
 | Wiring | The two bimetal cut-offs hold in a relay on the Peltier and heater supply (BOM line 13, no price change). | Small bimetal switches are often not rated to break about 5 A of direct current; a relay keeps the cut-off independent of the software, as R16 requires. |
 | Thermal | Heat capacity 8.7 kJ/K (was 8.6); 40 to 20 °C in 78 min (was 77); 10 °C reached in 2.5 h (was 2.4 h). Every other result is unchanged. | The heat balance uses the inside areas, which did not change [B7, B8]. |
 | Drawings | CLR-DWG-001 Rev P4; making sketches CLR-DWG-101 to 111 added. | Follow the model. |
@@ -65,13 +69,13 @@ For each problem the simplest change that a maker with a laser cutter, a saw, a 
 
 | # | Question | Options | Recommendation |
 | --- | --- | --- | --- |
-| A1 | The parts that make the design buildable bring the BOM to $439, $27 over the $412 budget. | (a) raise `budget_usd` to $439; (b) a core version without CO2 (about $372), which drops the SCD30 and soda lime and so changes what the rig does; (c) look for $27 of savings elsewhere, which no line obviously offers. | (a). |
+| A1 | The parts that make the design buildable bring the estimated cost to $439, $27 over the $412 value-engineering target (a hypothetical control target, not a limit). | Savings worth trying: (a) a core version without CO2 (about $372), which drops the SCD30 and soda lime and so changes what the rig does; (b) look for $27 of savings elsewhere, which no line obviously offers; (c) re-price at purchase. | No change to the target; keep the design and re-price at purchase. |
 | A2 | The R13 mass margin is now 0.17 kg, on estimated masses. | (a) accept, and weigh the prototype at TRL 4; (b) look for more mass now (for example 5 mm acrylic for the top). | (a). |
 | A3 | Base material. The appearance model proposes a dark HDPE base (REVIEW 2026-09-26, item 2); a 12 mm HDPE base would weigh about 3.4 kg and take the rig to about 15.8 kg, over R13. | (a) sealed 9 mm birch plywood, as modelled; (b) HDPE, with R13 relaxed again; (c) 6 mm HDPE (about 1.7 kg) on more feet. | (a), and keep HDPE for the renders only if Amish prefers its look. |
 
 ## Consequences
 
 - `design_state: constructable` in `project.yaml`. The build plan CLR-BLD-001 shows every component and step in pictures generated from the model (`cad/src/build_plan_media.py`).
-- Requirement status (CLR-CAL-001 v0.4): met 12, at risk 3 (R4, R5, R6), not met 2 (R8 and now R12), not verifiable at TRL 3 1 (R14).
+- Requirement status (CLR-CAL-001 v0.4): met 12, at risk 3 (R4, R5, R6), not met 1 (R8), over the value-engineering target 1 (R12), not verifiable at TRL 3 1 (R14).
 - The photoreal renders (`media/render-*.png`, made on Amish's Mac), `media/card.png`, `media/social-preview.png` and the appearance model `cad/src/product_model.py` still show the concept door, latches, door panel and base, and no bulkheads or drain; they need updating on Amish's Mac.
 - Parts to check when they are bought (sink base size and clamp holes, latch footprint, bulkhead and gland sizes, HEPA port spacing) are listed in the design decisions register, CLR-DEC-001.

@@ -3,7 +3,7 @@ doc_id: CLR-CAL-001
 title: CalRig sizing calculations
 project: CalRig
 doc_type: Calculation
-version: "0.4"
+version: "0.5"
 status: Draft
 date: '2026-10-01'
 author: Amish Chadha
@@ -25,11 +25,15 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Re-run for the constructable design (CLR-DDR-003); 9 mm base, mass 13.8 kg, heat capacity 8.7 kJ/K, BOM $439 on 19 lines, so R12 is not met pending a budget decision
+- version: "0.5"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Budget treated as a value-engineering target; cost wording only, no number changed
 ---
 
 # CalRig sizing calculations
 
-On paper, CalRig meets twelve of its eighteen requirements, has three at risk, misses two and has one that cannot be checked at TRL 3. The misses are R8 (particle traceability needs a collocation site that is still to be named) and R12: making the design buildable (CLR-DDR-003) added a front frame, bulkhead fittings, cable glands, a drain and printed holders, so parts now cost about $439 against the $412 budget approved by Amish on 2026-09-26 (CLR-DDR-002). A budget rise is proposed, awaiting Amish. The three at risk are R4 (bay uniformity at cold set points), R5 (reference temperature uncertainty, which depends on an uncertified sensor tolerance) and R6 (reference humidity uncertainty, 2.0 % RH against a 2 % RH target). R1 is met against the relaxed target of DDR-001: 6.7 °C is reachable in a 25 °C room and 11.1 °C in a 30 °C room. R2 is now met because the inner Peltier sink was enlarged under DDR-002 (0.45 to 0.20 K/W), which keeps it above the dew point at 20 °C and 85 % RH in rooms up to about 28 °C. R13 is met against the relaxed 14 kg limit of DDR-002 (13.8 kg, with a 9 mm base).
+On paper, CalRig meets twelve of its eighteen requirements, has three at risk, misses one, is over the value-engineering target on cost and has one that cannot be checked at TRL 3. The miss is R8 (particle traceability needs a collocation site that is still to be named). R12 is over the target: making the design buildable (CLR-DDR-003) added a front frame, bulkhead fittings, cable glands, a drain and printed holders, so the estimated cost of the constructable design is about $439 against the $412 value-engineering target set by Amish on 2026-09-26 (CLR-DDR-002), $27 over the target. The three at risk are R4 (bay uniformity at cold set points), R5 (reference temperature uncertainty, which depends on an uncertified sensor tolerance) and R6 (reference humidity uncertainty, 2.0 % RH against a 2 % RH target). R1 is met against the relaxed target of DDR-001: 6.7 °C is reachable in a 25 °C room and 11.1 °C in a 30 °C room. R2 is now met because the inner Peltier sink was enlarged under DDR-002 (0.45 to 0.20 K/W), which keeps it above the dew point at 20 °C and 85 % RH in rooms up to about 28 °C. R13 is met against the relaxed 14 kg limit of DDR-002 (13.8 kg, with a 9 mm base).
 
 The calculations in v0.1 changed four parts of the TRL 2 concept: the jacket now covers the bottom and the right-hand wall as well; the mixing fan grows from 80 mm to 120 mm; the bubbler jar gets a foam sleeve, a smaller fill and a trace-heated outlet line; and the base plate is trimmed to 600 x 500 mm with the chamber moved so the aerosol valve stays on it. Version 0.2 adds the larger inner fin block (about 45 x 120 x 110 mm) decided by Amish on 2026-09-25. Version 0.4 re-runs every result for the constructable design of CLR-DDR-003; only the mass, heat capacity, ramp times and cost move. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [B4], is the line of that script's output that carries it.
 
@@ -117,7 +121,7 @@ The bay-to-bay temperature span is estimated as half the chamber load divided by
 | Gradient from the reference mast to a bay (0.05 °C, rectangular) | 0.029 |
 | **Expanded, k = 2** | **0.14** |
 
-With the typical 0.1 °C tolerance the expanded uncertainty is 0.14 °C, inside the 0.2 °C target; if the tolerance is 0.2 °C, as a maximum specification would allow, it is 0.24 °C [F1]. R5 is **at risk** until a second fixed point or a certified probe pins down the slope. Under DDR-002 a certified probe is to be added if the budget allows; the BOM is already above the $412 budget, so the probe is not in the BOM.
+With the typical 0.1 °C tolerance the expanded uncertainty is 0.14 °C, inside the 0.2 °C target; if the tolerance is 0.2 °C, as a maximum specification would allow, it is 0.24 °C [F1]. R5 is **at risk** until a second fixed point or a certified probe pins down the slope. Under DDR-002 a certified probe is to be added if the cost target allows; the estimated cost is already above the $412 value-engineering target, so the probe is not in the BOM.
 
 For humidity, the components are the salt fixed point itself (0.14 % RH), a 0.2 K gradient in the jar at 85 % RH (0.59), hysteresis (0.46), interpolation between fixed points (0.29) and use away from 25 °C (0.58) [F2]. The expanded uncertainty is 2.0 % RH [F3], at the 2 % RH target with no margin. R6 is **at risk**. The jar gradient and temperature terms dominate, so thermally lagged jars and fixed points taken at the chamber temperature would help most.
 
@@ -139,7 +143,7 @@ The peak load is about 90 W: the Peltier at 59 W, bubbler heater 10 W, line trac
 
 ## K. Cost (R12)
 
-The BOM totals $439 on 19 lines, $27 over `budget_usd` of $412 (budget approved by Amish on 2026-09-26 to cover the then priced BOM, DDR-002; it was $400, and $300 before 2026-09-25) [K1]. The increase from $396 at TRL 2 comes from the extra jacket panels, the 120 mm fan, the bubbler sleeve and trace heat ($404 in v0.1), about $8 for the larger inner fin block, and $27 for the parts that make the design buildable (CLR-DDR-003): the front frame, drip tray and spacers ($6), two more latches and a larger door ($2), hook-and-loop pads ($1), clamp screws and sleeves ($2), the dryer socket and jar rack ($2) and new line 19, bulkhead fittings, cable glands and the drain ($14). A core version without CO2 (no SCD30 and no soda lime) would cost about $372. R12 is **not met**; raising the budget to $439 is proposed, awaiting Amish (CLR-DEC-001).
+The BOM totals $439 on 19 lines, $27 over the value-engineering target `budget_usd` of $412 (a hypothetical control target, not a limit; set by Amish on 2026-09-26 to cover the then priced BOM, DDR-002; it was $400, and $300 before 2026-09-25) [K1]. The increase from $396 at TRL 2 comes from the extra jacket panels, the 120 mm fan, the bubbler sleeve and trace heat ($404 in v0.1), about $8 for the larger inner fin block, and $27 for the parts that make the design buildable (CLR-DDR-003): the front frame, drip tray and spacers ($6), two more latches and a larger door ($2), hook-and-loop pads ($1), clamp screws and sleeves ($2), the dryer socket and jar rack ($2) and new line 19, bulkhead fittings, cable glands and the drain ($14). A core version without CO2 (no SCD30 and no soda lime) would cost about $372. R12 is **over the value-engineering target** by $27; savings worth trying are in the value engineering section of CLR-DEC-001.
 
 ## L. Results against every requirement
 
@@ -158,7 +162,7 @@ The BOM totals $439 on 19 lines, $27 over `budget_usd` of $412 (budget approved 
 | R9 | Zero below 50 ppm; span 400 to 2,000 ppm | 8 ppm floor; about 1,100 ppm added per liter of breath, to about 1,500 ppm from room air [H1] | Met |
 | R10 | Six heads 90 x 70 x 50 mm | Six bays, 244 mm clear [A2] | Met |
 | R11 | Sweep plus particle run in 8 h | 5.5 h [I2] | Met |
-| R12 | $412 in parts | $439 [K1] | Not met (budget rise proposed) |
+| R12 | $412 in parts | $439 [K1] | Over the value-engineering target by $27 |
 | R13 | 600 x 500 mm, 400 mm high, 14 kg | 600 x 500 x 371 mm, 13.8 kg [A3] | Met |
 | R14 | CSV and per-sensor report | Software not written (beyond TRL 3) | Not verifiable at TRL 3 |
 | R15 | No mains; fused 12 V; 100 W peak | 90 W, 7.5 A [J1] | Met |
@@ -166,7 +170,7 @@ The BOM totals $439 on 19 lines, $27 over `budget_usd` of $412 (budget approved 
 | R17 | No toxic gases; smoke cleared through HEPA | By design; 5 min clean-down [G1] | Met |
 | R18 | Saw or laser cutter, drill, soldering iron | By design; no machined parts in the model | Met |
 
-Counts: met 12, at risk 3, not met 2, not verifiable at TRL 3 1 [L1].
+Counts: met 12, at risk 3, not met 1 (R8), over the value-engineering target 1 (R12), not verifiable at TRL 3 1 [L1].
 
 ## Checks against the TRL 2 figures
 
