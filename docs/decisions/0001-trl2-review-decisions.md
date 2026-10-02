@@ -3,9 +3,9 @@ doc_id: CLR-DDR-001
 title: CalRig TRL 2 review decisions
 project: CalRig
 doc_type: Design decision record
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,12 +17,16 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.3"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'O1 (collocation partner) decided by Amish on 2026-10-02'
 ---
 
 # 0001: TRL 2 review decisions
 
 - **Date:** 2026-09-25
-- **Status:** items A1 to A6 decided by Amish, 2026-09-25: go with recommendation (see CLR-DDR-002). Item O1 remains open.
+- **Status:** items A1 to A6 decided by Amish, 2026-09-25: go with recommendation (see CLR-DDR-002). Item O1 decided by Amish, 2026-10-02 (CLR-DEC-001).
 
 ## Context
 
@@ -45,11 +49,11 @@ The options for each item are those listed in `docs/REVIEW.md` (session 2026-09-
 | A5 | Gas scope | NO2 by field collocation only for now; no gas cylinder, dilution or toxic gas handling in CalRig. AirStreet's README already states that NO2 is calibrated by field collocation; its pitch line still says "calibrated on CalRig" and is AirStreet's to change. AirStreet is not edited from this repo. | Decided by Amish, 2026-09-25: go with recommendation. |
 | A6 | Door condensation | Insulated removable door panel for hot, humid points (and for cold points). | Decided by Amish, 2026-09-25: go with recommendation. |
 
-*Table 2. Items that remain open.*
+*Table 2. Items that remained open.*
 
 | # | Item | Status |
 | --- | --- | --- |
-| O1 | Collocation partner for the transfer SPS30 (regulatory monitoring station, university site or an AQ-SPEC style program). No recommendation was made. | Proposed, awaiting Amish |
+| O1 | Collocation partner for the transfer SPS30 (regulatory monitoring station, university site or an AQ-SPEC style program). No recommendation was made. | Decided by Amish, 2026-10-02, as recommended in CLR-DEC-001: a state or local regulatory monitoring site with a federal equivalent PM2.5 monitor; first candidate to approach a Texas Commission on Environmental Quality site in Dallas-Fort Worth, with South Coast AQMD's AQ-SPEC program as the fallback (CLR-DEC-001) |
 
 The pitch and problem lines in `project.yaml` were not flagged for rewording in the review and are unchanged.
 

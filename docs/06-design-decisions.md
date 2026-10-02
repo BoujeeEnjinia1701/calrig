@@ -3,9 +3,9 @@ doc_id: CLR-DEC-001
 title: CalRig design decisions register
 project: CalRig
 doc_type: Design decisions register
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,6 +17,10 @@ revisions:
     date: '2026-10-01'
     author: Amish Chadha
     change: Budget treated as a value-engineering target
+  - version: "0.3"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: 'Amish approved the recommendations for all seven open decisions on 2026-10-02 (CLR-DDR-003 accepted); moved to decisions made'
 ---
 
 # CalRig design decisions register
@@ -25,15 +29,7 @@ Every design decision still to be made, and every decision made, in one place. E
 
 ## Open decisions
 
-| # | Decision needed | Options | Recommendation | Affects in the build | Source |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Review the design-for-construction changes P1 to P12 (front frame and four latches, door panel fixing, heat pump clamping, fan spacers, tray legs, mast, air-loop bulkheads and pumps, HEPA bulkheads, back-wall glands, drip tray and drain, aerosol bulkhead, jar rack) and the 9 mm base, made under Amish's 2026-09-30 instruction to make the design physically buildable | Accept; or change any item | Accept | The whole build plan | CLR-DDR-003, Tables 1 and 2 |
-| 2 | Mass margin: 13.8 kg against the 14 kg of R13, a 0.17 kg margin on estimated masses | (a) accept and weigh the prototype at TRL 4; (b) save more mass now, for example a 5 mm acrylic top | (a) | Section 5 mass check | CLR-DDR-003, A2 |
-| 3 | Base plate material: the appearance model shows dark HDPE, which at 12 mm would take the rig to about 15.8 kg | (a) sealed 9 mm birch plywood, as modelled; (b) HDPE with R13 relaxed again; (c) 6 mm HDPE on more feet | (a); HDPE for renders only if preferred | Base plate (section 3.1) | CLR-DDR-003, A3; REVIEW 2026-09-26, item 2 |
-| 4 | Collocation partner for the transfer SPS30 particle sensor (R8 not met until one is named) | A regulatory monitoring station, a university site or an AQ-SPEC style program | None yet | Not part of the build; needed before the SPS30 is used as the reference | CLR-DDR-001, O1 |
-| 5 | Appearance model items 1 and 3 to 9: faced, rounded jacket; front status light and name plate; printed door border; door panel pull handle; bubbler and dryer details; fan guards; example sensor heads; aerosol valve lever | Adopt for renders, adopt in the design, or drop, item by item | As recorded in the review note (mostly adopt for renders; decide on facing and status light at TRL 4) | Renders only, except the status light (controller wiring) and the pull handle (door panel) | REVIEW 2026-09-26, items 1 and 3 to 9 |
-| 6 | Report format that a city or funder would accept as calibration evidence | Open | None yet | Not part of the build; affects the fitting software (R14) | CLR-PRC-001, open questions |
-| 7 | Larger sensor heads (HeatMap Node's 150 mm globe, SlopeWatch's capsule) that exceed the 90 x 70 x 50 mm bay size of R10 | Add a "large item" case to R10 that takes two bays; or leave them to other rigs | None yet | Sensor tray bay layout (section 3.9) | REVIEW 2026-09-25, cross-repo notes |
+None. All open decisions were decided on 2026-10-02.
 
 ## To confirm when parts are bought
 
@@ -66,3 +62,10 @@ Savings worth trying:
 | 2026-09-25 | TRL 2 review items A1 to A6: budget raised to $400, transfer references checked at salt and ice fixed points, accept the cooling limit (R1 redefined), incense smoke decay, carbon dioxide optional and nitrogen dioxide by field collocation only, insulated door panel | Amish: "i accept all your recommendations, go with them across all repos." | CLR-DDR-001, CLR-DDR-002 |
 | 2026-09-25 | Larger inner fin block (about 0.20 K/W); R13 relaxed to 14 kg; certified temperature probe only if the budget allows | Amish, same instruction | CLR-DDR-002, D7 to D9 |
 | 2026-09-26 | Budget set to $412 to cover the priced BOM as it then stood | Amish: "i approve all the budget items." | CLR-DDR-002, O2 |
+| 2026-10-02 | Design for construction accepted: the changes P1 to P12 and their knock-on changes, including the 9 mm sealed birch plywood base, as made | Amish: "i approve your recommendations for all 555 open decisions." | CLR-DDR-003, Tables 1 and 2 |
+| 2026-10-02 | Mass margin of 0.17 kg accepted on paper; the finished rig is weighed at TRL 4, and a 5 mm acrylic top is the first fallback if it weighs over 14 kg | Amish: "i approve your recommendations for all 555 open decisions." | CLR-DDR-003, A2 |
+| 2026-10-02 | Base plate: sealed 9 mm birch plywood, as modelled; the renders are to show plywood too, so they match what will be built | Amish: "i approve your recommendations for all 555 open decisions." | CLR-DDR-003, A3; REVIEW 2026-09-26, item 2 |
+| 2026-10-02 | Collocation partner for the transfer SPS30: a state or local regulatory monitoring site with a federal equivalent PM2.5 monitor. First candidate to approach: a Texas Commission on Environmental Quality site in Dallas-Fort Worth; fallback: South Coast AQMD's AQ-SPEC program | Amish: "i approve your recommendations for all 555 open decisions." | CLR-DDR-001, O1 |
+| 2026-10-02 | Appearance model items: jacket facing (1) in renders only, decided at TRL 4; status light and name plate (3), printed door border (4, with no gland in the door, since P9 put the glands in the back wall) and door panel pull handle (5) adopted in the design; bubbler and dryer details, fan guards, example heads and valve lever (6 to 9) accepted as drawn | Amish: "i approve your recommendations for all 555 open decisions." | REVIEW 2026-09-26, items 1 and 3 to 9 |
+| 2026-10-02 | Calibration report based on the US EPA 2021 performance targets and testing protocol for PM2.5 air sensors, with a stated uncertainty chain from the salt and ice fixed points and the collocation record | Amish: "i approve your recommendations for all 555 open decisions." | CLR-PRC-001, open questions |
+| 2026-10-02 | R10 gains a large item case: a head up to 192 x 152 mm in plan takes a 2 x 2 block of four bays, and a head up to 192 x 70 mm takes two bays side by side, within the 244 mm clear height | Amish: "i approve your recommendations for all 555 open decisions." | REVIEW 2026-09-25, cross-repo notes |

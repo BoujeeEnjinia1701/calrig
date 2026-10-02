@@ -3,9 +3,9 @@ doc_id: CLR-DDR-002
 title: CalRig recommendations accepted
 project: CalRig
 doc_type: Design decision record
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-09-26'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,12 +17,16 @@ revisions:
   date: '2026-09-26'
   author: Amish Chadha
   change: "Budget set to $412 to cover the priced BOM: decided by Amish, 2026-09-26 (O2 closed)"
+- version: "0.3"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'O1 (collocation partner) decided by Amish on 2026-10-02'
 ---
 
 # 0002: Recommendations accepted
 
 - **Date:** 2026-09-25
-- **Status:** accepted. Every item below marked "Decided by Amish, 2026-09-25: go with recommendation" is accepted; items without a recommendation remain open, except O2 (budget), decided by Amish on 2026-09-26.
+- **Status:** accepted. Every item below marked "Decided by Amish, 2026-09-25: go with recommendation" is accepted; items without a recommendation remain open, except O2 (budget), decided by Amish on 2026-09-26, and O1 (collocation partner), decided by Amish on 2026-10-02.
 
 ## Context
 
@@ -52,7 +56,7 @@ The options for each item are those listed in `docs/REVIEW.md` (sessions 2026-09
 
 | # | Item | Status |
 | --- | --- | --- |
-| O1 | Collocation partner for the transfer SPS30. No recommendation was made. | Proposed, awaiting Amish |
+| O1 | Collocation partner for the transfer SPS30. No recommendation was made. | Decided by Amish, 2026-10-02: a state or local regulatory monitoring site with a federal equivalent PM2.5 monitor; first candidate to approach a Texas Commission on Environmental Quality site in Dallas-Fort Worth, with South Coast AQMD's AQ-SPEC program as the fallback (CLR-DEC-001) |
 | O2 | Budget figure above $400. The design is $412; options are to accept about $412, drop CO2 for a core version at about $345, or find $12 of savings. No recommendation was made. | Decided by Amish, 2026-09-26: budget set to $412 (see below) |
 
 ### Budget approved, 2026-09-26

@@ -3,9 +3,9 @@ doc_id: CLR-PRC-001
 title: CalRig design precis
 project: CalRig
 doc_type: Design precis
-version: "0.7"
+version: "0.8"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -37,6 +37,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Budget treated as a value-engineering target; cost wording only, no number changed
+- version: "0.8"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Decisions of 2026-10-02: collocation site first candidate, report format, large heads in two or four bays'
 ---
 
 # CalRig design precis
@@ -142,7 +146,7 @@ These were decided by Amish on 2026-09-25 (go with recommendation; CLR-DDR-001 a
 ## Links to other projects
 
 - **AirStreet** describes itself as "calibrated on CalRig" for PM2.5 and NO2. CalRig covers PM2.5 and the temperature and humidity terms; AirStreet's README already states that NO2 is calibrated by field collocation.
-- **HeatMap Node** (heat and humidity), **DustBadge** (dust) and **FieldNode** sensor heads are intended users. DustBadge measures respirable dust, so a smoke-based chamber result will not transfer directly to mineral dust.
+- **HeatMap Node** (heat and humidity), **DustBadge** (dust) and **FieldNode** sensor heads are intended users. Larger heads take more than one bay: a head up to 192 x 70 mm in plan takes two bays side by side, and one up to 192 x 152 mm, such as HeatMap Node's 150 mm globe, a 2 x 2 block of four bays (R10). DustBadge measures respirable dust, so a smoke-based chamber result will not transfer directly to mineral dust.
 
 ## Safety
 
@@ -155,6 +159,6 @@ These were decided by Amish on 2026-09-25 (go with recommendation; CLR-DDR-001 a
 ## Open questions
 
 - [x] Value-engineering target: $412 in parts, a hypothetical control target set by Amish on 2026-09-26 (CLR-DDR-002). Estimated cost of the constructable design: $439 ($27 over the target); savings worth trying are in the value engineering section of CLR-DEC-001.
-- [ ] Particle reference: which collocation site (regulatory monitor, university, AQ-SPEC style program) will host the transfer SPS30, and how often it returns there (awaiting Amish).
+- [x] Particle reference: a state or local regulatory monitoring site with a federal equivalent PM2.5 monitor (decided 2026-10-02, CLR-DEC-001). First candidate to approach: a Texas Commission on Environmental Quality site in Dallas-Fort Worth; fallback: South Coast AQMD's AQ-SPEC program. How often the transfer SPS30 returns there is still to be set.
 - [ ] Inner fin block: confirm a part that reaches about 0.20 K/W with the inner fan.
-- [ ] Report format: what a city or funder would accept as evidence.
+- [x] Report format: based on the US EPA 2021 performance targets and testing protocol for PM2.5 air sensors, with a stated uncertainty chain from the salt and ice fixed points and the collocation record (decided 2026-10-02, CLR-DEC-001).

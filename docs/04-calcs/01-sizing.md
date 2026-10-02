@@ -3,9 +3,9 @@ doc_id: CLR-CAL-001
 title: CalRig sizing calculations
 project: CalRig
 doc_type: Calculation
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,6 +29,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Budget treated as a value-engineering target; cost wording only, no number changed
+- version: "0.6"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Requirement table wording follows the decisions of 2026-10-02 (R8 candidate site, R10 large item case, R14 report basis); no result changed'
 ---
 
 # CalRig sizing calculations
@@ -158,13 +162,13 @@ The BOM totals $439 on 19 lines, $27 over the value-engineering target `budget_u
 | R5 | 0.2 °C, k = 2 | 0.14 °C (0.1 °C tolerance); 0.24 °C (0.2 °C tolerance) [F1] | At risk |
 | R6 | 2 % RH, k = 2 | 2.0 % RH [F3] | At risk |
 | R7 | Zero below 2 µg/m³; 300 to 5 µg/m³ in 45 min | 5 min clean-down, 0.17 µg/m³ floor; 28 min decay [G1, G2] | Met |
-| R8 | Transfer PM sensor collocated 30 days | No collocation site named | **Not met** |
+| R8 | Transfer PM sensor collocated 30 days | First candidate site named (CLR-DEC-001); not yet collocated | **Not met** |
 | R9 | Zero below 50 ppm; span 400 to 2,000 ppm | 8 ppm floor; about 1,100 ppm added per liter of breath, to about 1,500 ppm from room air [H1] | Met |
-| R10 | Six heads 90 x 70 x 50 mm | Six bays, 244 mm clear [A2] | Met |
+| R10 | Six heads 90 x 70 x 50 mm; large items in two or four bays | Six bays, 244 mm clear [A2]; large item case not yet checked | Met (six heads) |
 | R11 | Sweep plus particle run in 8 h | 5.5 h [I2] | Met |
 | R12 | $412 in parts | $439 [K1] | Over the value-engineering target by $27 |
 | R13 | 600 x 500 mm, 400 mm high, 14 kg | 600 x 500 x 371 mm, 13.8 kg [A3] | Met |
-| R14 | CSV and per-sensor report | Software not written (beyond TRL 3) | Not verifiable at TRL 3 |
+| R14 | CSV and per-sensor report to the US EPA 2021 targets, with uncertainty chain | Software not written (beyond TRL 3) | Not verifiable at TRL 3 |
 | R15 | No mains; fused 12 V; 100 W peak | 90 W, 7.5 A [J1] | Met |
 | R16 | Cut-offs at 50 °C air and 70 °C hot side | Outer sink 50 °C at most in use [J2] | Met |
 | R17 | No toxic gases; smoke cleared through HEPA | By design; 5 min clean-down [G1] | Met |

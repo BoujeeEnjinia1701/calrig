@@ -3,9 +3,9 @@ doc_id: CLR-PRB-001
 title: CalRig problem statement
 project: CalRig
 doc_type: Problem statement
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-09-26'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,6 +29,10 @@ revisions:
   date: '2026-09-26'
   author: Amish Chadha
   change: Budget approved by Amish; constraint now $412
+- version: "0.6"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Open questions on collocation and report format answered by the decisions of 2026-10-02 (CLR-DEC-001)'
 ---
 
 # CalRig problem statement
@@ -91,5 +95,5 @@ A small group therefore either trusts factory calibration, which the studies abo
 ## Open questions
 
 - Which sensors do the first users most need to check: PM2.5, temperature and humidity, CO2, or NO2?
-- Is there a regulatory or research monitor within reach of the first users for collocating the transfer PM sensor?
-- What report format would a city or a funder accept as evidence of sensor quality?
+- Is there a regulatory or research monitor within reach of the first users for collocating the transfer PM sensor? (Decided 2026-10-02: a state or local regulatory site with a federal equivalent PM2.5 monitor; first candidate to approach a Texas Commission on Environmental Quality site in Dallas-Fort Worth.)
+- What report format would a city or a funder accept as evidence of sensor quality? (Decided 2026-10-02: one based on the US EPA 2021 performance targets and testing protocol for PM2.5 air sensors, with a stated uncertainty chain.)

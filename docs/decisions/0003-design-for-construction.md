@@ -3,9 +3,9 @@ doc_id: CLR-DDR-003
 title: CalRig design for construction
 project: CalRig
 doc_type: Design decision record
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,12 +17,16 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Budget treated as a value-engineering target; cost wording only, no number changed
+- version: "0.3"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Accepted by Amish on 2026-10-02, including the recommendations for A2 and A3; A1 stays proposed'
 ---
 
 # 0003: Design for construction
 
 - **Date:** 2026-10-01
-- **Status:** proposed. The changes in Tables 1 and 2 were made under Amish's 2026-09-30 instruction to make the design physically buildable; they are open for his review. The items in Table 3 are "Proposed, awaiting Amish".
+- **Status:** accepted. Amish, 2026-10-02: "i approve your recommendations for all 555 open decisions." This covers every change in Tables 1 and 2 and the recommendations for A2 and A3 in Table 3, now decided as recommended and recorded in the design decisions register (CLR-DEC-001). A1 was not one of the open decisions in the register; it stays proposed, and its recommendation (keep the design and re-price at purchase) is carried in the register's value engineering section.
 
 ## Context
 
@@ -65,17 +69,18 @@ For each problem the simplest change that a maker with a laser cutter, a saw, a 
 | Drawings | CLR-DWG-001 Rev P4; making sketches CLR-DWG-101 to 111 added. | Follow the model. |
 | Documents | CLR-CAL-001 v0.4, CLR-REQ-001 v0.6, CLR-PRC-001 v0.6; build plan CLR-BLD-001 and register CLR-DEC-001 added. | Follow the model. |
 
-*Table 3. Proposed, awaiting Amish.*
+*Table 3. Proposed; A2 and A3 accepted by Amish as recommended on 2026-10-02.*
 
 | # | Question | Options | Recommendation |
 | --- | --- | --- | --- |
 | A1 | The parts that make the design buildable bring the estimated cost to $439, $27 over the $412 value-engineering target (a hypothetical control target, not a limit). | Savings worth trying: (a) a core version without CO2 (about $372), which drops the SCD30 and soda lime and so changes what the rig does; (b) look for $27 of savings elsewhere, which no line obviously offers; (c) re-price at purchase. | No change to the target; keep the design and re-price at purchase. |
-| A2 | The R13 mass margin is now 0.17 kg, on estimated masses. | (a) accept, and weigh the prototype at TRL 4; (b) look for more mass now (for example 5 mm acrylic for the top). | (a). |
-| A3 | Base material. The appearance model proposes a dark HDPE base (REVIEW 2026-09-26, item 2); a 12 mm HDPE base would weigh about 3.4 kg and take the rig to about 15.8 kg, over R13. | (a) sealed 9 mm birch plywood, as modelled; (b) HDPE, with R13 relaxed again; (c) 6 mm HDPE (about 1.7 kg) on more feet. | (a), and keep HDPE for the renders only if Amish prefers its look. |
+| A2 | The R13 mass margin is now 0.17 kg, on estimated masses. | (a) accept, and weigh the prototype at TRL 4; (b) look for more mass now (for example 5 mm acrylic for the top). | (a), with the 5 mm acrylic top as the first fallback if the finished rig weighs over 14 kg. Accepted 2026-10-02. |
+| A3 | Base material. The appearance model proposes a dark HDPE base (REVIEW 2026-09-26, item 2); a 12 mm HDPE base would weigh about 3.4 kg and take the rig to about 15.8 kg, over R13. | (a) sealed 9 mm birch plywood, as modelled; (b) HDPE, with R13 relaxed again; (c) 6 mm HDPE (about 1.7 kg) on more feet. | (a), and keep HDPE for the renders only if Amish prefers its look. Accepted 2026-10-02 as (a), with the renders drawn in plywood too so they match what will be built. |
 
 ## Consequences
 
 - `design_state: constructable` in `project.yaml`. The build plan CLR-BLD-001 shows every component and step in pictures generated from the model (`cad/src/build_plan_media.py`).
 - Requirement status (CLR-CAL-001 v0.4): met 12, at risk 3 (R4, R5, R6), not met 1 (R8), over the value-engineering target 1 (R12), not verifiable at TRL 3 1 (R14).
 - The photoreal renders (`media/render-*.png`, made on Amish's Mac), `media/card.png`, `media/social-preview.png` and the appearance model `cad/src/product_model.py` still show the concept door, latches, door panel and base, and no bulkheads or drain; they need updating on Amish's Mac.
+- With A2 and A3 accepted, the rig is weighed at TRL 4 (5 mm acrylic top as the first fallback over 14 kg) and the base stays 9 mm sealed birch plywood; the renders are to be redrawn with a plywood base (follow-up in `docs/REVIEW.md`, 2026-10-02).
 - Parts to check when they are bought (sink base size and clamp holes, latch footprint, bulkhead and gland sizes, HEPA port spacing) are listed in the design decisions register, CLR-DEC-001.

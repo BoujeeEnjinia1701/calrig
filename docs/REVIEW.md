@@ -265,3 +265,39 @@ All in the design decisions register (CLR-DEC-001): review of CLR-DDR-003 (recom
 ### Recommended next step
 
 Amish reviews CLR-DDR-003 and the register, and the value engineering section. TRL 4 (building and testing to CLR-BLD-001) stays on hold.
+
+## Session 2026-10-02: open-decision recommendations approved
+
+Amish, 2026-10-02: "i approve your recommendations for all 555 open decisions." This approves the recommendation for every open decision in the design decisions register. 7 decisions were recorded: each moved to Decisions made, dated 2026-10-02, with the approved recommendation and its record. trl stays 3; no build or test work was done, and the CAD model, BOM quantities and prices, and pictures were not changed.
+
+### Documents changed
+
+- `docs/06-design-decisions.md` (CLR-DEC-001 v0.3): the seven open decisions moved to Decisions made; Open decisions now reads none
+- `docs/decisions/0003-design-for-construction.md` (CLR-DDR-003 v0.3): status accepted (Tables 1 and 2, A2 and A3) with Amish's words; A2 records the 5 mm acrylic top as the first fallback, A3 the plywood renders; A1 stays proposed
+- `docs/decisions/0001-trl2-review-decisions.md` (CLR-DDR-001 v0.3): O1 (collocation partner) decided
+- `docs/decisions/0002-recommendations-accepted.md` (CLR-DDR-002 v0.3): O1 (collocation partner) decided
+- `docs/03-requirements.md` (CLR-REQ-001 v0.8): R8 names the first candidate site (status unchanged, not met); R10 adds the large item case; R14 states the EPA 2021 report basis and uncertainty chain
+- `docs/04-calcs/01-sizing.md` (CLR-CAL-001 v0.6): requirement table wording for R8, R10 and R14; no result changed
+- `docs/02-concept.md` (CLR-PRC-001 v0.8): open questions on the particle reference and report format answered; large heads take two or four bays
+- `docs/01-problem.md` (CLR-PRB-001 v0.6): open questions on collocation and report format answered
+- `README.md`: concept paragraph: larger heads take two or four of the six bays
+- `bom/bom-notes.md`: base material and the adopted appearance items noted; no quantity or price changed
+- PDFs regenerated with `python3 .kit/render.py`; superseded PDF versions removed by the render.
+
+### Follow-up actions to carry approved decisions into the design
+
+1. Decision 3 (pictures): Redraw the photoreal renders, `media/card.png` and `media/social-preview.png` from `cad/src/product_model.py` with the 9 mm sealed birch plywood base instead of dark HDPE (on Amish's Mac)
+2. Decision 5 (model): Add the front status light and name plate, the printed door border and the door panel pull handle to `cad/src/model.py` and its constructability checks; draw no gland in the door
+3. Decision 5 (drawings): Show the status light, name plate, door border and pull handle on CLR-DWG-001 and the door and door panel making sketches
+4. Decision 5 (bom): Add BOM lines or line changes for the status light and its controller wiring, the name plate, the door border and the pull handle, and price them
+5. Decision 5 (pictures): Regenerate the build plan pictures for the door, door panel and controller steps, and update the appearance model renders (four latches, glands in the back wall, jacket facing in renders only)
+6. Decision 5 (docs): Add the status light wiring and pull handle to the build plan text (CLR-BLD-001) once they are in the model
+7. Decision 7 (model): Add a model check that a 192 x 152 mm head fits a 2 x 2 block of bays and a 192 x 70 mm head two bays side by side, within the 244 mm clear height
+8. Decision 7 (calcs): Add the large item case to `sizing.py` and CLR-CAL-001 section A, and confirm the R10 status
+9. Decision 6 (docs): Define the per-sensor report template (R14) to the US EPA 2021 targets and protocol, with the uncertainty chain from the fixed points and the collocation record
+
+### Points found in the review
+
+- The cross-repo note says the large heads fit "if they take two bays"; the 150 mm HeatMap Node globe spans both 70 mm bay rows and two columns of the 318 x 176 mm tray, so it takes four bays, not two.
+- The 2026-09-26 appearance note recommends an HDPE base (item 2) and a door gland (item 4); both are now superseded by DDR-003 (9 mm plywood for R13, glands in the back wall) and the appearance model still shows two latches, not four.
+- R12 cost ($439 against the $412 target) is not an open register item; DDR-003 A1 recommended keeping the design and re-pricing at purchase. Confirm Amish is content to leave it in the value engineering section.
