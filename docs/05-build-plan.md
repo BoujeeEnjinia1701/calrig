@@ -3,9 +3,9 @@ doc_id: CLR-BLD-001
 title: CalRig prototype build plan
 project: CalRig
 doc_type: Build plan
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,6 +13,10 @@ revisions:
     date: '2026-10-01'
     author: Amish Chadha
     change: First build plan, with pictures by component and step; design made constructable (CLR-DDR-003)
+  - version: "0.2"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: Decisions of 2026-10-02 carried into the plan (front badge with name plate and status light and its wiring, printed door border, door panel pull handle, large heads in the first checks); new section 3.15, Figures 23 and 24 and step 12; figures and steps renumbered
 ---
 
 # CalRig prototype build plan
@@ -25,27 +29,30 @@ revisions:
 
 *Figure 1. Every component pulled apart and numbered in build order, seen from the front right and above.*
 
-The prototype is one CalRig on a bench: a 36 L clear acrylic box wrapped in foam board, with a door at the front, a heat pump through its right wall, and the conditioning parts, the HEPA unit and the electronics standing on a plywood base around it. Figure 1 shows the 24 components in the order you make or fit them. Ten are made in a workshop or maker space: the base plate, the five jacket panels, the chamber shell with its welded front frame, drip tray and fan spacers, the sensor tray, the door and the door panel from sheet, and three small printed parts (the reference mast, the dryer socket and the jar rack). The rest are bought and fitted: the heat pump, fans, pumps, bubbler, dryer column, HEPA unit, bulkhead fittings and cable glands, latches, sensors, controller and power supply. The work is laser cutting and solvent welding acrylic, cutting foam board, a little drilling and printing, and wiring bought modules together with screw terminals. The parts cost about $439, from the bill of materials.
+The prototype is one CalRig on a bench: a 36 L clear acrylic box wrapped in foam board, with a door at the front, a heat pump through its right wall, and the conditioning parts, the HEPA unit and the electronics standing on a plywood base around it. Figure 1 shows the 26 components in the order you make or fit them. Eleven are made in a workshop or maker space: the base plate, the five jacket panels, the chamber shell with its welded front frame, drip tray and fan spacers, the sensor tray, the door with its printed border and the door panel from sheet, and four small printed parts (the reference mast, the dryer socket, the jar rack and the front badge), with a printed pull handle on the door panel. The rest are bought and fitted: the heat pump, fans, pumps, bubbler, dryer column, HEPA unit, bulkhead fittings and cable glands, latches, sensors, the front status light and its lead, controller and power supply. The work is laser cutting and solvent welding acrylic, cutting foam board, a little drilling and printing, and wiring bought modules together with screw terminals. The parts cost about $449, from the bill of materials.
 
 > **Safety:** The rig runs from a certified external 12 V supply; no mains wiring is inside it. The heat pump's outer sink reaches 50 °C and its hot side can reach 70 °C; the heaters and heat pump are cut off by two bimetal switches whatever the software does. Test smoke contains fine particles and some carbon monoxide: light the incense outside the chamber in a ventilated room and clear the chamber through the HEPA unit before opening the door. Soda lime is corrosive and lithium chloride is harmful if swallowed: wear gloves and eye protection. Acrylic solvent cement and laser-cut acrylic give off fumes: work in a ventilated space.
 
 ## 2. What changed to make it buildable
 
-The concept showed what the rig does; some of its parts could not be made or fixed as drawn. Each change below keeps what the rig does, and all of them are recorded in decision record CLR-DDR-003, open for Amish's review.
+The concept showed what the rig does; some of its parts could not be made or fixed as drawn. Each change below keeps what the rig does. The construction changes are recorded in decision record CLR-DDR-003, accepted by Amish on 2026-10-02; the last three rows are details adopted on the same day (design decisions register).
 
 *Table 1. Changes from the concept.*
 
 | Component | The concept had | The buildable design has | Why |
 | --- | --- | --- | --- |
-| Door | A door the size of the shell, sealing on the 6 mm wall edges; two latches with nothing to catch | A welded front frame with a 25 mm gasket face, a 430 x 330 mm door and four draw latches on frame tabs (Figures 5 and 25) | The gasket needs a face to seal on and the latches something to pull against |
+| Door | A door the size of the shell, sealing on the 6 mm wall edges; two latches with nothing to catch | A welded front frame with a 25 mm gasket face, a 430 x 330 mm door and four draw latches on frame tabs (Figures 5 and 27) | The gasket needs a face to seal on and the latches something to pull against |
 | Door panel | A full-front foam panel standing loose in front of the latches | A 406 x 330 mm panel on the door, between the latches, on four hook-and-loop pads (Figure 22) | Held in place and off by hand |
 | Heat pump | No clamping to the wall | Both sink bases clamp the wall with four screws through rigid sleeves in the foam (Figure 14) | Standard mounting for a through-wall heat pump |
 | Mixing fan | Floating off the back wall | Four welded spacers, fan 15 mm off the wall (Figure 15) | No hole through the wall |
 | Sensor tray and reference mast | Thin posts; the mast floated behind the tray | 10 mm legs; a printed mast standing on the floor against the tray's rail (Figure 18) | Both stand on the floor and come out through the door |
-| Air loops | Lines ending at the foam with no way through the wall; no outlet for the pumps; the HEPA unit not connected | Five 12 mm bulkhead fittings (wet inlet, dry inlet, suction, two to the HEPA unit) and two pumps on the base (Figures 11 to 13 and 23) | A closed loop needs a way out of the chamber as well as in |
+| Air loops | Lines ending at the foam with no way through the wall; no outlet for the pumps; the HEPA unit not connected | Five 12 mm bulkhead fittings (wet inlet, dry inlet, suction, two to the HEPA unit) and two pumps on the base (Figures 11 to 13 and 25) | A closed loop needs a way out of the chamber as well as in |
 | Sensor leads | One gland in the door | Two cable glands in the back wall (Figure 13) | Leads stay put when the door opens |
 | Drip tray and drain | Named in the concept but not drawn | A tray under the inner sink, a drain fitting and a bottle on the base (Figure 9) | Condensate at cold points leaves the chamber |
-| Base plate | 12 mm plywood or HDPE | 9 mm sealed birch plywood | Keeps the rig under the 14 kg limit after the added parts (13.8 kg) |
+| Base plate | 12 mm plywood or HDPE | 9 mm sealed birch plywood | Keeps the rig under the 14 kg limit after the added parts (13.9 kg) |
+| Status light and name plate | Not drawn | A printed badge on the front of the jacket's top panel, its lip resting on the front frame, carrying the name plate and a 12 V panel light wired to the controller (Figures 23 and 24) | Shows that a run is going without opening the rig; the badge adds 12 mm to the height (383 mm) |
+| Door border | Not drawn | A 22 mm black printed border on the door's front face, cut round the keepers (Figure 21) | Hides the frame edges and gasket |
+| Door panel handle | Nothing to pull it off by | A printed pull handle glued to the panel's front (Figure 22) | The panel comes off for every warm, dry point |
 
 ## 3. Making the components
 
@@ -139,7 +146,7 @@ Make and check each component before the assembly step that needs it. Sizes are 
 2. Include four tabs 41 wide by 40 tall standing out from the sides, centred 95 above and 95 below the window's centre line.
 3. Hold a latch on each tab, mark its screw holes and drill 3 mm.
 
-**How it fits the parts next to it.** Solvent weld it to the shell's front edges with the window lined up with the inside of the shell all round. It overlaps the jacket's front edges by 19 mm (Figure 5) and stands 6 mm clear of the base plate. The gasket goes on its front face, 4 to 12 mm outside the window (Figure 25).
+**How it fits the parts next to it.** Solvent weld it to the shell's front edges with the window lined up with the inside of the shell all round. It overlaps the jacket's front edges by 19 mm (Figure 5) and stands 6 mm clear of the base plate. The gasket goes on its front face, 4 to 12 mm outside the window (Figure 27).
 
 **Check before moving on.** A straight edge across the frame shows no gap over 0.5 mm.
 
@@ -288,40 +295,68 @@ Make and check each component before the assembly step that needs it. Sizes are 
 
 *Figure 21. Door making sketch (CLR-DWG-110).*
 
-**What it is and what it is made from.** The clear front of the chamber, held against the gasket by four draw latches. Clear cast acrylic sheet 6 mm.
+**What it is and what it is made from.** The clear front of the chamber, held against the gasket by four draw latches, with a printed black border round its edge. Clear cast acrylic sheet 6 mm and printed vinyl.
 
 **How to make it.**
 
 1. Cut 430 x 330 mm. Sand or flame the edges smooth and leave the protective film on until it is fitted.
-2. Place a latch keeper on the front face at each latch: centred 95 mm above and 95 mm below the door's centre line, 1 mm in from each side edge. Mark the holes through the keeper, drill 3 mm, and fit M3 screws with nuts and a nylon washer under each.
+2. Peel the film from the front face and apply the border: a matt black printed vinyl frame 22 mm wide, flush with the door's edges, with a 7 x 16 mm notch at each keeper position. Apply it wet and squeeze out the bubbles.
+3. Place a latch keeper on the front face at each latch: centred 95 mm above and 95 mm below the door's centre line, 1 mm in from each side edge. Mark the holes through the keeper, drill 3 mm, and fit M3 screws with nuts and a nylon washer under each.
 
-**How it fits the parts next to it.** The back face presses on the gasket on the front frame and overlaps the 400 x 300 mm opening by 15 mm all round. The latches on the frame tabs hook the keepers (Figure 25).
+**How it fits the parts next to it.** The back face presses on the gasket on the front frame and overlaps the 400 x 300 mm opening by 15 mm all round. The latches on the frame tabs hook the keepers (Figure 27).
 
-**Check before moving on.** With the latches closed, a strip of paper trapped between door and gasket is held tight all round.
+**Check before moving on.** The border lies flat with no bubbles at the edges. With the latches closed, a strip of paper trapped between door and gasket is held tight all round.
 
 ### 3.14 Door panel
 
 ![Figure 22. Making sketch of the door panel](../cad/drawings/CLR-DWG-111.png)
 
-*Figure 22. Door panel making sketch (CLR-DWG-111).*
+*Figure 22. Door panel and pull handle making sketch (CLR-DWG-111).*
 
-**What it is and what it is made from.** A removable foam panel that insulates the door for the hot, humid set point and for cold points. Extruded polystyrene board 25 mm.
+**What it is and what it is made from.** A removable foam panel that insulates the door for the hot, humid set point and for cold points, with a pull handle on its front. Extruded polystyrene board 25 mm; the handle is PETG, printed.
 
-**How to make it.** Cut 406 x 330 mm, face the front with white self-adhesive vinyl, and stick four hook-and-loop pads on its back, 30 mm in from each corner, with their mates on the door.
+**How to make it.**
+
+1. Cut 406 x 330 mm, face the front with white self-adhesive vinyl, and stick four hook-and-loop pads on its back, 30 mm in from each corner, with their mates on the door.
+2. Print the pull handle: a flange 120 x 30 x 4 mm, two 12 x 12 mm posts and a grip 100 mm long and 12 x 12 mm in section, standing 25 mm out from the flange.
+3. Glue the flange to the front with foam-safe adhesive, centred left to right, its centre 30 mm below the top edge. Leave it a day before pulling on it.
 
 **How it fits the parts next to it.** It presses flat on the front of the door between the latches, 4 mm clear of the keepers and latch hooks, and covers the opening with 3 mm to spare each side.
 
-**Check before moving on.** It stays on with the fans running and peels off by hand.
+**Check before moving on.** It stays on with the fans running and peels off by the handle without the handle moving.
 
-### 3.15 Air loops and wiring
+### 3.15 Front badge and status light
 
-![Figure 23. Air loops and drain](05-build-plan/air-loops.png)
+![Figure 23. Making sketch of the front badge](../cad/drawings/CLR-DWG-112.png)
 
-*Figure 23. Every air loop starts and ends in the chamber, so the chamber stays sealed.*
+*Figure 23. Front badge making sketch (CLR-DWG-112).*
 
-![Figure 24. Block-level wiring](05-build-plan/wiring.png)
+![Figure 24. Joint 10: front badge and status light](05-build-plan/joint-10.png)
 
-*Figure 24. Block-level wiring with wire sizes. No circuit board is laid out at this stage; bought modules stand in for the power board.*
+*Figure 24. Cut through the light: the badge sits on the jacket's top panel with its lip on the front frame's top edge; the light's lead leaves through the back of the badge.*
+
+**What it is and what it is made from.** A strip on the front of the rig that carries the name plate and a status light, so a run can be seen from across the room. PETG, printed, 40 % infill; a bought 12 V panel light (5 mm, in an 8 mm bezel with its resistor built in); a 120 x 10 mm name plate label; a two-core 0.25 mm² lead about 0.9 m long with a plug for the controller.
+
+**How to make it.**
+
+1. Print a strip 200 mm long: a top 30 mm deep and 12 mm tall and, under its front edge, a lip 6 mm deep and 6 mm tall, so the front face is 18 mm tall.
+2. Include a 5.2 mm hole through it from front to back, 20 mm from the right-hand end and 9 mm up from the bottom of the lip.
+3. Push the panel light in from the front so its bezel sits on the front face, and feed its lead out of the back.
+4. Stick the name plate on the front face, 10 mm from the left-hand end, level with the light.
+
+**How it fits the parts next to it.** Glue the top to the front of the jacket's top panel with foam-safe adhesive, centred on the door, with the lip resting on the front frame's top edge and its front flush with the frame (Figure 24). Run the lead straight back along the top panel, then right along the panel's back edge to 23 mm from its right-hand end, then down the back panel to the top of the controller, with a stick-on clip every 100 mm. Plug it into the controller's status light output.
+
+**Check before moving on.** The badge does not touch the door or the door panel; the light comes on when the controller switches it.
+
+### 3.16 Air loops and wiring
+
+![Figure 25. Air loops and drain](05-build-plan/air-loops.png)
+
+*Figure 25. Every air loop starts and ends in the chamber, so the chamber stays sealed.*
+
+![Figure 26. Block-level wiring](05-build-plan/wiring.png)
+
+*Figure 26. Block-level wiring with wire sizes. No circuit board is laid out at this stage; bought modules stand in for the power board.*
 
 The power board in the bill of materials is a set of bought modules for this prototype:
 
@@ -331,7 +366,7 @@ The power board in the bill of materials is a set of bought modules for this pro
 | --- | --- |
 | Controller | ESP32-class development board with a microSD socket and a USB and I2C hub for the six sensors and the references |
 | Heat pump driver | 12 V H-bridge rated 15 A or more, so the controller can heat or cool |
-| Fan, pump and heater switches | Logic-level MOSFET modules, one per load, with flyback diodes on the fans and pumps |
+| Fan, pump and heater switches | Logic-level MOSFET modules, one per load, with flyback diodes on the fans and pumps; one more output for the front status light |
 | Cut-offs | Two normally closed bimetal switches, 50 °C (stuck to the inside of the top, near the fan) and 70 °C (screwed to the outer sink's base), in series with the coil of a 12 V relay rated 10 A that feeds the heat pump and heater outputs |
 | Fuse | 10 A blade fuse in an inline holder at the supply input |
 
@@ -344,12 +379,13 @@ Wire it like this, with stranded copper and a ferrule on every screw terminal:
 5. The two cut-offs in series with the relay coil: 0.5 mm², twisted.
 6. Sensors and references through the cable glands to the hub: 0.25 mm² (24 AWG) or their own leads.
 7. Thermistors on the bubbler pad, the line trace and the outer sink to the controller: 0.25 mm², twisted.
+8. The front status light's lead to the controller's status light output: 0.25 mm², two cores, plugged in.
 
-Run the tubes as Figure 23 shows, with 6 mm bore silicone tube and a clamp on every barb. The soda lime cartridge clips in between pump B and the dryer only for carbon dioxide zero checks.
+Run the tubes as Figure 25 shows, with 6 mm bore silicone tube and a clamp on every barb. The soda lime cartridge clips in between pump B and the dryer only for carbon dioxide zero checks.
 
 **Check before moving on.** Every wire continues end to end; with the supply off, the 12 V bus reads open to ground; every wire and tube is labelled.
 
-### 3.16 Bought components
+### 3.17 Bought components
 
 Buy to specification, not brand. Line numbers are those of the bill of materials.
 
@@ -363,7 +399,8 @@ Buy to specification, not brand. Line numbers are those of the bill of materials
 - **Controller and power board (line 13).** As Table 2.
 - **Power supply (line 14).** Certified external 12 V, 10 A supply with a regional mains lead.
 - **Salt jars (line 15).** Four sealed jars of saturated LiCl, MgCl2, NaCl and KCl slurry with sensor lid adapters.
-- **Door hardware (line 2).** Silicone D-section gasket about 10 mm wide; four small draw latches with keepers that fit a 41 x 40 mm tab.
+- **Door hardware (line 2).** Silicone D-section gasket about 10 mm wide; four small draw latches with keepers that fit a 41 x 40 mm tab; a matt black vinyl border 430 x 330 mm outside and 22 mm wide, cut by a sign or print shop.
+- **Front badge parts (line 20).** A 12 V panel indicator light, 5 mm, in an 8 mm bezel with a built-in resistor; a name plate label 120 x 10 mm; two-core 0.25 mm² lead with a plug; stick-on cable clips.
 - **Fittings (line 19).** As section 3.6, plus a 250 mL bottle with a lid and 6 mm drain tube.
 - **Wiring and consumables (line 17).** Wire, ferrules, silicone tube and clamps, foam-safe adhesive, foil tape, acrylic solvent cement, M3 and M4 nylon and stainless screws, wood screws, hook-and-loop pads, labels.
 
@@ -423,13 +460,13 @@ Mast against the back of the rail on two M4 nylon screws; carrier on its top. Ru
 
 ![Step 9](05-build-plan/step-09.png)
 
-Push the HEPA unit onto its two fittings, clamp the joints and screw it down; screw the controller down; strap the supply down. Seen from behind and to the right. Wire as Figure 24, with the fuse out.
+Push the HEPA unit onto its two fittings, clamp the joints and screw it down; screw the controller down; strap the supply down. Seen from behind and to the right. Wire as Figure 26, with the fuse out.
 
 ### Step 10: pumps, bubbler, dryer and drain bottle
 
 ![Step 10](05-build-plan/step-10.png)
 
-Screw the pumps and the dryer socket down; set the bubbler and the bottle on their pads; push each line onto its fitting and clamp it, as Figure 23. The bubbler stays empty until safety stop S3.
+Screw the pumps and the dryer socket down; set the bubbler and the bottle on their pads; push each line onto its fitting and clamp it, as Figure 25. The bubbler stays empty until safety stop S3.
 
 ### Step 11: jar rack and salt jars
 
@@ -437,21 +474,27 @@ Screw the pumps and the dryer socket down; set the bubbler and the bottle on the
 
 Screw the rack down in front of the bubbler; stand the four jars in it with their lids on.
 
-### Step 12: gasket, door and latches
+### Step 12: front badge and status light lead
 
 ![Step 12](05-build-plan/step-12.png)
 
-Stick the gasket on the frame's face, 4 to 12 mm outside the opening, with its joint at the bottom. Screw the four latches to the frame tabs, hold the door on the gasket and close the latches.
+Glue the badge to the front of the top panel with its lip on the front frame's top edge (section 3.15). Run the lead back along the top, along the back edge and down the back panel, clipped every 100 mm, and plug it into the controller.
 
-![Figure 25. Joint 9: door, gasket and latch](05-build-plan/joint-09.png)
-
-*Figure 25. Cut level with the upper right latch: the latch on the frame tab hooks the keeper on the door and squeezes the gasket between door and frame.*
-
-### Step 13: door panel
+### Step 13: gasket, door and latches
 
 ![Step 13](05-build-plan/step-13.png)
 
-Press the panel onto the four hook-and-loop pads on the door, between the latches. It is fitted for the 40 °C, 85 % RH point and for cold points, and off for the others.
+Stick the gasket on the frame's face, 4 to 12 mm outside the opening, with its joint at the bottom. Screw the four latches to the frame tabs, hold the door on the gasket and close the latches.
+
+![Figure 27. Joint 9: door, gasket and latch](05-build-plan/joint-09.png)
+
+*Figure 27. Cut level with the upper right latch: the latch on the frame tab hooks the keeper on the door and squeezes the gasket between door and frame.*
+
+### Step 14: door panel
+
+![Step 14](05-build-plan/step-14.png)
+
+Hold the panel by its pull handle and press it onto the four hook-and-loop pads on the door, between the latches. It is fitted for the 40 °C, 85 % RH point and for cold points, and off for the others.
 
 ## 5. First checks
 
@@ -464,13 +507,15 @@ These are the checks a TRL 4 test report would record; this plan only lists them
 | Shell leak | R2, R7 | 10 mm of water in the shell for an hour (section 3.3), before the jacket goes on | No water at any weld |
 | Door seal | R2, R7 | Paper strip trapped at 20 points round the closed door | Held tight at every point |
 | Fit of the heads | R10 | Six 90 x 70 x 50 mm blocks in the bays, door closed; leads through the glands | Everything fits; the gland caps seal round the leads |
+| Fit of large heads | R10 | A 192 x 152 x 234 mm block on four bays and a 192 x 70 x 234 mm block on two bays, in each position, door closed | Each stands on the tray clear of the walls, fan, inner sink and references |
+| Status light | R15 | Supply on, controller switching the light on and off | The light follows the controller; the lead stays clipped down |
 | Fuse and supply | R15 | Supply on, fuse in, every load off, then the heat pump at full drive with all fans, pumps and heaters on | Bus current 7.5 A or less; no part warm but the loads |
 | Cut-offs | R16 | Each bimetal switch warmed in a water bath with a thermometer | The relay drops out at 50 °C and at 70 °C (within the switch's tolerance) and the heat pump and heaters lose power |
 | Heat pump direction | R1 | Short runs at low drive in each direction | The inner sink warms when heating and cools when cooling; the outer fan runs whenever the module is powered |
-| Air loops | R2 | Each pump and the HEPA blower in turn, a soap film on each joint | Bubbles leave only where Figure 23 says air goes; no leak at any barb |
+| Air loops | R2 | Each pump and the HEPA blower in turn, a soap film on each joint | Bubbles leave only where Figure 25 says air goes; no leak at any barb |
 | Drain | R2 | 20 mL of water poured into the drip tray | All of it reaches the bottle |
 | Clean-down | R7 | HEPA unit at full speed, references logging | Particle reading falls below 2 µg/m³ |
-| Size and mass | R13 | Tape measure; bathroom scale with and without the rig held | Within 600 x 500 mm and 400 mm high; 14 kg or less (13.8 kg estimated) |
+| Size and mass | R13 | Tape measure; bathroom scale with and without the rig held | Within 600 x 500 mm and 400 mm high (383 mm estimated); 14 kg or less (13.9 kg estimated) |
 
 ## 6. Safety stops
 
@@ -495,10 +540,10 @@ Stop at each point. Carry on only when everything listed is true.
 
 ## 8. Where the numbers come from
 
-- Model and constructability checks: `cad/src/model.py` (`python cad/src/model.py --check`, 79 checks); STEP and STL exports in `cad/step/` and `cad/stl/`.
-- Pictures: `cad/src/build_plan_media.py`, using `.kit/build_views.py`; written to `docs/05-build-plan/` and `cad/drawings/CLR-DWG-101` to `CLR-DWG-111`.
-- General arrangement: `cad/drawings/CLR-DWG-001.pdf`, Rev P4.
-- Calculations: `docs/04-calcs/01-sizing.md` (CLR-CAL-001 v0.4) and `docs/04-calcs/sizing.py`; mass [A3], heat capacity and ramps [B7, B8], power [J1], cut-offs [J2], cost [K1].
+- Model and constructability checks: `cad/src/model.py` (`python cad/src/model.py --check`, 116 checks); STEP and STL exports in `cad/step/` and `cad/stl/`.
+- Pictures: `cad/src/build_plan_media.py`, using `.kit/build_views.py`; written to `docs/05-build-plan/` and `cad/drawings/CLR-DWG-101` to `CLR-DWG-112`.
+- General arrangement: `cad/drawings/CLR-DWG-001.pdf`, Rev P5.
+- Calculations: `docs/04-calcs/01-sizing.md` (CLR-CAL-001 v0.7) and `docs/04-calcs/sizing.py`; mass [A3], large heads [A4], heat capacity and ramps [B7, B8], power [J1], cut-offs [J2], cost [K1].
 - Bill of materials: `bom/bom.csv` and `bom/bom-notes.md`.
-- Decisions: `docs/decisions/0003-design-for-construction.md` (CLR-DDR-003), with CLR-DDR-001 and CLR-DDR-002; open items in `docs/06-design-decisions.md` (CLR-DEC-001).
-- Requirements: `docs/03-requirements.md` (CLR-REQ-001 v0.6).
+- Decisions: `docs/decisions/0003-design-for-construction.md` (CLR-DDR-003), with CLR-DDR-001 and CLR-DDR-002; decisions and items to confirm in `docs/06-design-decisions.md` (CLR-DEC-001).
+- Requirements: `docs/03-requirements.md` (CLR-REQ-001 v0.9).

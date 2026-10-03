@@ -1,4 +1,5 @@
-"""CalRig general arrangement sheet CLR-DWG-001, Rev P4 (TRL 3, constructable design, CLR-DDR-003).
+"""CalRig general arrangement sheet CLR-DWG-001, Rev P5 (TRL 3, constructable design, CLR-DDR-003;
+front badge, door border and pull handle of CLR-DEC-001, 2026-10-02).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/CLR-DWG-001.svg, .pdf and .png from the parametric model in cad/src/model.py
@@ -14,7 +15,8 @@ sys.path[:0] = [str(ROOT / ".kit"), str(ROOT / "cad" / "src")]
 from drawing import Sheet, _viewbox, _t, M, TB_Y, INK, MUTED  # noqa: E402
 from model import PARAMS as P, assembly, derived  # noqa: E402
 
-DATE = "2026-10-01"
+DATE = "2026-10-02"
+DATE1 = "2026-10-01"
 DATE0 = "2026-09-25"
 
 
@@ -52,8 +54,9 @@ def ortho_cells(sheet, views, names=("front", "top", "right")):
     dims = {n: _viewbox(Path(views[n]).read_text())[2:] for n in names}
     fw, fh = dims["front"]; tw, th = dims["top"]; rw, rh = dims["right"]
     k = sheet.scale
-    ax += (aw - (k * (max(fw, tw) + rw) + gap)) / 2
-    ay += (ah - (k * (th + max(fh, rh)) + gap + 2 * lab)) / 2
+    dl = 11                         # room the kit leaves for the overall dimensions (drawing.add_ortho)
+    ax += (aw - (k * (max(fw, tw) + rw) + gap + dl)) / 2 + dl
+    ay += (ah - (k * (th + max(fh, rh)) + gap + 2 * lab + dl)) / 2 + dl
     colw = k * max(fw, tw)
     front_y = ay + k * th + lab + gap
     row_h = k * max(fh, rh)
@@ -78,6 +81,13 @@ def dim_v(x, y1, y2, text, side=-1):
             f'<g transform="rotate(-90 {cx:.2f} {cy:.2f})">{_t(cx, cy, text, 2.3, 400, INK, "middle", mono=True)}</g>']
 
 
+def callout(px, py, tx, ty, text, anchor="start"):
+    """Leader from a point on a view to a short label."""
+    return [f'<line x1="{px:.2f}" y1="{py:.2f}" x2="{tx:.2f}" y2="{ty:.2f}" stroke="{INK}" stroke-width="0.15"/>',
+            f'<circle cx="{px:.2f}" cy="{py:.2f}" r="0.45" fill="{INK}"/>',
+            _t(tx + (0.8 if anchor == "start" else -0.8), ty + 0.8, text, 2.2, 400, INK, anchor)]
+
+
 def ext(x1, y1, x2, y2):
     return f'<line x1="{x1:.2f}" y1="{y1:.2f}" x2="{x2:.2f}" y2="{y2:.2f}" stroke="{MUTED}" stroke-width="0.13"/>'
 
@@ -85,16 +95,17 @@ def ext(x1, y1, x2, y2):
 def main():
     D = derived(P)
     work = ROOT / "cad" / "drawings" / "_views"
-    asm = assembly(door_panel=False)
+    asm = assembly(door_panel=True)
     views = safe_project_views(asm, work)
     bb = asm.bounding_box()
-    s = Sheet(project="CalRig", title="General arrangement", dwg_no="CLR-DWG-001", rev="P4",
+    s = Sheet(project="CalRig", title="General arrangement", dwg_no="CLR-DWG-001", rev="P5",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
               material="Cast acrylic, XPS, plywood; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
               revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE0, "AC"),
                          ("P2", "Larger inner Peltier sink; mass and power notes (DDR-002)", DATE0, "AC"),
                          ("P3", "Layout and labels tidied", DATE0, "AC"),
-                         ("P4", "Constructable design: frame, door, fittings, drain (DDR-003)", DATE, "AC")])
+                         ("P4", "Constructable design: frame, door, fittings, drain (DDR-003)", DATE1, "AC"),
+                         ("P5", "Front badge, status light, door border, pull handle (DEC-001)", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -128,8 +139,21 @@ def main():
           ext(Yr(D["cy1"] - P["wall"]), Zr(D["cz1"]), Yr(D["cy1"] - P["wall"]), yt - 1)]
     L += dim_h(Yr(D["cy0"] + P["wall"]), Yr(D["cy1"] - P["wall"]), yt, f"{iy:.0f} inside")
 
+    # callouts for the parts adopted on 2026-10-02 (CLR-DEC-001), on the right view (seen from +X)
+    fy, jt = D["cy0"] - P["frame_t"], D["cz1"] + P["ins"]
+    bz = (D["ceil"] + P["frame_m"] + jt + P["badge"][2]) / 2
+    hy = D["door_y0"] - P["ins"] - P["handle"][5] + P["handle"][4] / 2
+    hz = D["ceil"] - 15.0
+    xT = Yr(D["cy0"]) + 14                     # labels above the right view, leaders down to the parts
+    y0 = Zr(D["height"]) - 12
+    L += callout(Yr(hy), Zr(hz), xT, y0 - 12, "Door panel pull handle")
+    L += callout(Yr(fy + 8), Zr(bz), xT, y0 - 6, "Front badge: name plate, status light")
+    L += callout(Yr(D["door_y0"] + 2), Zr(D["ceil"] + 10), xT, y0, "Door with 22 printed border")
+    yb = D["cy1"] + P["ins"]
+    L += callout(Yr(yb + 1.5), Zr(D["cz1"] - 60), Yr(bb.max.Y) + 4, Zr(D["cz1"] - 60), "Status light lead")
+
     s._layers += L
-    s.add_svg(views["iso"], 276, 32, 140, 100, label="Isometric view", sublabel="Not to scale; door panel not shown")
+    s.add_svg(views["iso"], 276, 44, 140, 88, label="Isometric view", sublabel="Not to scale; door panel fitted")
     bw, bd, bh = P["bay"]
     s.add_notes("Main dimensions and interfaces (mm)", [
         f"Chamber {ix:.0f} x {iy:.0f} x {iz:.0f} inside ({D['volume_l']:.0f} L), {P['wall']:.0f} acrylic",
@@ -138,11 +162,14 @@ def main():
         f"Peltier opening {P['pelt_open'][0]:.0f} x {P['pelt_open'][1]:.0f} in the +X wall; inner sink "
         f"{P['sink_in'][0]:.0f} x {P['sink_in'][1]:.0f} x {P['sink_in'][2]:.0f}",
         f"Door {D['door_size'][0]:.0f} x {D['door_size'][1]:.0f} on a welded front frame, gasket, four latches",
+        f"Door border {P['border']:.0f} printed; door panel with pull handle",
+        f"Front badge {P['badge'][0]:.0f} x {P['badge'][1]:.0f} on the top: name plate, status light",
+        f"Large heads {D['pair'][0]:.0f} x {D['pair'][1]:.0f} in two bays, {D['block'][0]:.0f} x {D['block'][1]:.0f} in four (R10)",
         f"Bulkheads: 3 x {P['port_d']:.0f} (+X), 2 x {P['port_d']:.0f} to HEPA, drain 6; aerosol {P['aero_stub']:.0f} (-X)",
         f"Base {P['base'][0]:.0f} x {P['base'][1]:.0f} x {P['base'][2]:.0f} plywood; overall height {D['height']:.0f}",
-        "Mass about 13.8 kg; 12 V, 90 W peak (CLR-CAL-001)",
+        "Mass about 13.9 kg; 12 V, 90 W peak (CLR-CAL-001)",
         "Third-angle; front view from -Y (door side)",
-    ], x=276, y=158, width=146)
+    ], x=276, y=147, width=146)
     out = s.save(ROOT / "cad" / "drawings" / "CLR-DWG-001")
     shutil.rmtree(work, ignore_errors=True)
     print(f"wrote {out} and .pdf, .png at scale 1:{1 / k:g}")

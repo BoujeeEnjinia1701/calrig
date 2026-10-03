@@ -3,7 +3,7 @@ doc_id: CLR-REQ-001
 title: CalRig requirements
 project: CalRig
 doc_type: Requirements
-version: "0.8"
+version: "0.9"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -41,11 +41,15 @@ revisions:
   date: '2026-10-02'
   author: Amish Chadha
   change: 'Decisions of 2026-10-02 (CLR-DEC-001): R8 first candidate collocation site named; R10 large item case added; R14 report based on the US EPA 2021 targets and protocol with an uncertainty chain. No status changed'
+- version: "0.9"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Statuses from CLR-CAL-001 v0.7: R10 met including the large item case (was met for six heads only); R12 over the value-engineering target by USD 36.50 (was USD 27); R13 figures 383 mm and 13.9 kg, still met; R14 report template defined, still not verifiable at TRL 3'
 ---
 
 # CalRig requirements
 
-These requirements have been checked by calculation in CLR-CAL-001 v0.4. Targets are not yet validated with users. R1 was redefined under CLR-DDR-001 (item A3); R12 and R13 were restated under CLR-DDR-002. All three changes were decided by Amish on 2026-09-25 (go with recommendation). Test conditions follow the enhanced lab conditions in the US EPA sensor testing reports (20 °C and 40 °C; 40 % and 85 % RH) so that CalRig results can be read against a known method ([EPA FAQ](https://www.epa.gov/air-sensor-toolbox/frequently-asked-questions-reports-air-sensor-performance-testing-protocols)).
+These requirements have been checked by calculation in CLR-CAL-001 v0.7. Targets are not yet validated with users. R1 was redefined under CLR-DDR-001 (item A3); R12 and R13 were restated under CLR-DDR-002. All three changes were decided by Amish on 2026-09-25 (go with recommendation). Test conditions follow the enhanced lab conditions in the US EPA sensor testing reports (20 °C and 40 °C; 40 % and 85 % RH) so that CalRig results can be read against a known method ([EPA FAQ](https://www.epa.gov/air-sensor-toolbox/frequently-asked-questions-reports-air-sensor-performance-testing-protocols)).
 
 The **reference room** is an indoor lab at 22 °C and 50 % RH unless a requirement states otherwise.
 
@@ -62,11 +66,11 @@ Table 1. Requirements with targets and status from CLR-CAL-001 (Table 4 there gi
 | R7 | Particle test range | Zero below 2 µg/m³ PM2.5; controlled decay from 300 to 5 µg/m³ in 45 min or less | Decay calculation; later run | Met: 5 min clean-down; 28 min decay |
 | R8 | Particle reference traceability | Transfer PM sensor collocated with a regulatory or research monitor for 30 days or more, and meeting EPA PM2.5 targets there, before use as the chamber reference | Collocation record | **Not met by the rig alone.** First candidate site chosen on 2026-10-02 (CLR-DEC-001): a Texas Commission on Environmental Quality site in Dallas-Fort Worth, still to be approached; no collocation done yet |
 | R9 | CO2 check | Zero check below 50 ppm with soda lime; span 400 to 2000 ppm against a reference of ±(30 ppm + 3 %) | Calculation and datasheet ([Sensirion SCD30](https://sensirion.com/products/catalog/SCD30)); later run | Met: 8 ppm floor; about 1,100 ppm added per liter of breath |
-| R10 | Capacity | Six sensor heads per run, each up to 90 x 70 x 50 mm, with power and I2C, UART or USB leads through a sealed gland. Large item case (CLR-DEC-001, 2026-10-02): a head up to 192 x 70 mm in plan takes two bays side by side, and a head up to 192 x 152 mm a 2 x 2 block of four bays, within the 244 mm clear height, with fewer heads per run | Model check | Met for six heads: six bays, 244 mm clear above the tray. Large item case not yet checked in the model |
+| R10 | Capacity | Six sensor heads per run, each up to 90 x 70 x 50 mm, with power and I2C, UART or USB leads through a sealed gland. Large item case (CLR-DEC-001, 2026-10-02): a head up to 192 x 70 mm in plan takes two bays side by side, and a head up to 192 x 152 mm a 2 x 2 block of four bays, within the 244 mm clear height, with fewer heads per run | Model check | Met: six bays, 244 mm clear above the tray; large heads up to 234 mm tall fit in every two-bay and four-bay position (model checks, CLR-CAL-001 [A4]) |
 | R11 | Throughput | Four-point temperature and humidity sweep plus one particle decay run in 8 h or less, unattended | Timing estimate; later log | Met: about 5.5 h |
-| R12 | Cost | Within the $412 value-engineering target for parts (`budget_usd`, a hypothetical control target; raised from $300 to $400 on 2026-09-25 and to $412 on 2026-09-26 under CLR-DDR-002) | Priced BOM (`bom/bom.csv`) | **Over the value-engineering target by $27:** $439 estimated after the parts added to make the design buildable (CLR-DDR-003) |
-| R13 | Size and mass | Fits a 600 x 500 mm bench area, 400 mm high or less; 14 kg or less (relaxed from 12 kg under CLR-DDR-002) | Model; mass estimate | Met: 600 x 500 x 371 mm; about 13.8 kg |
-| R14 | Records | Every run writes CSV (time, set points, references, each sensor) and a per-sensor report based on the US EPA 2021 performance targets and testing protocol for PM2.5 air sensors, with fitted slope, offset and humidity term, EPA metrics, the reference check dates and the uncertainty chain from the salt and ice fixed points and the collocation record (CLR-DEC-001, 2026-10-02) | Software review | Not verifiable at TRL 3 (software not written) |
+| R12 | Cost | Within the $412 value-engineering target for parts (`budget_usd`, a hypothetical control target; raised from $300 to $400 on 2026-09-25 and to $412 on 2026-09-26 under CLR-DDR-002) | Priced BOM (`bom/bom.csv`) | **Over the value-engineering target by USD 36.50:** USD 448.50 estimated after the parts added to make the design buildable (CLR-DDR-003) and the front badge, door border and pull handle adopted on 2026-10-02 |
+| R13 | Size and mass | Fits a 600 x 500 mm bench area, 400 mm high or less; 14 kg or less (relaxed from 12 kg under CLR-DDR-002) | Model; mass estimate | Met: 600 x 500 x 383 mm; about 13.9 kg (0.08 kg margin) |
+| R14 | Records | Every run writes CSV (time, set points, references, each sensor) and a per-sensor report based on the US EPA 2021 performance targets and testing protocol for PM2.5 air sensors, with fitted slope, offset and humidity term, EPA metrics, the reference check dates and the uncertainty chain from the salt and ice fixed points and the collocation record (CLR-DEC-001, 2026-10-02) | Software review | Not verifiable at TRL 3: report template defined (CLR-PRC-001, Table 4); software not written |
 | R15 | Electrical safety | No mains wiring in the rig; certified external 12 V supply; fused 12 V bus; peak draw 100 W or less | Design review; power budget | Met: about 90 W, 7.5 A peak |
 | R16 | Thermal safety | Independent hardware cut-off opens the heater circuit at 50 °C air temperature or 70 °C Peltier hot side | Design review; heat balance | Met: outer sink 50 °C at most in normal use |
 | R17 | Aerosol and gas safety | No toxic gases; test smoke vented through the HEPA loop before the door opens; smoke source outside the chamber | Design review | Met by design |
@@ -77,7 +81,8 @@ Table 1. Requirements with targets and status from CLR-CAL-001 (Table 4 there gi
 - **R8**, particle traceability. The chamber cannot make a mass reference; it transfers one from a collocation site. The first candidate to approach, chosen on 2026-10-02, is a Texas Commission on Environmental Quality site in Dallas-Fort Worth, with South Coast AQMD's AQ-SPEC program as the fallback; R8 stays not met until the transfer sensor has been collocated there.
 - **R4**, **R5** and **R6** are at risk (uniformity at cold points, sensor tolerance and humidity budget without margin). A certified temperature probe for R5 is decided if the cost target allows; the estimated cost is already above the $412 value-engineering target, so it does not yet.
 - R2 and R13 moved to met in v0.4 (larger inner sink; mass limit relaxed to 14 kg). R12 moved to within the value-engineering target in v0.5: the target was set by Amish on 2026-09-26 at $412, which covered the priced BOM then.
-- **R12**, cost, moved in v0.6 to over the value-engineering target by $27: the front frame, bulkhead fittings, cable glands, drain and printed holders that make the design buildable (CLR-DDR-003) bring the estimated cost to $439 against the $412 target. The target is a hypothetical control target, not a limit; savings worth trying are in the value engineering section of CLR-DEC-001. R13 stays met at about 13.8 kg with a 9 mm base.
+- **R12**, cost, moved in v0.6 to over the value-engineering target by $27: the front frame, bulkhead fittings, cable glands, drain and printed holders that make the design buildable (CLR-DDR-003) brought the estimated cost to $439. In v0.9 the front badge, door border and pull handle adopted on 2026-10-02 add $9.50. Value-engineering target: USD 412. Estimated cost of the constructable design: USD 448.50 (USD 36.50 over the target). The target is a hypothetical control target, not a limit; savings worth trying are in the value engineering section of CLR-DEC-001. R13 stays met at about 13.9 kg with a 9 mm base, with a 0.08 kg margin.
+- **R10** moved in v0.9 from met for six heads to met including the large item case, checked in the model.
 
 ## Assumptions
 

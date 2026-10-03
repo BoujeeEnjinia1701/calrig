@@ -3,7 +3,7 @@ doc_id: CLR-DDR-003
 title: CalRig design for construction
 project: CalRig
 doc_type: Design decision record
-version: "0.3"
+version: "0.4"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -21,6 +21,10 @@ revisions:
   date: '2026-10-02'
   author: Amish Chadha
   change: 'Accepted by Amish on 2026-10-02, including the recommendations for A2 and A3; A1 stays proposed'
+- version: "0.4"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Consequences updated after the approved follow-ups: appearance model brought in line with the constructable design and render scenes exported; A2 margin now 0.08 kg'
 ---
 
 # 0003: Design for construction
@@ -81,6 +85,6 @@ For each problem the simplest change that a maker with a laser cutter, a saw, a 
 
 - `design_state: constructable` in `project.yaml`. The build plan CLR-BLD-001 shows every component and step in pictures generated from the model (`cad/src/build_plan_media.py`).
 - Requirement status (CLR-CAL-001 v0.4): met 12, at risk 3 (R4, R5, R6), not met 1 (R8), over the value-engineering target 1 (R12), not verifiable at TRL 3 1 (R14).
-- The photoreal renders (`media/render-*.png`, made on Amish's Mac), `media/card.png`, `media/social-preview.png` and the appearance model `cad/src/product_model.py` still show the concept door, latches, door panel and base, and no bulkheads or drain; they need updating on Amish's Mac.
-- With A2 and A3 accepted, the rig is weighed at TRL 4 (5 mm acrylic top as the first fallback over 14 kg) and the base stays 9 mm sealed birch plywood; the renders are to be redrawn with a plywood base (follow-up in `docs/REVIEW.md`, 2026-10-02).
+- The appearance model `cad/src/product_model.py` was brought in line with this design on 2026-10-02 (front frame, four latches, back-wall glands and bulkheads, drain, pumps, 9 mm plywood base) and its render scenes exported; the photoreal renders (`media/render-*.png`), `media/card.png` and `media/social-preview.png` are redrawn from them on Amish's Mac.
+- With A2 and A3 accepted, the rig is weighed at TRL 4 (5 mm acrylic top as the first fallback over 14 kg) and the base stays 9 mm sealed birch plywood. After the front badge, door border and pull handle adopted on 2026-10-02 the estimated mass is 13.92 kg, a 0.08 kg margin (CLR-CAL-001 v0.7).
 - Parts to check when they are bought (sink base size and clamp holes, latch footprint, bulkhead and gland sizes, HEPA port spacing) are listed in the design decisions register, CLR-DEC-001.

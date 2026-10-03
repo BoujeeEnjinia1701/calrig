@@ -1,10 +1,11 @@
 """CalRig prototype build plan pictures (CLR-BLD-001, STANDARDS section 18).
 
 Run from the repo root:  python cad/src/build_plan_media.py [overview|sheets|joints|steps|layouts|diagrams ...]
+                         SHEETS=110,111 python cad/src/build_plan_media.py sheets   (only those making sketches)
 With no argument it draws everything. Every 3D picture is drawn from cad/src/model.py
 (build_components), so the pictures and the model never disagree:
     docs/05-build-plan/overview.png        every component pulled apart, numbered in build order
-    cad/drawings/CLR-DWG-101 to 111        making sketches for the made components
+    cad/drawings/CLR-DWG-101 to 112        making sketches for the made components
     docs/05-build-plan/joint-NN.png        close-ups of the joints that need explaining
     docs/05-build-plan/step-NN.png         one picture per assembly step
     docs/05-build-plan/wall-holes.png      hole positions in the shell walls and jacket panels
@@ -25,6 +26,7 @@ from model import PARAMS as P, build_components, derived, fuse, box  # noqa: E40
 OUT = ROOT / "docs" / "05-build-plan"
 DWG = ROOT / "cad" / "drawings"
 DATE = "2026-10-01"
+DATE2 = "2026-10-02"     # front badge, door border and pull handle (CLR-DEC-001)
 REPO = "github.com/BoujeeEnjinia1701/calrig"
 D = derived(P)
 C = build_components(P, door_panel=True)
@@ -36,7 +38,8 @@ COL = {"base": "#8B6F4E", "jacket": "#E3D3A0", "shell": "#8FB8CC", "frame": "#3F
        "mast": "#0F766E", "ref": "#14B8A6", "hepa": "#94A3B8", "ctrl": "#15803D", "psu": "#1F2937",
        "pumps": "#475569", "bubbler": "#0EA5E9", "dryer": "#D4A017", "socket": "#A16207", "drain": "#6D28D9",
        "rack": "#F59E0B", "jars": "#D1D5DB", "gasket": "#111827", "door": "#93C5FD", "keepers": "#374151",
-       "latches": "#4B5563", "panel": "#FCD34D", "duts": "#9CA3AF", "bolt": "#111827"}
+       "latches": "#4B5563", "panel": "#FCD34D", "duts": "#9CA3AF", "bolt": "#111827",
+       "badge": "#0F766E", "lead": "#B91C1C", "handle": "#7C2D12", "border": "#1F2937"}
 
 
 def part(name, shape, color, explode=(0, 0, 0), alpha=1.0):
@@ -66,10 +69,12 @@ def made():
         "dryer": part("Dryer socket and column", S("dryer_socket", "dryer"), COL["dryer"]),
         "drain": part("Drain line and bottle", C["drain"].shape, COL["drain"]),
         "jars": part("Jar rack and salt jars", S("jar_rack", "jars"), COL["rack"]),
+        "badge": part("Front badge, name plate and status light", S("badge", "name_plate", "status_light"), COL["badge"]),
+        "lead": part("Status light lead", C["light_lead"].shape, COL["lead"]),
         "gasket": part("Door gasket", C["gasket"].shape, COL["gasket"]),
-        "door": part("Door with latch keepers", S("door", "keepers"), COL["door"]),
+        "door": part("Door with printed border and keepers", S("door", "border", "keepers"), COL["door"]),
         "latches": part("Draw latches (4)", C["latches"].shape, COL["latches"]),
-        "panel": part("Door panel", C["door_panel"].shape, COL["panel"]),
+        "panel": part("Door panel with pull handle", S("door_panel", "handle"), COL["panel"]),
     }
 
 
@@ -81,6 +86,7 @@ def overview():
            "jk_rest": (0, 0, 470), "peltier": (360, 0, 160), "mixfan": (-420, 0, 260), "tray": (60, -280, -60),
            "mast": (220, -240, 300), "hepa": (300, 380, 480), "elec": (60, 380, -80), "pumps": (420, -60, -60),
            "bubbler": (330, -180, -40), "dryer": (470, 120, -40), "drain": (520, -10, 40), "jars": (220, -330, -150),
+           "badge": (-60, -260, 700), "lead": (300, 120, 620),
            "gasket": (-160, -300, 300), "door": (-300, -450, 120), "latches": (-440, -540, 180), "panel": (-560, -640, -200)}
     parts = []
     for k, p in M.items():
@@ -93,15 +99,24 @@ def overview():
 
 # ----------------------------------------------------------------- making sketches
 def sheets():
+    import os
     import build123d as b
     M = made()
     base = dict(project="CalRig", date=DATE)
+    want = {w.strip() for w in os.environ.get("SHEETS", "").split(",") if w.strip()}
     out = []
+
+    def sheet(*a, **kw):
+        """Draw a making sketch only when it is wanted (all of them when SHEETS is not set)."""
+        if want and kw["dwg_no"].split("-")[-1] not in want:
+            return None
+        if kw.get("rev", "P1") != "P1":     # revised sheets carry the date of their revision
+            kw["date"] = kw["revisions"][-1][2]
+        return bv.component_sheet(*a, **kw)
     shell_low = part("Chamber floor and lower walls", win(C["shell"].shape, -240, 200, -170, 170, 30, 130), COL["shell"])
     lift = lambda sh: b.Pos(0, 0, -sh.bounding_box().min.Z) * sh  # noqa: E731
 
-    out.append(bv.component_sheet(
-        Part("Base plate", C["base"].shape, COL["base"]),
+    out.append(sheet(Part("Base plate", C["base"].shape, COL["base"]),
         [M["jk_bottom"], M["hepa"], M["elec"], M["bubbler"], M["dryer"], M["jars"], M["pumps"], M["drain"]],
         dwg_no="CLR-DWG-101", title="CalRig base plate: making sketch", material="Birch plywood 9 mm, sealed",
         notes=["Cut 600 x 500 mm from 9 mm birch plywood; sand the edges.",
@@ -118,8 +133,7 @@ def sheets():
                "Check: the plate lies flat on the bench without rocking."],
         inset_view=(30, -60), **base))
 
-    out.append(bv.component_sheet(
-        Part("Insulation jacket", S("jacket_bottom", "jacket_top", "jacket_back", "jacket_left", "jacket_right"), COL["jacket"]),
+    out.append(sheet(Part("Insulation jacket", S("jacket_bottom", "jacket_top", "jacket_back", "jacket_left", "jacket_right"), COL["jacket"]),
         [M["base"], M["shell"], M["frame"]],
         dwg_no="CLR-DWG-102", title="CalRig insulation jacket (five panels): making sketch",
         material="Extruded polystyrene (XPS) board 25 mm",
@@ -137,8 +151,7 @@ def sheets():
                "Check: no gap wider than 1 mm at any seam."],
         inset_view=(25, -55), **base))
 
-    out.append(bv.component_sheet(
-        Part("Chamber shell", C["shell"].shape, COL["shell"]),
+    out.append(sheet(Part("Chamber shell", C["shell"].shape, COL["shell"]),
         [M["jk_bottom"], M["base"], M["frame"]],
         dwg_no="CLR-DWG-103", title="CalRig chamber shell: making sketch", material="Cast acrylic sheet 6 mm",
         notes=["Laser cut five panels from 6 mm cast acrylic: top and bottom",
@@ -155,8 +168,7 @@ def sheets():
                "Check: fill 10 mm of water inside for an hour: no leaks."],
         inset_view=(25, -60), **base))
 
-    out.append(bv.component_sheet(
-        Part("Front frame", C["frame"].shape, COL["frame"]), [M["shell"], M["jk_bottom"], M["jk_rest"], M["latches"]],
+    out.append(sheet(Part("Front frame", C["frame"].shape, COL["frame"]), [M["shell"], M["jk_bottom"], M["jk_rest"], M["latches"]],
         dwg_no="CLR-DWG-104", title="CalRig front frame: making sketch", material="Cast acrylic sheet 6 mm",
         notes=["Laser cut from 6 mm acrylic: 450 x 350 outside with a",
                "  400 x 300 window in the middle (the chamber opening).",
@@ -172,8 +184,7 @@ def sheets():
                "Check: the frame is flat; a straight edge shows no gap over 0.5 mm."],
         inset_view=(20, -60), **base))
 
-    out.append(bv.component_sheet(
-        Part("Drip tray", C["drip"].shape, COL["drip"]), [part("Right wall", win(C["shell"].shape, 120, 190, -110, 110, 140, 330), COL["shell"]),
+    out.append(sheet(Part("Drip tray", C["drip"].shape, COL["drip"]), [part("Right wall", win(C["shell"].shape, 120, 190, -110, 110, 140, 330), COL["shell"]),
                                                           part("Inner sink", C["sink_in"].shape, COL["sink"])],
         dwg_no="CLR-DWG-105", title="CalRig drip tray: making sketch", material="Cast acrylic sheet 3 mm",
         view_shape=lift(C["drip"].shape), inset_view=(20, 200),
@@ -190,8 +201,7 @@ def sheets():
                "Check: water poured into the tray runs out of the drain hole."],
         **base))
 
-    out.append(bv.component_sheet(
-        Part("Sensor tray", C["tray"].shape, COL["tray"]), [shell_low, part("Example sensors", C["duts"].shape, COL["duts"]), M["mast"]],
+    out.append(sheet(Part("Sensor tray", C["tray"].shape, COL["tray"]), [shell_low, part("Example sensors", C["duts"].shape, COL["duts"]), M["mast"]],
         dwg_no="CLR-DWG-106", title="CalRig sensor tray: making sketch", material="Cast acrylic sheet 6 mm",
         view_shape=lift(C["tray"].shape), inset_view=(30, -60),
         notes=["Laser cut a 318 x 176 plate from 6 mm acrylic with 8 mm holes",
@@ -207,8 +217,7 @@ def sheets():
                "Check: the tray stands level and does not rock."],
         **base))
 
-    out.append(bv.component_sheet(
-        Part("Reference mast", C["mast"].shape, COL["mast"]), [M["tray"], part("Reference cluster", C["ref"].shape, COL["ref"]), shell_low],
+    out.append(sheet(Part("Reference mast", C["mast"].shape, COL["mast"]), [M["tray"], part("Reference cluster", C["ref"].shape, COL["ref"]), shell_low],
         dwg_no="CLR-DWG-107", title="CalRig reference mast: making sketch", material="PETG, 3D printed, 40 % infill",
         view_shape=lift(C["mast"].shape), inset_view=(25, -50),
         notes=["Print a square post 20 x 20 x 176 in PETG, standing up.",
@@ -224,8 +233,7 @@ def sheets():
                "Check: the mast stands upright against the rail."],
         **base))
 
-    out.append(bv.component_sheet(
-        Part("Dryer socket", C["dryer_socket"].shape, COL["socket"]), [part("Base plate (corner)", win(C["base"].shape, 150, 300, 0, 250, 0, 9), COL["base"]), part("Dryer column", C["dryer"].shape, COL["dryer"])],
+    out.append(sheet(Part("Dryer socket", C["dryer_socket"].shape, COL["socket"]), [part("Base plate (corner)", win(C["base"].shape, 150, 300, 0, 250, 0, 9), COL["base"]), part("Dryer column", C["dryer"].shape, COL["dryer"])],
         dwg_no="CLR-DWG-108", title="CalRig dryer socket: making sketch", material="PETG, 3D printed",
         view_shape=lift(C["dryer_socket"].shape), inset_view=(25, -60),
         notes=["Print a cup 58 outside diameter and 25 tall, with a 51 bore",
@@ -238,8 +246,7 @@ def sheets():
                "Check: the column stands upright and lifts out by hand."],
         **base))
 
-    out.append(bv.component_sheet(
-        Part("Jar rack", C["jar_rack"].shape, COL["rack"]), [part("Base plate (corner)", win(C["base"].shape, 120, 300, -250, -120, 0, 9), COL["base"]), part("Salt jars", C["jars"].shape, COL["jars"])],
+    out.append(sheet(Part("Jar rack", C["jar_rack"].shape, COL["rack"]), [part("Base plate (corner)", win(C["base"].shape, 120, 300, -250, -120, 0, 9), COL["base"]), part("Salt jars", C["jars"].shape, COL["jars"])],
         dwg_no="CLR-DWG-109", title="CalRig jar rack: making sketch", material="PETG, 3D printed",
         view_shape=lift(C["jar_rack"].shape), inset_view=(30, -60),
         notes=["Print a block 118 x 38 x 15 with four 27 mm through pockets,",
@@ -252,12 +259,15 @@ def sheets():
                "Check: each jar drops in and lifts out freely."],
         **base))
 
-    out.append(bv.component_sheet(
-        Part("Door", S("door", "keepers"), COL["door"]), [M["frame"], M["gasket"], M["latches"], M["shell"]],
-        dwg_no="CLR-DWG-110", title="CalRig door: making sketch", material="Clear cast acrylic sheet 6 mm",
-        view_shape=C["door"].shape, inset_view=(15, -60),
+    rv2 = lambda d: [("P1", "Making sketch for the prototype build plan", DATE, "AC"), ("P2", d, DATE2, "AC")]  # noqa: E731
+    out.append(sheet(Part("Door", S("door", "border", "keepers"), COL["door"]), [M["frame"], M["gasket"], M["latches"], M["shell"]],
+        dwg_no="CLR-DWG-110", title="CalRig door: making sketch", material="Clear cast acrylic sheet 6 mm; black printed vinyl",
+        view_shape=C["door"].shape, inset_view=(15, -60), rev="P2", revisions=rv2("Printed border added (CLR-DEC-001)"),
         notes=["Cut 430 x 330 from 6 mm clear cast acrylic; flame or sand",
                "  the edges smooth and leave the film on until fitted.",
+               "Border: a matt black printed vinyl frame 22 wide on the",
+               "  front face, flush with the door's edges, with a 7 x 16",
+               "  notch at each keeper. Peel the film, then apply it wet.",
                "Four latch keepers on the front face: centred 95 above and",
                "  95 below the door's centre line, 1 mm in from each side edge.",
                "Mark the keeper holes through the keeper; drill 3 mm,",
@@ -269,20 +279,45 @@ def sheets():
                "  a strip of paper is held tight all round."],
         **base))
 
-    out.append(bv.component_sheet(
-        Part("Door panel", C["door_panel"].shape, COL["panel"]), [M["door"], M["frame"], M["latches"]],
-        dwg_no="CLR-DWG-111", title="CalRig door panel: making sketch", material="Extruded polystyrene (XPS) board 25 mm",
-        inset_view=(15, -60),
+    out.append(sheet(Part("Door panel with pull handle", S("door_panel", "handle"), COL["panel"]), [M["door"], M["frame"], M["latches"]],
+        dwg_no="CLR-DWG-111", title="CalRig door panel and pull handle: making sketch",
+        material="Extruded polystyrene (XPS) board 25 mm; PETG handle, 3D printed",
+        inset_view=(15, -60), rev="P2", revisions=rv2("Pull handle added (CLR-DEC-001)"),
         notes=["Cut 406 x 330 from 25 mm XPS. It covers the opening with",
                "  3 to spare each side and stays inside the latches.",
                "Face the front with white self-adhesive vinyl so it lasts.",
+               "Handle: print in PETG a flange 120 x 30 x 4 with two",
+               "  12 x 12 posts and a 100 long, 12 x 12 grip standing 25 out.",
+               "  Glue the flange to the front with foam-safe adhesive,",
+               "  centred left to right, its centre 30 below the top edge.",
                "Stick four hook-and-loop pads on its back, 30 in from each",
                "  corner, and their mates on the door.",
                "Fit: presses flat on the front of the door, 4 clear of the",
                "  keepers and latch hooks. Fitted for the 40 C, 85 % point and",
                "  for cold points; off for the others.",
-               "Check: it stays on with the rig running and peels off by hand."],
+               "Check: it stays on with the rig running and peels off by",
+               "  hand with the pull handle; the handle does not move."],
         **base))
+
+    lift_b = S("badge", "name_plate", "status_light")
+    out.append(sheet(Part("Front badge", lift_b, COL["badge"]), [M["jk_rest"], M["frame"], M["door"], M["lead"]],
+        dwg_no="CLR-DWG-112", title="CalRig front badge: making sketch", material="PETG, 3D printed, 40 % infill",
+        view_shape=lift(C["badge"].shape), inset_view=(25, -60), date=DATE2,
+        notes=["Print a strip 200 long: a top 30 deep x 12 tall and, under",
+               "  its front edge, a lip 6 deep x 6 tall (front face 18 tall).",
+               "A 5.2 mm hole through it front to back, 20 from the right",
+               "  end and 9 up from the bottom of the lip, for the light.",
+               "Push the 5 mm panel light in from the front: its 8 mm bezel",
+               "  sits on the front face. Stick the 120 x 10 name plate on",
+               "  the front face, 10 from the left end, level with the light.",
+               "Fit: glue the top to the front of the jacket's top panel with",
+               "  foam-safe adhesive, centred on the door, the lip resting on",
+               "  the front frame's top edge and its front flush with the frame.",
+               "Lead: out of the back, straight back along the top panel, right",
+               "  along its back edge to 23 from the right end, down the back",
+               "  panel to the controller's top; clips every 100 mm.",
+               "Check: the light shows when the controller switches it on."],
+        project="CalRig"))
     return out
 
 
@@ -396,6 +431,21 @@ def joints():
         OUT / "joint-09.png", "Joint 9: door, gasket and latch (cut level with the upper right latch)",
         subtitle="Seen from above. The latch on the frame tab hooks the keeper and squeezes the gasket",
         elev=82, azim=-90, size=(8, 6)))
+    # 10 front badge on the jacket top and the frame edge, cut through the status light
+    lx = D["oxc"] + P["badge"][0] / 2 - P["led_in"]
+    jt = D["cz1"] + P["ins"]
+    w = (lx - 40, lx, -175, -90, jt - 45, jt + 20)
+    out.append(bv.joint([
+        part("Jacket top panel", win(C["jacket_top"].shape, *w), COL["jacket"]),
+        part("Front frame (top edge)", win(C["frame"].shape, *w), COL["frame"]),
+        part("Chamber shell", win(C["shell"].shape, *w), COL["shell"]),
+        part("Front badge (glued to the jacket)", win(C["badge"].shape, *w), COL["badge"]),
+        part("Status light in its bezel", win(C["status_light"].shape, *w), "#22C55E"),
+        part("Status light lead", win(C["light_lead"].shape, *w), COL["lead"]),
+        part("Door (top edge)", win(C["door"].shape + C["border"].shape, *w), COL["door"])],
+        OUT / "joint-10.png", "Joint 10: front badge and status light (cut through the light)",
+        subtitle="Seen from the right, slightly in front, on the cut. The badge sits on the jacket's top panel, its lip on the frame's top edge",
+        elev=15, azim=-20, size=(8, 6)))
     return out
 
 
@@ -469,12 +519,17 @@ def steps():
     st(11, done, [mv(M["jars"], (0, 0, 120))], "jar rack and salt jars",
        "Rack screwed to the base in front of the bubbler; jars stand in it, lids on", elev=25, azim=-50)
     done += [M["jars"]]
-    st(12, done, [mv(M["gasket"], (0, -70, 0)), mv(M["door"], (0, -160, 0)), mv(M["latches"], (0, -260, 0))],
+    st(12, done, [mv(M["badge"], (0, -120, 120)), mv(M["lead"], (0, 120, 120))], "front badge and status light lead",
+       "Badge glued to the top panel, lip on the frame's top edge; lead back along the top and down to the controller",
+       elev=30, azim=-40)
+    done += [M["badge"], M["lead"]]
+    st(13, done, [mv(M["gasket"], (0, -70, 0)), mv(M["door"], (0, -160, 0)), mv(M["latches"], (0, -260, 0))],
        "gasket, door and latches",
        "Gasket on the frame face; door on the gasket; four latches screwed to the tabs, then closed", elev=15, azim=-60)
     done += [M["gasket"], M["door"], M["latches"]]
-    st(13, done, [mv(M["panel"], (0, -150, 0))], "door panel (hot, humid and cold points)",
-       "Press it onto the four hook-and-loop pads on the door, between the latches", elev=15, azim=-60)
+    st(14, done, [mv(M["panel"], (0, -150, 0))], "door panel (hot, humid and cold points)",
+       "Hold it by its pull handle and press it onto the four hook-and-loop pads on the door, between the latches",
+       elev=15, azim=-60)
     return out
 
 
@@ -682,7 +737,7 @@ def diagrams():
     blk(ax, 88, 50, 28, 7, "Peltier module", "", "#C2410C")
     blk(ax, 88, 40, 28, 7, "Bubbler pad and line trace", "", "#0369A1")
     blk(ax, 88, 30, 28, 7, "Pumps A, B and HEPA blower", "", "#475569")
-    blk(ax, 88, 20, 28, 7, "Mixing fan and sink fans", "", "#334155")
+    blk(ax, 88, 20, 28, 7, "Fans and front status light", "", "#334155")
     blk(ax, 54, 16, 26, 12, "Cable glands (back wall)", "six sensor leads, reference\nleads, mixing fan lead", "#4C1D95")
     blk(ax, 10, 16, 32, 14, "Inside the chamber", "six sensors under test,\n2 x SHT45, SCD30, SPS30,\nmixing fan, 50 C air cut-off", "#0EA5E9")
     wire(ax, [(19.3, 51.5), (26, 51.5)], RED); lab(ax, 22.6, 59.2, "12 V, 1.5 mm²", RED, "center")

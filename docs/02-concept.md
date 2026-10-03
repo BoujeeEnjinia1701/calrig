@@ -3,7 +3,7 @@ doc_id: CLR-PRC-001
 title: CalRig design precis
 project: CalRig
 doc_type: Design precis
-version: "0.8"
+version: "0.9"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -41,13 +41,17 @@ revisions:
   date: '2026-10-02'
   author: Amish Chadha
   change: 'Decisions of 2026-10-02: collocation site first candidate, report format, large heads in two or four bays'
+- version: "0.9"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Approved follow-ups carried out: front badge with name plate and status light, printed door border and pull handle in the design (component 20); per-sensor report template (R14); large heads checked in the model; numbers from CLR-CAL-001 v0.7 (13.9 kg, 383 mm, $448.50)'
 ---
 
 # CalRig design precis
 
 ## Summary
 
-CalRig is a 36 L insulated acrylic chamber on a bench-top base. A Peltier heat pump sets the temperature, a heated bubbler and a silica gel dryer set the humidity, a HEPA loop gives clean air and a controlled smoke decay for particle tests, and a reference cluster (two Sensirion SHT45 temperature and humidity sensors, a Sensirion SCD30 CO2 sensor and a collocated Sensirion SPS30 particle sensor) sits among six sensors under test. A small controller steps through set points and logs everything; a laptop script fits a correction for each sensor and writes a dated record. The calculations in CLR-CAL-001 v0.4 show that it meets twelve of the eighteen requirements in CLR-REQ-001. Making the design buildable (CLR-DDR-003, open for Amish's review) added a front frame, bulkhead fittings, cable glands, a drain and printed holders, so the estimated cost of the constructable design is about $439 against the $412 value-engineering target ($27 over; see the value engineering section of CLR-DEC-001). How to build the prototype is in the build plan, CLR-BLD-001. It still depends on a collocation site for its particle reference.
+CalRig is a 36 L insulated acrylic chamber on a bench-top base. A Peltier heat pump sets the temperature, a heated bubbler and a silica gel dryer set the humidity, a HEPA loop gives clean air and a controlled smoke decay for particle tests, and a reference cluster (two Sensirion SHT45 temperature and humidity sensors, a Sensirion SCD30 CO2 sensor and a collocated Sensirion SPS30 particle sensor) sits among six sensors under test. A small controller steps through set points, logs everything and shows its state on a status light on the front badge; a laptop script fits a correction for each sensor and writes a dated report to the US EPA 2021 targets (see Per-sensor calibration report). The calculations in CLR-CAL-001 v0.7 show that it meets twelve of the eighteen requirements in CLR-REQ-001. Making the design buildable (CLR-DDR-003, accepted by Amish on 2026-10-02) added a front frame, bulkhead fittings, cable glands, a drain and printed holders, and the details adopted on 2026-10-02 added the front badge, a printed door border and a pull handle. Value-engineering target: USD 412. Estimated cost of the constructable design: USD 448.50 (USD 36.50 over the target; see the value engineering section of CLR-DEC-001). How to build the prototype is in the build plan, CLR-BLD-001. Its particle reference depends on a collocation site; the first candidate is named in CLR-DEC-001.
 
 ![Figure 1. CalRig massing model on a lab bench with a 1.75 m person for scale.](../media/hero.png)
 
@@ -60,7 +64,7 @@ Figure 1. CalRig massing model on a lab bench, with a 1.75 m person for scale. C
 3. **Temperature and humidity sweep.** The controller steps through set points, by default 20 °C and 40 °C at 40 % and 85 % RH, matching the EPA enhanced test conditions ([EPA FAQ](https://www.epa.gov/air-sensor-toolbox/frequently-asked-questions-reports-air-sensor-performance-testing-protocols)). The sweep runs from cold to hot, because cooling is the slow direction. The Peltier assembly heats or cools. Two small pumps draw air from the chamber and return it through the bubbler (wet) and the dryer (dry) at a ratio set by PWM, with about 3 L/min in total. The internal 120 mm fan mixes the chamber. Each point settles in about 22 to 31 min, then allows 15 min for the heads to equilibrate, and is held for 30 min (CLR-CAL-001, section I).
 4. **Particle run.** With the HEPA loop at full speed (about 20 L/min) the chamber is cleaned to below 2 µg/m³ in about 5 min. A syringe draws a puff of smoke from an incense stick smoldering in a cup outside the chamber and injects it through the aerosol port. The HEPA loop then runs slowly (5 L/min) and the concentration decays from about 300 to 5 µg/m³ in about 28 min, giving a continuous comparison curve. The run can be repeated at a second humidity to fit the humidity term.
 5. **CO2 check (optional).** Soda lime in the dryer path gives a near-zero point. One liter of exhaled breath from a bag raises the chamber by about 1,100 ppm for a span point.
-6. **Fit and record.** The laptop script compares each sensor with the references, fits a slope, offset and humidity term, computes the EPA metrics (R², slope, intercept, RMSE, sensor-to-sensor precision) and writes a CSV and a one-page report per sensor serial number.
+6. **Fit and record.** The laptop script compares each sensor with the references, fits a slope, offset and humidity term, computes the EPA metrics (R², slope, intercept, RMSE, sensor-to-sensor precision) and writes a CSV and a one-page report per sensor serial number, laid out as in the per-sensor calibration report below. The status light on the front badge shows whether a run is in progress, settled or finished.
 
 ![Figure 2. Cutaway: sensor tray, reference cluster, mixing fan and Peltier assembly.](../media/cutaway.png)
 
@@ -73,8 +77,8 @@ Table 1. Main components, numbered to match the BOM and the exploded view (Figur
 | No. | Component | Role | Key choice |
 | --- | --- | --- | --- |
 | 1 | Chamber shell | 36 L sealed volume (400 x 300 x 300 mm inside) | 6 mm cast acrylic, solvent-welded; small enough to condition fast, large enough for six heads |
-| 2 | Front door | Access and viewing | 430 x 330 mm clear acrylic door on a front frame welded to the shell, silicone gasket, four draw latches |
-| 3 | Insulation jacket | Cuts the chamber conductance to about 0.82 W/K | 25 mm XPS on every face except the door, plus a removable door panel for hot, humid and cold points |
+| 2 | Front door | Access and viewing | 430 x 330 mm clear acrylic door with a 22 mm printed black border, on a front frame welded to the shell, silicone gasket, four draw latches; no gland in the door |
+| 3 | Insulation jacket | Cuts the chamber conductance to about 0.82 W/K | 25 mm XPS on every face except the door, plus a removable door panel with a printed pull handle for hot, humid and cold points |
 | 4 | Base plate | Carries the chamber and conditioners | 9 mm sealed birch plywood, 600 x 500 mm, six rubber feet |
 | 5 | Peltier heat pump | Heats and cools the chamber | 60 W air-to-air thermoelectric assembly; the stock inner sink is replaced by a larger fin block (about 45 x 120 x 110 mm, about 0.20 K/W with its fan) so it stays above the dew point at 20 °C and 85 % RH (CLR-DDR-002) |
 | 6 | Internal mixing fan | Uniform air across the bays | 120 mm, 12 V, speed-controlled (80 mm was too small for R4) |
@@ -84,9 +88,11 @@ Table 1. Main components, numbered to match the BOM and the exploded view (Figur
 | 10 | Dryer column | Dry air | Indicating silica gel, about 500 g, regenerated in an oven |
 | 11 | HEPA scrubber loop | Zero air and controlled smoke decay | H13 class filter cartridge with a variable-speed fan, joined to the chamber by two bulkheads in the back wall |
 | 12 | Aerosol injection port | Smoke entry | Luer port with a ball valve; the smoke source stays outside |
-| 13 | Controller and power board | Control, logging and protection | ESP32 class board, Peltier H-bridge, pump and fan MOSFETs, microSD, independent thermal cut-off |
+| 13 | Controller and power board | Control, logging and protection | ESP32 class board, Peltier H-bridge, pump and fan MOSFETs, a status light output, microSD, independent thermal cut-off |
 | 14 | Power supply | 12 V, 10 A | Certified external brick; no mains wiring in the rig |
 | 15 | Salt fixed-point jars | Humidity reference checks | LiCl, MgCl2, NaCl and KCl slurries in sealed jars |
+| 19 | Bulkhead fittings, glands and drain | Air, water and leads through the sealed walls | Five 12 mm bulkheads, a 6 mm drain, two M20 cable glands in the back wall, 250 mL drain bottle |
+| 20 | Front badge, status light and name plate | Shows run state without opening the rig | Printed badge on the jacket's top panel with a 12 V panel light and the name plate; lead to the controller |
 
 ![Figure 3. Exploded view with BOM numbers.](../media/exploded.png)
 
@@ -94,7 +100,7 @@ Figure 3. Exploded view. Callout numbers match Table 1 and `bom/bom.csv`.
 
 ## Key numbers
 
-All values come from CLR-CAL-001 v0.2, which gives the assumptions and the script tags. They are calculations, not measurements.
+All values come from CLR-CAL-001 v0.7, which gives the assumptions and the script tags. They are calculations, not measurements.
 
 Table 2. Chamber and process figures.
 
@@ -109,7 +115,8 @@ Table 2. Chamber and process figures.
 | Decay 300 to 5 µg/m³ | about 28 min | HEPA 5 L/min, deposition 0.2 per hour |
 | CO2 span from 1 L of breath | about +1,100 ppm | Exhaled air about 4 % CO2 |
 | Peak electrical power | about 90 W, 7.5 A at 12 V | Peltier 59 W, heaters 13 W, pumps, fans, controller, sensors |
-| Overall size and mass | 600 x 500 x 371 mm; about 13.8 kg | Parametric model `cad/src/model.py` |
+| Overall size and mass | 600 x 500 x 383 mm; about 13.9 kg | Parametric model `cad/src/model.py` (the front badge sets the height) |
+| Capacity | Six heads up to 90 x 70 x 50 mm; or larger heads up to 192 x 70 mm on two bays or 192 x 152 mm on four, up to 234 mm tall | Model checks, CLR-CAL-001 [A2, A4] |
 
 Table 3. Temperature range with one 12706-class module at 12 V (CLR-CAL-001, section B).
 
@@ -148,6 +155,25 @@ These were decided by Amish on 2026-09-25 (go with recommendation; CLR-DDR-001 a
 - **AirStreet** describes itself as "calibrated on CalRig" for PM2.5 and NO2. CalRig covers PM2.5 and the temperature and humidity terms; AirStreet's README already states that NO2 is calibrated by field collocation.
 - **HeatMap Node** (heat and humidity), **DustBadge** (dust) and **FieldNode** sensor heads are intended users. Larger heads take more than one bay: a head up to 192 x 70 mm in plan takes two bays side by side, and one up to 192 x 152 mm, such as HeatMap Node's 150 mm globe, a 2 x 2 block of four bays (R10). DustBadge measures respirable dust, so a smoke-based chamber result will not transfer directly to mineral dust.
 
+## Per-sensor calibration report (R14)
+
+Each sensor head gets a one-page report, keyed by its serial number, written from the run's CSV. The report follows the US EPA 2021 performance targets and testing protocol for PM2.5 air sensors (EPA/600/R-20/280, [EPA](https://www.epa.gov/air-sensor-toolbox/air-sensor-performance-targets-and-testing-protocols)), and states its uncertainty chain back to the salt and ice fixed points and the collocation record. It is a research and calibration record for a low-cost sensor, not a certificate of conformity: chamber results compare each sensor with a transfer reference in incense smoke, and the EPA targets are set for 24 h field averages against a regulatory monitor, so the chamber comparison is indicative and says so.
+
+Table 4. Per-sensor report template.
+
+| Section | Contents |
+| --- | --- |
+| 1. Identification | Sensor make, model, serial number and firmware; CalRig serial and software version; run date, operator; bay position, or the two- or four-bay position for a large head |
+| 2. Run conditions | Set points as run (20 °C and 40 °C at 40 % and 85 % RH by default), room temperature, the lowest set point reachable in that room (R1), averaging interval, hold length, number of points; aerosol type (incense smoke) and decay range |
+| 3. Reference status | SHT45 serials, date of the last ice-point and salt fixed-point checks and their offsets; transfer SPS30 serial, collocation site, dates (30 days or more), and its collocation results (R², slope, intercept, RMSE) against the regulatory monitor; SCD30 if used, with its datasheet tolerance (no traceable CO2 reference) |
+| 4. Fitted correction | Slope, offset and humidity term for PM2.5, with their standard errors; offset and slope for temperature and RH where the sensor reports them |
+| 5. EPA metrics, raw and corrected | Slope (target 1.0 ± 0.35), intercept (-5 to +5 µg/m³), R² (0.70 or more), RMSE (7 µg/m³ or less) or NRMSE (30 % or less), and, where three or more of the same model ran together, precision as standard deviation (5 µg/m³ or less) or coefficient of variation (30 % or less); each shown against its target |
+| 6. Enhanced conditions | Response at each temperature and humidity set point; humidity influence; drift since the last report for this serial, if there is one |
+| 7. Uncertainty chain | Temperature: ice point, SHT45 after offset, drift, gradient to the bay, expanded U (k = 2) from CLR-CAL-001 [F1]. Humidity: salt fixed points (Greenspan, 1977), jar gradient, hysteresis, interpolation and temperature terms, expanded U (k = 2) [F3]. Particles: regulatory monitor at the collocation site, transfer SPS30 collocation results, chamber bay-to-reference gradient, fit residuals; expanded U (k = 2) of the corrected PM2.5 at 35 µg/m³ |
+| 8. Limits of use | Aerosol type, ranges covered, the date after which the reference checks lapse, and the statement that the results describe this sensor against the transfer reference in smoke at known humidity |
+
+Values and their units come from the run's CSV and from CLR-CAL-001; the report writer is part of the control and fitting software (BOM line 18), written at TRL 4.
+
 ## Safety
 
 > **Safety:** The Peltier hot-side heat sink can reach 60 to 70 °C; keep it guarded and away from the acrylic. An independent thermal cut-off opens the heater circuit at 50 °C chamber air or 70 °C hot side. The 12 V bus carries up to about 7.5 A: fuse it at 10 A at the supply and use rated wire. The bubbler heater pad and the line trace each have a thermistor and are switched off by the same cut-off. Use only a certified external supply; never wire mains into the rig, which contains water.
@@ -158,7 +184,7 @@ These were decided by Amish on 2026-09-25 (go with recommendation; CLR-DDR-001 a
 
 ## Open questions
 
-- [x] Value-engineering target: $412 in parts, a hypothetical control target set by Amish on 2026-09-26 (CLR-DDR-002). Estimated cost of the constructable design: $439 ($27 over the target); savings worth trying are in the value engineering section of CLR-DEC-001.
+- [x] Value-engineering target: USD 412 in parts, a hypothetical control target set by Amish on 2026-09-26 (CLR-DDR-002). Estimated cost of the constructable design: USD 448.50 (USD 36.50 over the target); savings worth trying are in the value engineering section of CLR-DEC-001.
 - [x] Particle reference: a state or local regulatory monitoring site with a federal equivalent PM2.5 monitor (decided 2026-10-02, CLR-DEC-001). First candidate to approach: a Texas Commission on Environmental Quality site in Dallas-Fort Worth; fallback: South Coast AQMD's AQ-SPEC program. How often the transfer SPS30 returns there is still to be set.
 - [ ] Inner fin block: confirm a part that reaches about 0.20 K/W with the inner fan.
-- [x] Report format: based on the US EPA 2021 performance targets and testing protocol for PM2.5 air sensors, with a stated uncertainty chain from the salt and ice fixed points and the collocation record (decided 2026-10-02, CLR-DEC-001).
+- [x] Report format: based on the US EPA 2021 performance targets and testing protocol for PM2.5 air sensors, with a stated uncertainty chain from the salt and ice fixed points and the collocation record (decided 2026-10-02, CLR-DEC-001); template in Table 4.

@@ -301,3 +301,83 @@ Amish, 2026-10-02: "i approve your recommendations for all 555 open decisions." 
 - The cross-repo note says the large heads fit "if they take two bays"; the 150 mm HeatMap Node globe spans both 70 mm bay rows and two columns of the 318 x 176 mm tray, so it takes four bays, not two.
 - The 2026-09-26 appearance note recommends an HDPE base (item 2) and a door gland (item 4); both are now superseded by DDR-003 (9 mm plywood for R13, glands in the back wall) and the appearance model still shows two latches, not four.
 - R12 cost ($439 against the $412 target) is not an open register item; DDR-003 A1 recommended keeping the design and re-pricing at purchase. Confirm Amish is content to leave it in the value engineering section.
+
+## 2026-10-02: Approved follow-ups carried out
+
+Amish, 2026-10-02, approved carrying out every follow-up action from the open-decision sign-off ("APPROVED CHANGES, COMPLETE THESE") and preparing the render scenes. TRL stays 3; nothing was built or tested.
+
+### Follow-ups
+
+| # | Follow-up | Done | What changed |
+| --- | --- | --- | --- |
+| 1 | Decision 3: renders, card and social preview with the 9 mm plywood base | Scenes ready | `cad/src/product_model.py` draws the base as sealed birch plywood from the `model.py` solid; render scenes exported (below). The photoreal renders, `media/card.png` and `media/social-preview.png` are made next on Amish's Mac |
+| 2 | Decision 5: status light, name plate, door border and pull handle in `model.py`; no gland in the door | Done | Front badge (printed, 200 x 30 mm, lip on the front frame's top edge) with a 12 V panel light and the name plate; status light lead along the jacket top and back panel to the controller; 22 mm printed border on the door, cut round the keepers; printed pull handle on the door panel. No gland in the door. 37 new checks; 116 of 116 pass |
+| 3 | Decision 5: show them on CLR-DWG-001 and the door and door panel sketches | Done | CLR-DWG-001 Rev P5 (door panel fitted, callouts and notes); CLR-DWG-110 Rev P2 (border); CLR-DWG-111 Rev P2 (door panel and pull handle); new CLR-DWG-112 (front badge) |
+| 4 | Decision 5: BOM lines for the status light and wiring, name plate, door border and pull handle | Done | Line 2 border ($17 to $20), line 3 pull handle ($17 to $18), line 13 status light output (no price change), new line 20 front badge, status light, name plate and lead ($5.50); basis for each price in the line notes and `bom/bom-notes.md` |
+| 5 | Decision 5: build plan pictures for the door, door panel and controller steps; appearance model with four latches, back-wall glands, jacket facing in renders only | Done | New step 12 (badge and lead to the controller), steps 13 (door with border) and 14 (door panel with handle), joint 10, overview (26 components), wiring diagram; `product_model.py` rebuilt from the `model.py` solids (four latches and keepers, back-wall glands and bulkheads, no door gland, faced jacket) |
+| 6 | Decision 5: status light wiring and pull handle in the build plan text | Done | CLR-BLD-001 v0.2: section 3.15 (front badge and status light), wiring item 8, pull handle in 3.14, border in 3.13, step 12 and renumbered steps, first checks for the status light and large heads |
+| 7 | Decision 7: model check for 192 x 152 mm heads on 2 x 2 bays and 192 x 70 mm heads on two bays within the clear height | Done | `large_heads()` in `model.py`: every pair (4) and block (2) position at 234 mm tall (10 mm under the chamber top); 18 checks pass (on the tray, inside its outline, 5 mm or more from walls, fan, inner sink, drip tray, aerosol port and references) |
+| 8 | Decision 7: large item case in `sizing.py` and CLR-CAL-001 section A; R10 status | Done | New result [A4]; **R10 moves from met for six heads to met including the large item case** |
+| 9 | Decision 6: per-sensor report template (R14) to the US EPA 2021 targets, with the uncertainty chain | Done | CLR-PRC-001 v0.9, new section and Table 4: identification, run conditions, reference status, fitted correction, EPA metrics against their targets, enhanced conditions, uncertainty chain (ice point, salt fixed points, collocation record), limits of use. R14 stays not verifiable at TRL 3 (software not written) |
+
+### Model and checks
+
+- `python cad/src/model.py --check`: 116 of 116 pass (was 79). New: border on the door and clear of the gasket, keepers through the border cut-outs, pull handle on the panel and clear of door, latches and badge, badge on the jacket top and on the frame's top edge and clear of door, panel and latches, light bezel and name plate on the badge, lead from the light, clear of the badge hole, along the jacket, onto the controller and clear of glands, HEPA bulkheads, heat pump, dryer and supply, and the 18 large-head checks.
+- STEP and STL regenerated. Overall 600 x 500 x 383 mm (the badge top is now the highest point; the jacket top is at 371 mm).
+
+### Requirement status changes (CLR-CAL-001 v0.7, CLR-REQ-001 v0.9)
+
+- R10: met for six heads to **met**, including the large item case.
+- R12: over the value-engineering target by USD 27 to **over by USD 36.50**. Value-engineering target: USD 412. Estimated cost of the constructable design: USD 448.50 (USD 36.50 over the target). `budget_usd` unchanged.
+- R13: still met; 600 x 500 x 383 mm, 13.92 kg, margin 0.08 kg (was 0.17 kg). The 5 mm acrylic top fallback (DDR-003, A2) would recover about 0.15 kg.
+- R14: still not verifiable at TRL 3; the report template is now defined.
+- Counts unchanged: met 12, at risk 3 (R4, R5, R6), not met 1 (R8), over the value-engineering target 1 (R12), not verifiable at TRL 3 1 (R14).
+
+### Documents changed and new versions
+
+- `cad/src/model.py`, `cad/src/sheets.py` (also corrected its view mapping to the kit layout, so the dimensions sit on the views), `cad/src/concept_media.py`, `cad/src/build_plan_media.py`, `cad/src/product_model.py`; `cad/step/`, `cad/stl/`
+- `docs/04-calcs/sizing.py` and `docs/04-calcs/01-sizing.md` CLR-CAL-001 v0.7
+- `docs/03-requirements.md` CLR-REQ-001 v0.9; `docs/02-concept.md` CLR-PRC-001 v0.9
+- `docs/05-build-plan.md` CLR-BLD-001 v0.2; `docs/06-design-decisions.md` CLR-DEC-001 v0.4 (value engineering restated; items 8 and 9 to confirm); `docs/decisions/0003-design-for-construction.md` CLR-DDR-003 v0.4 (consequences)
+- `bom/bom.csv` (lines 2, 3, 13, new 20) and `bom/bom-notes.md`; `README.md`
+
+### Pictures regenerated (each looked at)
+
+- `cad/drawings/CLR-DWG-001` Rev P5, CLR-DWG-110 Rev P2, CLR-DWG-111 Rev P2, CLR-DWG-112 P1 (new).
+- `docs/05-build-plan/overview.png`, `joint-10.png` (new), `step-12.png` to `step-14.png`, `wiring.png`; the other joints, steps and the air loop diagram were redrawn by the same run with no change of content.
+- `media/hero.png`, `exploded.png` (callout 20 added; HEPA unit and fittings moved so their callouts no longer touch others), `cutaway.png`, `flow.png`, `concept-blueprint.png`, `.pdf` and `.svg` (key figures: 383 mm, 13.9 kg, cost in the value-engineering wording), `model.glb`, `viewer.html`.
+- `python3 .kit/drawing.py --check-text cad/drawings/*.svg media/concept-blueprint.svg`: no hits.
+
+### Render scenes (appearance model)
+
+- `cad/src/product_model.py` now takes most parts directly from `build_components()` in `model.py`: plywood base, faced jacket with the model's holes, front frame, drip tray and spacers, door with printed border, gasket, four latches and keepers, clamped Peltier sinks and screws, mixing fan on its spacers, perforated acrylic tray, printed mast, five bulkheads, two back-wall glands, drain line and bottle, two pumps and suction line, dryer socket, jar rack, front badge with name plate and lit status light, the light's lead, and the door panel with its pull handle (accessory). `RENDER_VIEWS` keeps hero, exploded and detail.
+- Exported with `python3 .kit/export_views.py /home/claude/renders/calrig`: `calrig__hero`, `calrig__exploded` and `calrig__detail` (.npz and .json each) and `calrig__jobs.json`.
+- Not rendered here: `media/render-*.png`, `media/card.png` and `media/social-preview.png` are made next on Amish's Mac.
+
+### Appearance deviations (Proposed, awaiting Amish)
+
+1. Jacket facing with rounded corners and seams, as decided for renders only; the base plate has 4 mm rounded corners. Recommendation: accept as appearance only.
+2. The badge is drawn dark grey, the name plate teal with illustrative print, and the status light lit green; the model has no colour. Recommendation: accept.
+3. The tray is drawn as white acrylic with a dark cable rail and six hub connectors; the cable glands are drawn with hex bodies. Recommendation: accept.
+4. The lines from the pumps to the bubbler and dryer are not drawn (they are not in the model either); items 6 to 9 of 2026-09-26 (bubbler and dryer details, fan guards, example heads, valve lever) are kept as decided. Recommendation: accept.
+
+### Design detail chosen while carrying out decision 5 (for Amish's information)
+
+- The front of the rig has no free face for a name plate: the front frame covers the jacket's front edges up to 6 mm from the top. The name plate and light therefore sit on a printed badge on the top panel, its lip resting on the frame's top edge. This raises the overall height from 371 to 383 mm (R13 limit 400 mm) and adds about 0.07 kg. If Amish prefers no added height, the alternative is a badge recessed into a notch in the top panel's front edge, at the cost of a harder cut in the foam. Proposed, awaiting Amish, and listed as open decision 1 in the design decisions register; the build plan describes the badge as modelled.
+
+### Cross-repo actions
+
+- HeatMap Node: its R14 note says the assembled 150 mm globe does not fit a CalRig bay. Under CalRig R10 (2026-10-02) a head up to 192 x 152 mm in plan and 234 mm tall fits a 2 x 2 block of four bays, checked in the model, so the assembled globe can be calibrated in CalRig if it is no taller than 234 mm. HeatMap Node's R14 text and status should be reviewed there. Not edited.
+
+### Safety concerns
+
+- The status light runs at 12 V from a switched controller output on a 0.25 mm² lead with a built-in resistor; it adds no new hazard. The lead is clipped along the outside of the jacket, away from the outer sink (about 60 mm clear) and the dryer.
+- The pull handle lets the door panel come off without prying at the door near the hot outer sink.
+
+### Recommended next step
+
+Render the product views on Amish's Mac from the exported scenes, then `python .kit/cards.py .`. Decide the badge placement point above and confirm items 8 and 9 in the register when parts are bought. TRL 4 remains on hold.
+
+## 2026-10-02: photoreal renders redone on the constructable design
+
+Rendered with Blender Cycles on Amish's Mac from the updated appearance model (`cad/src/product_model.py`); captioned with `.kit/photo_caption.py`; `media/card.png` and `media/social-preview.png` regenerated with `.kit/cards.py`. Views: hero, exploded, detail. image_qc passes. Appearance deviations are those logged above as proposed, awaiting Amish.

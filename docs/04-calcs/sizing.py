@@ -1,4 +1,4 @@
-"""CalRig sizing calculations, CLR-CAL-001 v0.4 (TRL 3).
+"""CalRig sizing calculations, CLR-CAL-001 v0.7 (TRL 3).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Imports PARAMS and derived dimensions from cad/src/model.py, reads bom/bom.csv and
@@ -45,6 +45,7 @@ def dew_point(t_c, rh):
 H_IN, H_OUT = 10.0, 8.0          # W/(m2 K), inside (fan-stirred) and outside (still room) films
 K_ACR, K_XPS, K_FOAM = 0.19, 0.034, 0.035
 RHO_ACR, RHO_XPS, RHO_PLY = 1190.0, 35.0, 550.0
+RHO_PETG, FILL = 1270.0, 0.5     # printed parts: PETG, about half solid with walls and infill
 CP_ACR = 1470.0
 BRIDGE = 1.20                    # edges, gasket, cable gland and fixings add 20 % to the jacketed UA
 LOOP_FLOW = 3.0                  # L/min conditioning flow, closed loop from and back to the chamber
@@ -74,12 +75,25 @@ out("A1", f"inside {ix:.0f} x {iy:.0f} x {iz:.0f} mm = {D['volume_l']:.1f} L; ou
 bw, bd, bh = P["bay"]
 out("A2", f"tray {D['tray_len']:.0f} x {D['tray_dep']:.0f} mm, {P['bays'][0] * P['bays'][1]} bays of "
     f"{bw:.0f} x {bd:.0f} mm; head clearance above tray {D['head_clear']:.0f} mm (bay height {bh:.0f} mm)")
-RESULTS["R10"] = ("6 heads, 90 x 70 x 50 mm, sealed gland",
-                  f"{P['bays'][0] * P['bays'][1]} bays {bw:.0f} x {bd:.0f} mm, {D['head_clear']:.0f} mm clear",
-                  "met" if P["bays"][0] * P["bays"][1] >= 6 and D["head_clear"] >= 50 else "not met")
 
 sys.path.insert(0, str(ROOT / ".kit"))
-from model import build_parts, build_components  # noqa: E402
+from model import build_parts, build_components, checks  # noqa: E402
+# large item case (CLR-DEC-001, 2026-10-02): two bays side by side and a 2 x 2 block, checked in the model
+(pw, pd), (kw, kd) = D["pair"], D["block"]
+h_large = D["head_clear"] - P["large_gap"]
+large = [r for r in checks() if r[0].startswith("Large head")]
+large_ok = all(r[4] for r in large)
+n_pair = (P["bays"][0] - 1) * P["bays"][1]
+n_block = P["bays"][0] - 1
+out("A4", f"large item case: two bays side by side take a head up to {pw:.0f} x {pd:.0f} mm, a 2 x 2 block up to "
+    f"{kw:.0f} x {kd:.0f} mm; each up to {h_large:.0f} mm tall ({P['large_gap']:.0f} mm under the chamber top); "
+    f"{n_pair} pair and {n_block} block positions, {sum(r[4] for r in large)} of {len(large)} model checks pass "
+    f"(on the tray, clear of walls, fan, inner sink and references by 5 mm or more, inside the tray outline)")
+RESULTS["R10"] = ("6 heads, 90 x 70 x 50 mm, sealed gland; large heads 192 x 70 mm in two bays, 192 x 152 mm in four",
+                  f"{P['bays'][0] * P['bays'][1]} bays {bw:.0f} x {bd:.0f} mm, {D['head_clear']:.0f} mm clear; "
+                  f"large heads up to {h_large:.0f} mm tall fit in every pair and block position",
+                  "met" if P["bays"][0] * P["bays"][1] >= 6 and D["head_clear"] >= 50 and large_ok else "not met")
+
 parts = build_parts()
 vol = {k: s.volume / 1e9 for k, s in parts.items()}      # m3
 COMP = build_components()
@@ -96,6 +110,10 @@ mass = {
     "controller": 0.25, "power supply": 0.6, "salt jars": 0.6, "wiring, gasket, four latches": 0.55,
     # added for construction (CLR-DDR-003): bulkheads, glands, drain line and empty bottle; printed parts
     "bulkheads, glands, drain line and bottle": 0.2, "printed dryer socket and jar rack": 0.1,
+    # adopted 2026-10-02 (CLR-DEC-001): front badge with name plate, status light and lead; pull handle; border
+    "front badge, name plate, status light and lead": cvol["badge"] * RHO_PETG * FILL + 0.02,
+    "door panel pull handle (printed)": cvol["handle"] * RHO_PETG * FILL,
+    "door border (printed vinyl)": 0.01,
 }
 m_total = sum(mass.values())
 fx, fy = D["footprint"]
@@ -391,8 +409,8 @@ out("G2", f"decay 300 to 5 ug/m3 at {HEPA_SLOW:.0f} L/min: {t_decay:.0f} min wit
 RESULTS["R7"] = ("zero below 2 ug/m3; 300 to 5 ug/m3 in 45 min or less",
                  f"clean-down {t_clean:.0f} min, floor {floor:.2f}; decay {t_decay:.0f} min",
                  "met" if t_decay <= 45 and floor < 2 else "not met")
-RESULTS["R8"] = ("transfer PM sensor collocated 30 days, meeting EPA targets", "no collocation site named (open item)",
-                 "not met")
+RESULTS["R8"] = ("transfer PM sensor collocated 30 days, meeting EPA targets",
+                 "first candidate site named (CLR-DEC-001); not yet collocated", "not met")
 
 # ---------------------------------------------------------------- H. CO2 (R9)
 k_scrub = LOOP_FLOW / 1000 / V
@@ -441,13 +459,14 @@ for line in (ROOT / "project.yaml").read_text().splitlines():
         budget = float(line.split(":")[1].split("#")[0])
 core = total - sum(float(r["unit_cost_usd"]) for r in rows if r["item"].startswith(("16 ",)))
 core -= 59.0                         # SCD30 share of line 8
-out("K1", f"BOM {len(rows)} lines, total ${total:.0f}; budget_usd ${budget:.0f} "
-    f"({'over' if total > budget else 'within'} by ${abs(total - budget):.0f}; set to $412 by Amish on 2026-09-26, DDR-002; "
-    f"was $400, and $300 before that); core without CO2 ${core:.0f}")
-RESULTS["R12"] = (f"${budget:.0f} in parts", f"${total:.0f} (${total - budget:+.0f} vs ${budget:.0f})",
-                  "not met" if total > budget else "met")
+out("K1", f"BOM {len(rows)} lines. Value-engineering target: USD {budget:.2f}. Estimated cost of the constructable "
+    f"design: USD {total:.2f} (USD {abs(total - budget):.2f} {'over' if total > budget else 'under'} the target); "
+    f"core without CO2 USD {core:.2f}")
+RESULTS["R12"] = (f"${budget:.0f} value-engineering target", f"${total:.2f} (${total - budget:+.2f} vs ${budget:.0f})",
+                  f"over the VE target by ${total - budget:.2f}" if total > budget else "within the VE target")
 
-RESULTS["R14"] = ("CSV and per-sensor report", "software not written (beyond TRL 3)", "not verifiable at TRL 3")
+RESULTS["R14"] = ("CSV and per-sensor report to the EPA 2021 targets", "report template defined (CLR-PRC-001); "
+                  "software not written (beyond TRL 3)", "not verifiable at TRL 3")
 RESULTS["R17"] = ("no toxic gases; smoke cleared through HEPA", "by design; clean-down time above", "met")
 RESULTS["R18"] = ("saw or laser cutter, drill, soldering iron", "by design; model has no machined parts", "met")
 

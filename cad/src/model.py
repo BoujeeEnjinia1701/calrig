@@ -4,7 +4,8 @@ Run from the repo root:  python cad/src/model.py          (export STEP and STL, 
                          python cad/src/model.py --check  (constructability checks only)
 Exports STEP and STL into cad/step and cad/stl:
     calrig-assembly.step / .stl     the whole rig on its base plate (door panel fitted)
-    chamber.step / .stl             chamber shell with frame, door, gasket, latches, jacket, door panel
+    chamber.step / .stl             chamber shell with frame, door (printed border), gasket, latches, jacket,
+                                    door panel with pull handle, front badge with name plate and status light
     conditioning.step / .stl        Peltier assembly, bubbler, dryer, pumps, HEPA loop, aerosol port,
                                     bulkhead fittings and drain
 
@@ -15,7 +16,8 @@ The design is constructable (STANDARDS section 18): every part is cut, laser cut
 and every part touches and is fixed to the parts next to it. build_components() returns each part
 separately (for the build plan pictures and the checks); build_parts() fuses them into the BOM
 groups that the calculation note, the drawing and the concept media use. checks() tests, with
-build123d, that parts which must touch do touch and parts which must not touch are apart.
+build123d, that parts which must touch do touch and parts which must not touch are apart, and that
+the R10 large heads of large_heads() fit the tray (decisions of 2026-10-02, CLR-DEC-001).
 Not fabrication detail; drawings carry no tolerances before TRL 4.
 """
 import math
@@ -72,6 +74,16 @@ PARAMS = {
     "psu": (140.0, 55.0, 38.0), "psu_x": 30.0,
     # 15 salt fixed-point jars in a printed rack, front right
     "jar": (13.0, 40.0), "jar_y": -225.0, "jar_xs": (195.0, 223.0, 251.0, 279.0),
+    # 20 front badge (CLR-DEC-001, 2026-10-02): printed strip on the front of the top jacket panel, its lip
+    # resting on the front frame's top edge; carries the name plate and the status light. Width, depth
+    # back from the frame's front face, height above the jacket top; light centre from the badge's right end
+    "badge": (200.0, 30.0, 12.0), "led_in": 20.0, "led": (2.5, 5.0, 2.0),   # light body r, bezel r, bezel depth
+    "plate": (120.0, 10.0),           # name plate label (width, height) on the badge's front face
+    "lead": 3.0, "lead_x": 160.0,     # status light lead (square section) and where it runs down the back
+    # 2 printed border on the door's front face (opaque, hides the frame edges); 3 door panel pull handle
+    "border": 22.0, "handle": (120.0, 30.0, 4.0, 100.0, 12.0, 25.0),   # flange w, h, t; grip length, section, reach
+    # R10 large item case (CLR-DEC-001, 2026-10-02): heads checked at the clear height less this gap
+    "large_gap": 10.0,
 }
 
 FIT_OUT = 4.0      # bulkhead fittings stand 4 mm proud of the jacket's outer face
@@ -104,7 +116,7 @@ def derived(p=PARAMS):
         "x0": min(-bx / 2, aero_x0), "x1": max(bx / 2, fan_out_x1,
                                               p["bubbler_xy"][0] + p["bubbler"][0] + p["sleeve"],
                                               p["dryer_xy"][0] + p["dryer"][0] + 4, max(p["jar_xs"]) + p["jar"][0]),
-        "y0": -by / 2, "y1": by / 2, "z1": cz1 + ins,
+        "y0": -by / 2, "y1": by / 2, "z1": cz1 + ins + p["badge"][2],
     }
     return {
         "cx0": cx0, "cx1": cx1, "cy0": cy0, "cy1": cy1, "cz0": cz0, "cz1": cz1, "floor": floor, "ceil": ceil,
@@ -115,6 +127,9 @@ def derived(p=PARAMS):
         "tray_x0": cx0 + t + 10, "tray_y0": cy0 + t + 10,
         "tray_top": floor + p["tray_z"] + p["tray_t"],
         "head_clear": (cz1 - t) - (floor + p["tray_z"] + p["tray_t"]),
+        # R10 large item case: two bays side by side, and a 2 x 2 block of four bays (bays plus the gap)
+        "pair": (2 * p["bay"][0] + p["bay_gap"], p["bay"][1]),
+        "block": (2 * p["bay"][0] + p["bay_gap"], 2 * p["bay"][1] + p["bay_gap"]),
         "door_y0": door_y0, "door_y1": door_y1,
         "door_size": (ix + 2 * p["door_ov"], iz + 2 * p["door_ov"]),
         "frame_size": (ix + 2 * p["frame_m"], iz + 2 * p["frame_m"]),
@@ -245,7 +260,18 @@ def build_components(p=PARAMS, door_panel=True):
     # 2 door, gasket, latches and keepers
     ov = p["door_ov"]
     dy0, dy1 = D["door_y0"], D["door_y1"]
-    add("door", "Door", box(ox0 - ov, ox1 + ov, dy0, dy1, floor - ov, ceil + ov), 2, "make")
+    door = box(ox0 - ov, ox1 + ov, dy0, dy1, floor - ov, ceil + ov)
+    # printed border on the door's front face: an opaque band round the edge, cut round the four keepers.
+    # The print is drawn 0.3 mm into the door's front face so the door, keepers and panel still bear on it.
+    bwd = p["border"]
+    border = (box(ox0 - ov, ox1 + ov, dy0, dy0 + 0.3, floor - ov, ceil + ov)
+              - box(ox0 - ov + bwd, ox1 + ov - bwd, dy0 - 1, dy0 + 1, floor - ov + bwd, ceil + ov - bwd))
+    for dz in p["latch_dz"]:
+        zl = ozc + dz
+        for x0_, x1_ in ((ox1 + ov - 8, ox1 + ov - 1), (mx(ox1 + ov - 1), mx(ox1 + ov - 8))):
+            border -= box(x0_, x1_, dy0 - 1, dy0 + 1, zl - 8, zl + 8)
+    add("door", "Door", door - border, 2, "make")
+    add("border", "Door border (printed)", border, 2, "buy")
     gt, g0, g1 = p["gasket"]
     gas = (box(ox0 - g1, ox1 + g1, dy1, cy0 - ftk, floor - g1, ceil + g1)
            - box(ox0 - g0, ox1 + g0, dy1 - 1, cy0 - ftk + 1, floor - g0, ceil + g0))
@@ -289,6 +315,41 @@ def build_components(p=PARAMS, door_panel=True):
     if door_panel:   # removable XPS door panel on the door, held by four hook-and-loop pads
         pm = p["panel_m"]
         add("door_panel", "Door panel", box(ox0 - pm, ox1 + pm, dy0 - ins, dy0, floor - ov, ceil + ov), 3, "make")
+        # printed pull handle glued to the panel's front face, centred near its top edge
+        hw, hh, htk, gl_, gs, hr = p["handle"]
+        hy, hzc = dy0 - ins, ceil - 15.0
+        hnd = box(oxc - hw / 2, oxc + hw / 2, hy - htk, hy, hzc - hh / 2, hzc + hh / 2)
+        for sx in (-1, 1):                                   # two posts from the flange to the grip
+            xp = oxc + sx * (gl_ / 2 - gs / 2)
+            hnd += box(xp - gs / 2, xp + gs / 2, hy - hr + gs, hy - htk, hzc - gs / 2, hzc + gs / 2)
+        hnd += box(oxc - gl_ / 2, oxc + gl_ / 2, hy - hr, hy - hr + gs, hzc - gs / 2, hzc + gs / 2)
+        add("handle", "Door panel pull handle", hnd, 3, "make")
+
+    # 20 front badge on the top jacket panel: lip down to the front frame's top edge; name plate and status light
+    bw_, bd_, bh_ = p["badge"]
+    jt = cz1 + ins                                   # top of the jacket
+    fy = cy0 - p["frame_t"]                          # front face of the front frame
+    fz1 = ceil + p["frame_m"]                        # top edge of the front frame
+    bx0, bx1 = oxc - bw_ / 2, oxc + bw_ / 2
+    badge = box(bx0, bx1, fy, fy + bd_, jt, jt + bh_) + box(bx0, bx1, fy, cy0, fz1, jt)
+    lr, br_, bdp = p["led"]
+    lx, lz = bx1 - p["led_in"], (fz1 + jt + bh_) / 2
+    badge -= ycyl(fy - 1, fy + bd_ + 1, lx, lz, lr + 0.1)            # hole for the light and its lead
+    add("badge", "Front badge", badge, 20, "make")
+    add("status_light", "Status light", ycyl(fy - bdp, fy, lx, lz, br_) + ycyl(fy, fy + 10, lx, lz, lr), 20, "buy")
+    pw, ph = p["plate"]
+    add("name_plate", "Name plate", box(bx0 + 10, bx0 + 10 + pw, fy - 0.5, fy, lz - ph / 2, lz + ph / 2), 20, "buy")
+    # status light lead: out of the badge, along the jacket top, down the back panel, onto the controller
+    w2 = p["lead"] / 2
+    yb, xl_ = cy1 + ins, p["lead_x"]
+    ctop = bt + p["ctrl"][2]
+    lead = (ycyl(fy + 10, fy + bd_ + 4, lx, lz, w2)
+            + box(lx - w2, lx + w2, fy + bd_ + 4 - 2 * w2, fy + bd_ + 4, jt, lz)
+            + box(lx - w2, lx + w2, fy + bd_ + 4 - 2 * w2, yb - 2 * w2, jt, jt + 2 * w2)
+            + box(lx - w2, xl_ + w2, yb - 2 * w2, yb, jt, jt + 2 * w2)
+            + box(xl_ - w2, xl_ + w2, yb, yb + 2 * w2, ctop, jt + 2 * w2)
+            + box(xl_ - w2, xl_ + w2, yb, cy1 + ins + 5 + 3 + 10, ctop, ctop + 2 * w2))
+    add("light_lead", "Status light lead", lead, 20, "buy")
 
     # 5 Peltier assembly: inner sink (base and fins), module block, outer sink, fan, clamp screws
     sxi, syi, szi = p["sink_in"]
@@ -433,13 +494,37 @@ def build_components(p=PARAMS, door_panel=True):
     return C
 
 
+def large_heads(p=PARAMS):
+    """R10 large item case (CLR-DEC-001, 2026-10-02): envelopes on the tray, for the checks only.
+
+    A head up to 192 x 70 mm in plan takes two bays side by side; a head up to 192 x 152 mm takes a
+    2 x 2 block of four bays. Each is drawn at the full block size and at the clear height above the
+    tray less `large_gap`, in every position the six bays allow: {name: solid}.
+    """
+    D = derived(p)
+    bw, bd, _ = p["bay"]
+    g = p["bay_gap"]
+    tx0, ty0, z0 = D["tray_x0"], D["tray_y0"], D["tray_top"]
+    z1 = z0 + D["head_clear"] - p["large_gap"]
+    (pw, pd), (kw, kd) = D["pair"], D["block"]
+    out = {}
+    for i in range(p["bays"][0] - 1):
+        x = tx0 + g + i * (bw + g)
+        out[f"block, bays {i + 1} and {i + 2}, both rows"] = box(x, x + kw, ty0 + g, ty0 + g + kd, z0, z1)
+        for j in range(p["bays"][1]):
+            y = ty0 + g + j * (bd + g)
+            out[f"pair, bays {i + 1} and {i + 2}, row {j + 1}"] = box(x, x + pw, y, y + pd, z0, z1)
+    return out
+
+
 # BOM groups as the calculation note, the general arrangement and the concept media use them
 GROUP_KEYS = {
     "base": ("base",),
     "shell": ("shell", "frame", "drip", "spacers"),
-    "door": ("door", "gasket", "keepers", "latches"),
+    "door": ("door", "border", "gasket", "keepers", "latches"),
     "jacket": ("jacket_bottom", "jacket_top", "jacket_back", "jacket_left", "jacket_right"),
-    "door_panel": ("door_panel",),
+    "door_panel": ("door_panel", "handle"),
+    "badge": ("badge", "status_light", "name_plate", "light_lead"),
     "peltier": ("sink_in", "pelt_block", "sink_out", "fan_out", "clamp"),
     "mixfan": ("mixfan",),
     "tray": ("tray",),
@@ -464,7 +549,7 @@ def build_parts(p=PARAMS, door_panel=True):
 
 
 GROUPS = {
-    "chamber": ("shell", "door", "jacket", "door_panel"),
+    "chamber": ("shell", "door", "jacket", "door_panel", "badge"),
     "conditioning": ("peltier", "bubbler", "dryer", "pumps", "hepa", "port", "fittings"),
 }
 
@@ -523,6 +608,37 @@ def checks(p=PARAMS):
     chk("Keepers on the door", "keepers", "door", "touch")
     chk("Door panel on the door", "door_panel", "door", "touch")
     chk("Door panel clear of the latches and keepers", "door_panel", S("latches") + S("keepers"), 3.0)
+    # decisions of 2026-10-02 (CLR-DEC-001): door border, pull handle, front badge, status light and lead
+    chk("Door border printed on the door's front face", "border", "door", "touch")
+    chk("Door border clear of the gasket (front face only)", "border", "gasket", 5.0)
+    chk("Keepers on the door through the border cut-outs", "keepers", "border", "touch")
+    chk("Pull handle glued to the door panel", "handle", "door_panel", "touch")
+    chk("Pull handle clear of the door, latches and keepers", "handle", S("door") + S("latches") + S("keepers"), 20.0)
+    chk("Pull handle clear of the front badge", "handle", S("badge") + S("status_light"), 10.0)
+    chk("Front badge on the jacket top panel", "badge", "jacket_top", "touch")
+    chk("Front badge lip on the front frame's top edge", "badge", "frame", "touch")
+    chk("Front badge clear of the door and door panel", "badge", S("door") + S("door_panel"), 5.0)
+    chk("Front badge clear of the latches", "badge", S("latches") + S("keepers"), 20.0)
+    chk("Status light bezel on the badge's front face", "status_light", "badge", "touch")
+    chk("Name plate on the badge's front face", "name_plate", "badge", "touch")
+    chk("Name plate clear of the status light", "name_plate", "status_light", 5.0)
+    chk("Status light lead from the status light", "light_lead", "status_light", "touch")
+    chk("Status light lead clear of the badge (in its hole)", "light_lead", "badge", 0.5)
+    chk("Status light lead along the jacket top and back", "light_lead", jk, "touch")
+    chk("Status light lead onto the controller", "light_lead", "ctrl", "touch")
+    chk("Status light lead clear of the glands and HEPA bulkheads", "light_lead", S("glands") + S("fit_hepa"), 10.0)
+    chk("Status light lead clear of the heat pump, dryer and supply", "light_lead",
+        S("sink_out") + S("fan_out") + S("clamp") + S("dryer") + S("psu"), 10.0)
+    # R10 large item case: every two-bay and four-bay envelope on the tray, clear of everything around it
+    D = derived(p)
+    tx0, ty0 = D["tray_x0"], D["tray_y0"]
+    around = S("shell") + S("mixfan") + S("ref") + S("mast") + S("sink_in") + S("drip") + S("port") + S("spacers")
+    for name, head in large_heads(p).items():
+        chk(f"Large head ({name}) on the tray", head, "tray", "touch")
+        chk(f"Large head ({name}) clear of walls, fan, sink, references", head, around, 5.0)
+        hb = head.bounding_box()
+        m = min(hb.min.X - tx0, tx0 + D["tray_len"] - hb.max.X, hb.min.Y - ty0, ty0 + D["tray_dep"] - hb.max.Y)
+        rows.append((f"Large head ({name}) inside the tray outline", 0.0, m, 0.0, m >= 0))
     chk("Inner sink on the right wall", "sink_in", "shell", "touch")
     chk("Module block between the sinks (inner)", "pelt_block", "sink_in", "touch")
     chk("Module block between the sinks (outer)", "pelt_block", "sink_out", "touch")

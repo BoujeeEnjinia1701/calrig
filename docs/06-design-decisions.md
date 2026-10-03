@@ -3,7 +3,7 @@ doc_id: CLR-DEC-001
 title: CalRig design decisions register
 project: CalRig
 doc_type: Design decisions register
-version: "0.3"
+version: "0.4"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -21,6 +21,10 @@ revisions:
     date: '2026-10-02'
     author: Amish Chadha
     change: 'Amish approved the recommendations for all seven open decisions on 2026-10-02 (CLR-DDR-003 accepted); moved to decisions made'
+  - version: "0.4"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: 'Approved follow-ups carried out: value engineering restated (USD 448.50 on 20 lines, USD 36.50 over the target); items 8 and 9 to confirm (status light, door border); open decision 1 (badge placement)'
 ---
 
 # CalRig design decisions register
@@ -29,7 +33,11 @@ Every design decision still to be made, and every decision made, in one place. E
 
 ## Open decisions
 
-None. All open decisions were decided on 2026-10-02.
+| # | To decide | Options | Recommendation | What it affects in the build | Source |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Where the name plate and status light sit. The front frame covers the jacket's front edges to 6 mm below the top, so the design places them on a printed badge on the top panel, its lip on the frame's top edge; this raises the overall height from 371 to 383 mm | (a) badge on the top panel, as modelled; (b) badge recessed into a notch in the top panel's front edge, no added height, harder foam cut | (a): simplest to make, and the rig stays 17 mm under the 400 mm limit of R13 | Front badge (section 3.15 and step 12 of the build plan), overall height | REVIEW 2026-10-02, approved follow-ups |
+
+All earlier open decisions were decided on 2026-10-02.
 
 ## To confirm when parts are bought
 
@@ -42,18 +50,20 @@ None. All open decisions were decided on 2026-10-02.
 | 5 | The HEPA unit's ports are 12 mm and 80 mm apart at 117 mm above the bench, or can be drilled to that | The back-wall fittings run straight into them | CLR-DDR-003, P8 |
 | 6 | The SHT45 tolerance the supplier states (0.1 or 0.2 °C) | R5 is at risk if it is 0.2 °C | CLR-CAL-001, [F1] |
 | 7 | The bimetal switches and relay: opening temperatures of 50 and 70 °C and a relay rated 10 A at 12 V direct current | R16 rests on them | CLR-DDR-003, Table 2 |
+| 8 | The 12 V panel indicator light is 5 mm with an 8 mm bezel and a built-in resistor, and fits a 5.2 mm hole in an 18 mm badge face | Sets the badge hole and the controller output | CLR-DEC-001, 2026-10-02 (appearance item 3) |
+| 9 | The print shop can cut the 22 mm vinyl border with the four keeper notches, in a vinyl that takes the 40 °C, 85 % RH point on the door's outer face | The border must stay flat on the door | CLR-DEC-001, 2026-10-02 (appearance item 4) |
 
 ## Value engineering
 
-Value-engineering target: USD 412 (a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 439 (USD 27 over the target).
+Value-engineering target: USD 412 (a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 448.50 (USD 36.50 over the target).
 
-Main cost drivers (CLR-CAL-001, K): the reference cluster (line 8, $132), the chamber shell (line 1, $51), the Peltier heat pump (line 5, $40) and the parts added for construction ($27, of which new line 19, bulkhead fittings, cable glands and drain, is $14). The CO2 path (SCD30 in the reference cluster and soda lime, line 16, $8) is the largest block that is not core to the temperature, humidity and particle functions.
+Main cost drivers (CLR-CAL-001, K): the reference cluster (line 8, $132), the chamber shell (line 1, $51), the Peltier heat pump (line 5, $40), the parts added for construction ($27, of which new line 19, bulkhead fittings, cable glands and drain, is $14) and the details adopted on 2026-10-02 ($9.50: front badge, status light, name plate and lead, line 20, $5.50; door border $3; pull handle $1). The CO2 path (SCD30 in the reference cluster and soda lime, line 16, $8) is the largest block that is not core to the temperature, humidity and particle functions.
 
 Savings worth trying:
 
-- A core version without CO2 (no SCD30, no soda lime), about USD 372; this changes what the rig does and would be proposed, not made (CLR-DDR-003, A1).
+- A core version without CO2 (no SCD30, no soda lime), about USD 381.50; this changes what the rig does and would be proposed, not made (CLR-DDR-003, A1).
 - Re-pricing the fittings, glands and drain (line 19) and the front frame, drip tray and spacers ($6) at purchase.
-- Looking for savings in the reference cluster and shell; no single line obviously offers $27.
+- Looking for savings in the reference cluster and shell; no single line obviously offers $36.50.
 
 ## Decisions made
 
